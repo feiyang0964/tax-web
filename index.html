@@ -65,7 +65,6 @@
             margin-bottom: 20px;
         }
         
-        /* 地图容器 */
         #geochart-colors {
             width: 100%;
             height: 600px;
@@ -74,7 +73,6 @@
             border-radius: 8px;
         }
         
-        /* 图例 */
         .legend {
             display: flex;
             gap: 30px;
@@ -104,7 +102,6 @@
         .legend-dot.gray { background: #95a5a6; }
         .legend-dot.white { background: #ecf0f1; border: 1px solid #bdc3c7; }
         
-        /* 快速入口卡片 - 按国家分组 */
         .quick-section {
             background: white;
             border-radius: 12px;
@@ -227,7 +224,6 @@
             color: #3498db;
         }
         
-        /* AI助手悬浮窗 */
         .ai-chat-container {
             position: fixed;
             bottom: 25px;
@@ -373,15 +369,12 @@
     </header>
 
     <main class="container">
-        <!-- 地图区域 -->
         <section class="map-section">
             <h2>📍 全球税务地图</h2>
             <div class="subtitle">红色：已上线州 | 蓝色：美国其他州 | 灰色：待开发国家 | 白色：其他国家</div>
             
-            <!-- Google Charts 地图容器 -->
             <div id="geochart-colors"></div>
             
-            <!-- 图例 -->
             <div class="legend">
                 <div class="legend-item">
                     <span class="legend-dot red"></span>
@@ -402,15 +395,12 @@
             </div>
         </section>
         
-        <!-- 快速入口卡片 - 按国家分组 -->
         <section class="quick-section">
             <h2>📌 快速入口</h2>
             
-            <!-- 美国分组 -->
             <div class="country-group">
                 <h3><span class="flag">🇺🇸</span> 美国</h3>
                 <div class="state-grid">
-                    <!-- 加州 - 已上线 -->
                     <div class="card active" onclick="window.location.href='pages/us-ca.html'">
                         <div class="card-header">
                             <span class="card-title">加利福尼亚州 (CA)</span>
@@ -421,7 +411,6 @@
                         </div>
                     </div>
                     
-                    <!-- 华州 - 已上线 -->
                     <div class="card active" onclick="window.location.href='pages/us-wa.html'">
                         <div class="card-header">
                             <span class="card-title">华盛顿州 (WA)</span>
@@ -432,7 +421,6 @@
                         </div>
                     </div>
                     
-                    <!-- 德州 - 即将上线 -->
                     <div class="card future" onclick="alert('德克萨斯州(TX)税务信息即将上线，敬请期待！')">
                         <div class="card-header">
                             <span class="card-title">德克萨斯州 (TX)</span>
@@ -443,7 +431,6 @@
                         </div>
                     </div>
                     
-                    <!-- 纽约州 - 即将上线 -->
                     <div class="card future" onclick="alert('纽约州(NY)税务信息即将上线，敬请期待！')">
                         <div class="card-header">
                             <span class="card-title">纽约州 (NY)</span>
@@ -454,7 +441,6 @@
                         </div>
                     </div>
                     
-                    <!-- 佛州 - 即将上线 -->
                     <div class="card future" onclick="alert('佛罗里达州(FL)税务信息即将上线，敬请期待！')">
                         <div class="card-header">
                             <span class="card-title">佛罗里达州 (FL)</span>
@@ -467,7 +453,6 @@
                 </div>
             </div>
 
-            <!-- 欧洲分组 -->
             <div class="country-group">
                 <h3><span class="flag">🌍</span> 欧洲</h3>
                 <div class="state-grid">
@@ -481,7 +466,6 @@
                 </div>
             </div>
 
-            <!-- 美洲分组 -->
             <div class="country-group">
                 <h3><span class="flag">🌎</span> 美洲</h3>
                 <div class="state-grid">
@@ -495,7 +479,6 @@
                 </div>
             </div>
 
-            <!-- 亚洲分组 -->
             <div class="country-group">
                 <h3><span class="flag">🌏</span> 亚洲</h3>
                 <div class="state-grid">
@@ -544,7 +527,6 @@
                 </div>
             </div>
 
-            <!-- 大洋洲分组 -->
             <div class="country-group">
                 <h3><span class="flag">🌏</span> 大洋洲</h3>
                 <div class="state-grid">
@@ -560,7 +542,6 @@
         </section>
     </main>
 
-    <!-- AI助手悬浮窗 -->
     <div class="ai-chat-container">
         <button class="ai-chat-toggle" id="ai-chat-toggle">💬</button>
         <div class="ai-chat-window" id="ai-chat-window">
@@ -591,7 +572,6 @@
     </footer>
 
     <script>
-        // 加载 Google Charts
         google.charts.load('current', {
             'packages': ['geochart']
         });
@@ -599,99 +579,79 @@
         google.charts.setOnLoadCallback(drawRegionsMap);
         
         function drawRegionsMap() {
-            // 定义数据：国家/地区 + 状态
             var data = google.visualization.arrayToDataTable([
                 ['Country', 'Status', 'Color'],
-                // 美国各州 - 细分到州级别（标准州代码）
-                ['US-CA', '已上线', 1],      // 加利福尼亚州 - 红色
-                ['US-WA', '已上线', 1],      // 华盛顿州 - 红色
-                ['US-TX', '开发中', 2],      // 德克萨斯州 - 蓝色
-                ['US-NY', '开发中', 2],      // 纽约州 - 蓝色
-                ['US-FL', '开发中', 2],      // 佛罗里达州 - 蓝色
-                ['US-IL', '开发中', 2],      // 伊利诺伊州 - 蓝色
-                ['US-PA', '开发中', 2],      // 宾夕法尼亚州 - 蓝色
-                ['US-OH', '开发中', 2],      // 俄亥俄州 - 蓝色
-                ['US-GA', '开发中', 2],      // 佐治亚州 - 蓝色
-                ['US-NC', '开发中', 2],      // 北卡罗来纳州 - 蓝色
-                ['US-MI', '开发中', 2],      // 密歇根州 - 蓝色
-                ['US-NJ', '开发中', 2],      // 新泽西州 - 蓝色
-                ['US-VA', '开发中', 2],      // 弗吉尼亚州 - 蓝色
-                ['US-MA', '开发中', 2],      // 马萨诸塞州 - 蓝色
-                ['US-AZ', '开发中', 2],      // 亚利桑那州 - 蓝色
-                ['US-CO', '开发中', 2],      // 科罗拉多州 - 蓝色
-                ['US-UT', '开发中', 2],      // 犹他州 - 蓝色
-                ['US-NV', '开发中', 2],      // 内华达州 - 蓝色
-                ['US-OR', '开发中', 2],      // 俄勒冈州 - 蓝色
-                ['US-ID', '开发中', 2],      // 爱达荷州 - 蓝色
-                ['US-MT', '开发中', 2],      // 蒙大拿州 - 蓝色
-                ['US-WY', '开发中', 2],      // 怀俄明州 - 蓝色
-                ['US-ND', '开发中', 2],      // 北达科他州 - 蓝色
-                ['US-SD', '开发中', 2],      // 南达科他州 - 蓝色
-                ['US-NE', '开发中', 2],      // 内布拉斯加州 - 蓝色
-                ['US-KS', '开发中', 2],      // 堪萨斯州 - 蓝色
-                ['US-OK', '开发中', 2],      // 俄克拉荷马州 - 蓝色
-                ['US-AR', '开发中', 2],      // 阿肯色州 - 蓝色
-                ['US-LA', '开发中', 2],      // 路易斯安那州 - 蓝色
-                ['US-MS', '开发中', 2],      // 密西西比州 - 蓝色
-                ['US-AL', '开发中', 2],      // 阿拉巴马州 - 蓝色
-                ['US-TN', '开发中', 2],      // 田纳西州 - 蓝色
-                ['US-KY', '开发中', 2],      // 肯塔基州 - 蓝色
-                ['US-IN', '开发中', 2],      // 印第安纳州 - 蓝色
-                ['US-OH', '开发中', 2],      // 俄亥俄州 - 蓝色
-                ['US-WV', '开发中', 2],      // 西弗吉尼亚州 - 蓝色
-                ['US-SC', '开发中', 2],      // 南卡罗来纳州 - 蓝色
-                ['US-NC', '开发中', 2],      // 北卡罗来纳州 - 蓝色
-                ['US-VA', '开发中', 2],      // 弗吉尼亚州 - 蓝色
-                ['US-MD', '开发中', 2],      // 马里兰州 - 蓝色
-                ['US-DE', '开发中', 2],      // 特拉华州 - 蓝色
-                ['US-NJ', '开发中', 2],      // 新泽西州 - 蓝色
-                ['US-PA', '开发中', 2],      // 宾夕法尼亚州 - 蓝色
-                ['US-NY', '开发中', 2],      // 纽约州 - 蓝色
-                ['US-CT', '开发中', 2],      // 康涅狄格州 - 蓝色
-                ['US-RI', '开发中', 2],      // 罗得岛州 - 蓝色
-                ['US-MA', '开发中', 2],      // 马萨诸塞州 - 蓝色
-                ['US-NH', '开发中', 2],      // 新罕布什尔州 - 蓝色
-                ['US-VT', '开发中', 2],      // 佛蒙特州 - 蓝色
-                ['US-ME', '开发中', 2],      // 缅因州 - 蓝色
-                ['US-HI', '开发中', 2],      // 夏威夷州 - 蓝色
-                ['US-AK', '开发中', 2],      // 阿拉斯加州 - 蓝色
-                
-                // 待开发国家 - 灰色
-                ['SG', '待开发', 3],          // 新加坡
-                ['MY', '待开发', 3],          // 马来西亚
-                ['HK', '待开发', 3],          // 香港
-                ['JP', '待开发', 3],          // 日本
-                ['KR', '待开发', 3],          // 韩国
-                ['CN', '待开发', 3],          // 中国
-                ['AU', '待开发', 3],          // 澳大利亚
-                ['GB', '待开发', 3],          // 英国
-                ['CA', '待开发', 3],          // 加拿大
+                ['US-CA', '已上线', 1],
+                ['US-WA', '已上线', 1],
+                ['US-TX', '开发中', 2],
+                ['US-NY', '开发中', 2],
+                ['US-FL', '开发中', 2],
+                ['US-IL', '开发中', 2],
+                ['US-PA', '开发中', 2],
+                ['US-OH', '开发中', 2],
+                ['US-GA', '开发中', 2],
+                ['US-NC', '开发中', 2],
+                ['US-MI', '开发中', 2],
+                ['US-NJ', '开发中', 2],
+                ['US-VA', '开发中', 2],
+                ['US-MA', '开发中', 2],
+                ['US-AZ', '开发中', 2],
+                ['US-CO', '开发中', 2],
+                ['US-UT', '开发中', 2],
+                ['US-NV', '开发中', 2],
+                ['US-OR', '开发中', 2],
+                ['US-ID', '开发中', 2],
+                ['US-MT', '开发中', 2],
+                ['US-WY', '开发中', 2],
+                ['US-ND', '开发中', 2],
+                ['US-SD', '开发中', 2],
+                ['US-NE', '开发中', 2],
+                ['US-KS', '开发中', 2],
+                ['US-OK', '开发中', 2],
+                ['US-AR', '开发中', 2],
+                ['US-LA', '开发中', 2],
+                ['US-MS', '开发中', 2],
+                ['US-AL', '开发中', 2],
+                ['US-TN', '开发中', 2],
+                ['US-KY', '开发中', 2],
+                ['US-IN', '开发中', 2],
+                ['US-WV', '开发中', 2],
+                ['US-SC', '开发中', 2],
+                ['US-MD', '开发中', 2],
+                ['US-DE', '开发中', 2],
+                ['US-CT', '开发中', 2],
+                ['US-RI', '开发中', 2],
+                ['US-NH', '开发中', 2],
+                ['US-VT', '开发中', 2],
+                ['US-ME', '开发中', 2],
+                ['US-HI', '开发中', 2],
+                ['US-AK', '开发中', 2],
+                ['SG', '待开发', 3],
+                ['MY', '待开发', 3],
+                ['HK', '待开发', 3],
+                ['JP', '待开发', 3],
+                ['KR', '待开发', 3],
+                ['CN', '待开发', 3],
+                ['AU', '待开发', 3],
+                ['GB', '待开发', 3],
+                ['CA', '待开发', 3]
             ]);
             
-            // 设置颜色和地图参数（关键：resolution改为provinces，支持美国州级显示）
             var options = {
                 region: 'world',
                 displayMode: 'regions',
-                resolution: 'provinces', // 核心修改：从countries改为provinces，实现美国州细分
-                
-                // 颜色映射：红色(已上线)、蓝色(美国其他州)、灰色(待开发国家)
+                resolution: 'provinces',
                 colorAxis: {
                     colors: ['#e74c3c', '#3498db', '#95a5a6'],
                     values: [1, 2, 3]
                 },
-                
-                // 背景色和默认颜色
                 backgroundColor: '#f8fafc',
-                datalessRegionColor: '#ecf0f1',  // 其他国家白色
+                datalessRegionColor: '#ecf0f1',
                 defaultColor: '#ecf0f1',
-                
-                // 放大比例，减少边缘空白
                 sizeAxis: { minSize: 0.5, maxSize: 1 },
                 keepAspectRatio: false,
                 width: '100%',
                 height: '100%',
-                
-                // 工具提示
                 tooltip: {
                     textStyle: { color: '#333' },
                     trigger: 'focus'
@@ -700,14 +660,12 @@
             
             var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
             
-            // 注册点击事件
             google.visualization.events.addListener(chart, 'select', function() {
                 var selection = chart.getSelection();
                 if (selection.length > 0) {
                     var selectedRow = selection[0].row;
                     var selectedCountry = data.getValue(selectedRow, 0);
                     
-                    // 处理点击跳转
                     if (selectedCountry === 'US-CA') {
                         window.location.href = 'pages/us-ca.html';
                     } else if (selectedCountry === 'US-WA') {
@@ -722,7 +680,6 @@
             chart.draw(data, options);
         }
         
-        // 国家/地区名称映射
         function getCountryName(code) {
             const names = {
                 'US-TX': '德克萨斯州 (TX)',
@@ -750,7 +707,6 @@
             return names[code] || '该地区';
         }
         
-        // AI助手功能
         $(document).ready(function() {
             $('#ai-chat-toggle').click(function() {
                 $('#ai-chat-window').toggleClass('show');
@@ -801,7 +757,6 @@
                 });
             }
             
-            // 更新时间
             const now = new Date();
             $('#update-time').text(`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`);
         });
