@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海外税务信息平台 · 全球税务地图</title>
+    
+    <!-- jVectorMap 地图库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/jquery-jvectormap.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/jquery-jvectormap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/maps/jquery-jvectormap-world-mill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/maps/jquery-jvectormap-us-mill-en.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部 */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        /* 地图区块 */
+        .map-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+        
+        .map-section h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .map-section .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        /* 地图容器 - 叠加层 */
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 550px;
+            margin: 20px 0;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f8fafc;
+        }
+        
+        .world-map, .us-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .world-map {
+            z-index: 1;
+        }
+        
+        .us-map {
+            z-index: 2;
+            pointer-events: auto; /* 允许点击美国各州 */
+        }
+        
+        /* 图例 */
+        .legend {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin: 20px 0 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+        }
+        
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+        
+        .legend-dot.red { background: #e74c3c; }
+        .legend-dot.blue { background: #3498db; }
+        .legend-dot.gray { background: #95a5a6; }
+        
+        /* 快速入口卡片 */
+        .quick-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .quick-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+        
+        .card:hover {
+            background: #e8f4fd;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+        
+        .card.active {
+            border-left-color: #e74c3c;
+        }
+        
+        .card.future {
+            border-left-color: #3498db;
+            opacity: 0.8;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #2c3e50;
+        }
+        
+        .badge {
+            font-size: 0.7em;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .badge.active {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .badge.future {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .card-desc {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        
+        /* 底部 */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        footer p {
+            margin: 5px 0;
+            opacity: 0.8;
+            font-size: 0.95em;
+        }
+        
+        #update-time {
+            font-weight: 600;
+            color: #3498db;
+        }
+        
+        /* AI助手悬浮窗 */
+        .ai-chat-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+        }
+        
+        .ai-chat-toggle {
+            width: 56px;
+            height: 56px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(52,152,219,0.4);
+            transition: transform 0.2s;
+        }
+        
+        .ai-chat-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .ai-chat-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 340px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+            overflow: hidden;
+        }
+        
+        .ai-chat-window.show {
+            display: block;
+        }
+        
+        .ai-chat-header {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .ai-chat-close {
+            cursor: pointer;
+            font-size: 22px;
+            opacity: 0.8;
+        }
+        
+        .ai-chat-close:hover {
+            opacity: 1;
+        }
+        
+        .ai-chat-messages {
+            height: 280px;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f5f7fa;
+        }
+        
+        .message {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 18px;
+            max-width: 85%;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+        
+        .user-message {
+            background: #3498db;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .ai-message {
+            background: white;
+            color: #2c3e50;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .ai-chat-input {
+            display: flex;
+            padding: 12px;
+            border-top: 1px solid #e1e8ed;
+            background: white;
+        }
+        
+        .ai-chat-input input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid #e1e8ed;
+            border-radius: 24px;
+            outline: none;
+            font-size: 0.95em;
+        }
+        
+        .ai-chat-input input:focus {
+            border-color: #3498db;
+        }
+        
+        .ai-chat-input button {
+            margin-left: 8px;
+            padding: 0 18px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .ai-chat-input button:hover {
+            background: #2980b9;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2em; }
+            .map-container { height: 350px; }
+            .legend { flex-direction: column; align-items: center; gap: 10px; }
+            .card-grid { grid-template-columns: 1fr; }
+            .ai-chat-window { width: 300px; right: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🌍 海外税务信息平台</h1>
+            <p>全球税务地图 · 一键直达 · CA/WA已上线</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 地图区域 -->
+        <section class="map-section">
+            <h2>📍 全球税务地图</h2>
+            <div class="subtitle">点击地图上的 <strong>加州(CA)</strong> 或 <strong>华盛顿州(WA)</strong> 直接查看详情</div>
+            
+            <!-- 地图叠加层 -->
+            <div class="map-container">
+                <div id="world-map" class="world-map"></div>
+                <div id="us-map" class="us-map"></div>
+            </div>
+            
+            <!-- 图例 -->
+            <div class="legend">
+                <div class="legend-item">
+                    <span class="legend-dot red"></span>
+                    <span>已上线州 (CA/WA) - 点击跳转</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot blue"></span>
+                    <span>其他美国州 - 即将上线</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot gray"></span>
+                    <span>其他国家 - 开发中</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 快速入口卡片 -->
+        <section class="quick-section">
+            <h2>📌 快速入口</h2>
+            <div class="card-grid">
+                <!-- 加州 - 已上线 -->
+                <div class="card active" onclick="window.location.href='pages/us-ca.html'">
+                    <div class="card-header">
+                        <span class="card-title">🇺🇸 加利福尼亚州 (CA)</span>
+                        <span class="badge active">已上线</span>
+                    </div>
+                    <div class="card-desc">
+                        销售税 7.25% + 地方税 · 企业所得税 8.84% · 月/季申报
+                    </div>
+                </div>
+                
+                <!-- 华州 - 已上线 -->
+                <div class="card active" onclick="window.location.href='pages/us-wa.html'">
+                    <div class="card-header">
+                        <span class="card-title">🇺🇸 华盛顿州 (WA)</span>
+                        <span class="badge active">已上线</span>
+                    </div>
+                    <div class="card-desc">
+                        销售税 6.5% + 地方税 · B&O税 · 月/季申报
+                    </div>
+                </div>
+                
+                <!-- 德州 - 即将上线 -->
+                <div class="card future" onclick="alert('德克萨斯州(TX)税务信息即将上线，敬请期待！')">
+                    <div class="card-header">
+                        <span class="card-title">🇺🇸 德克萨斯州 (TX)</span>
+                        <span class="badge future">开发中</span>
+                    </div>
+                    <div class="card-desc">
+                        州销售税 6.25% · 地方税最高2%
+                    </div>
+                </div>
+                
+                <!-- 纽约州 - 即将上线 -->
+                <div class="card future" onclick="alert('纽约州(NY)税务信息即将上线，敬请期待！')">
+                    <div class="card-header">
+                        <span class="card-title">🇺🇸 纽约州 (NY)</span>
+                        <span class="badge future">开发中</span>
+                    </div>
+                    <div class="card-desc">
+                        州销售税 4% · 地方税最高4.875%
+                    </div>
+                </div>
+                
+                <!-- 佛州 - 即将上线 -->
+                <div class="card future" onclick="alert('佛罗里达州(FL)税务信息即将上线，敬请期待！')">
+                    <div class="card-header">
+                        <span class="card-title">🇺🇸 佛罗里达州 (FL)</span>
+                        <span class="badge future">开发中</span>
+                    </div>
+                    <div class="card-desc">
+                        州销售税 6% · 地方税最高1.5%
+                    </div>
+                </div>
+                
+                <!-- 英国 - 开发中 -->
+                <div class="card future" onclick="alert('🇬🇧 英国税务信息即将上线，敬请期待！')">
+                    <div class="card-header">
+                        <span class="card-title">🇬🇧 英国</span>
+                        <span class="badge future">开发中</span>
+                    </div>
+                    <div class="card-desc">
+                        VAT 20% · 季度申报
+                    </div>
+                </div>
+                
+                <!-- 加拿大 - 开发中 -->
+                <div class="card future" onclick="alert('🇨🇦 加拿大税务信息即将上线，敬请期待！')">
+                    <div class="card-header">
+                        <span class="card-title">🇨🇦 加拿大</span>
+                        <span class="badge future">开发中</span>
+                    </div>
+                    <div class="card-desc">
+                        GST 5% · 各省PST · 月/季申报
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- AI助手悬浮窗 -->
+    <div class="ai-chat-container">
+        <button class="ai-chat-toggle" id="ai-chat-toggle">💬</button>
+        <div class="ai-chat-window" id="ai-chat-window">
+            <div class="ai-chat-header">
+                <span>🤖 税务AI助手</span>
+                <span class="ai-chat-close" id="ai-chat-close">×</span>
+            </div>
+            <div class="ai-chat-messages" id="ai-chat-messages">
+                <div class="message ai-message">
+                    你好！我是税务助手，可以帮你查询：<br>
+                    • CA/WA税率、截止日<br>
+                    • 报税SOP步骤<br>
+                    • 税率变化提醒
+                </div>
+            </div>
+            <div class="ai-chat-input">
+                <input type="text" id="ai-chat-input" placeholder="输入问题...">
+                <button id="ai-chat-send">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>税率数据最后更新时间：<span id="update-time"></span></p>
+            <p>© 2026 海外税务信息平台 · 数据仅供参考，请以官方机构为准</p>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // ========== 1. 初始化世界地图 ==========
+            $('#world-map').vectorMap({
+                map: 'world_mill',
+                backgroundColor: 'transparent',
+                borderColor: '#ffffff',
+                borderWidth: 1,
+                color: '#95a5a6',           // 默认灰色
+                hoverColor: '#3498db',
+                
+                series: {
+                    regions: [{
+                        values: { 'US': '#3498db' },  // 美国标蓝
+                        attribute: 'fill'
+                    }]
+                },
+                
+                onRegionClick: function(event, code) {
+                    if (code !== 'US') {
+                        event.preventDefault();
+                        const countryMap = {
+                            'CA': '🇨🇦 加拿大',
+                            'GB': '🇬🇧 英国',
+                            'AU': '🇦🇺 澳大利亚',
+                            'DE': '🇩🇪 德国',
+                            'FR': '🇫🇷 法国',
+                            'JP': '🇯🇵 日本'
+                        };
+                        const name = countryMap[code] || '该地区';
+                        alert(`${name}税务信息即将上线，敬请期待！`);
+                    }
+                }
+            });
+            
+            // ========== 2. 初始化美国分州地图 ==========
+            $('#us-map').vectorMap({
+                map: 'us_mill_en',
+                backgroundColor: 'transparent',
+                borderColor: '#ffffff',
+                borderWidth: 1,
+                color: '#3498db',             // 所有州默认蓝色
+                hoverColor: '#e67e22',
+                
+                series: {
+                    regions: [{
+                        values: {
+                            'US-CA': '#e74c3c',   // 加州红色
+                            'US-WA': '#e74c3c'    // 华州红色
+                        },
+                        attribute: 'fill'
+                    }]
+                },
+                
+                onRegionClick: function(event, code) {
+                    event.preventDefault();
+                    if (code === 'US-CA') {
+                        window.location.href = 'pages/us-ca.html';
+                    } else if (code === 'US-WA') {
+                        window.location.href = 'pages/us-wa.html';
+                    } else {
+                        const stateName = getStateName(code);
+                        alert(`${stateName}税务信息即将上线，敬请期待！`);
+                    }
+                },
+                
+                onRegionLabelShow: function(event, label, code) {
+                    const name = getStateName(code);
+                    if (code === 'US-CA' || code === 'US-WA') {
+                        label.html(`${name} - 点击查看详情`);
+                    } else {
+                        label.html(`${name} - 即将上线`);
+                    }
+                }
+            });
+            
+            // ========== 3. AI助手功能 ==========
+            const chatToggle = $('#ai-chat-toggle');
+            const chatWindow = $('#ai-chat-window');
+            const chatClose = $('#ai-chat-close');
+            const chatInput = $('#ai-chat-input');
+            const chatSend = $('#ai-chat-send');
+            const chatMessages = $('#ai-chat-messages');
+            
+            chatToggle.click(() => chatWindow.toggleClass('show'));
+            chatClose.click(() => chatWindow.removeClass('show'));
+            
+            function sendMessage() {
+                const msg = chatInput.val().trim();
+                if (!msg) return;
+                
+                // 用户消息
+                chatMessages.append(`<div class="message user-message">${escapeHtml(msg)}</div>`);
+                chatInput.val('');
+                chatMessages.scrollTop(chatMessages[0].scrollHeight);
+                
+                // AI回复
+                setTimeout(() => {
+                    const reply = getAIReply(msg);
+                    chatMessages.append(`<div class="message ai-message">${reply}</div>`);
+                    chatMessages.scrollTop(chatMessages[0].scrollHeight);
+                }, 500);
+            }
+            
+            chatSend.click(sendMessage);
+            chatInput.keypress(e => { if (e.which === 13) sendMessage(); });
+            
+            function getAIReply(msg) {
+                const lower = msg.toLowerCase();
+                if (lower.includes('ca') || lower.includes('加州')) {
+                    return '加州(CA)：销售税7.25%+地方税(0-3.5%)，企业所得税8.84%，申报截止日次月20日。';
+                } else if (lower.includes('wa') || lower.includes('华州')) {
+                    return '华州(WA)：销售税6.5%+地方税(0-3.9%)，B&O税零售业0.471%，申报截止日次月25日。';
+                } else if (lower.includes('截止') || lower.includes('deadline')) {
+                    return 'CA:次月20日，WA:次月25日，公司税统一4月15日。';
+                } else if (lower.includes('sop') || lower.includes('步骤')) {
+                    return '1.下载数据 → 2.导入模板 → 3.PQ刷新 → 4.核对 → 5.官网申报 → 6.保存回执';
+                } else if (lower.includes('更新') || lower.includes('提醒')) {
+                    return '税率更新提醒功能即将上线，未来会主动推送变化通知。';
+                }
+                return '你可以问我：CA/WA税率、截止日、SOP步骤等。';
+            }
+            
+            function escapeHtml(unsafe) {
+                return unsafe.replace(/[&<>"]/g, function(m) {
+                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m];
+                });
+            }
+            
+            // ========== 4. 更新时间 ==========
+            const now = new Date();
+            $('#update-time').text(`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`);
+        });
+        
+        // ========== 州名映射函数 ==========
+        function getStateName(code) {
+            const names = {
+                'US-CA': '加利福尼亚州 (CA)', 'US-WA': '华盛顿州 (WA)',
+                'US-TX': '德克萨斯州 (TX)', 'US-NY': '纽约州 (NY)',
+                'US-FL': '佛罗里达州 (FL)', 'US-IL': '伊利诺伊州 (IL)',
+                'US-PA': '宾夕法尼亚州 (PA)', 'US-OH': '俄亥俄州 (OH)',
+                'US-GA': '佐治亚州 (GA)', 'US-NC': '北卡罗来纳州 (NC)',
+                'US-MI': '密歇根州 (MI)', 'US-NJ': '新泽西州 (NJ)',
+                'US-VA': '弗吉尼亚州 (VA)', 'US-WA': '华盛顿州 (WA)',
+                'US-MA': '马萨诸塞州 (MA)', 'US-IN': '印第安纳州 (IN)',
+                'US-TN': '田纳西州 (TN)', 'US-MO': '密苏里州 (MO)',
+                'US-MD': '马里兰州 (MD)', 'US-WI': '威斯康星州 (WI)',
+                'US-CO': '科罗拉多州 (CO)', 'US-MN': '明尼苏达州 (MN)',
+                'US-SC': '南卡罗来纳州 (SC)', 'US-AL': '阿拉巴马州 (AL)',
+                'US-LA': '路易斯安那州 (LA)', 'US-KY': '肯塔基州 (KY)',
+                'US-OR': '俄勒冈州 (OR)', 'US-OK': '俄克拉荷马州 (OK)',
+                'US-CT': '康涅狄格州 (CT)', 'US-IA': '爱荷华州 (IA)',
+                'US-MS': '密西西比州 (MS)', 'US-AR': '阿肯色州 (AR)',
+                'US-UT': '犹他州 (UT)', 'US-KS': '堪萨斯州 (KS)',
+                'US-NV': '内华达州 (NV)', 'US-NM': '新墨西哥州 (NM)',
+                'US-NE': '内布拉斯加州 (NE)', 'US-WV': '西弗吉尼亚州 (WV)',
+                'US-ID': '爱达荷州 (ID)', 'US-HI': '夏威夷州 (HI)',
+                'US-ME': '缅因州 (ME)', 'US-NH': '新罕布什尔州 (NH)',
+                'US-RI': '罗德岛州 (RI)', 'US-MT': '蒙大拿州 (MT)',
+                'US-DE': '特拉华州 (DE)', 'US-SD': '南达科他州 (SD)',
+                'US-ND': '北达科他州 (ND)', 'US-AK': '阿拉斯加州 (AK)',
+                'US-VT': '佛蒙特州 (VT)', 'US-WY': '怀俄明州 (WY)',
+                'US-DC': '华盛顿特区 (DC)'
+            };
+            return names[code] || code.replace('US-', '') + '州';
+        }
+    </script>
+</body>
+</html>
