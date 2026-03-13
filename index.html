@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>海外税务信息平台 · 全球税务地图</title>
     
-    <!-- 引入国内可访问的 jQuery 和 jVectorMap 资源 -->
+    <!-- 修复1：补充缺失的 US 地图资源 + 调整加载顺序 -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/jvectormap/2.0.5/jquery-jvectormap.min.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jvectormap/2.0.5/jquery-jvectormap.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jvectormap/2.0.5/maps/jquery-jvectormap-world-mill.min.js"></script>
+    <!-- 新增：US分州地图资源（之前缺失） -->
     <script src="https://cdn.bootcdn.net/ajax/libs/jvectormap/2.0.5/maps/jquery-jvectormap-us-aea.min.js"></script>
     
     <style>
@@ -97,6 +98,8 @@
         .us-map {
             z-index: 2;
             pointer-events: auto; /* 允许点击美国各州 */
+            /* 修复2：初始隐藏US地图，点击美国后再显示（避免遮挡） */
+            display: none;
         }
         
         /* 图例 */
@@ -534,7 +537,11 @@
                 },
                 
                 onRegionClick: function(event, code) {
-                    if (code !== 'US') {
+                    if (code === 'US') {
+                        // 点击美国显示分州地图
+                        $('#us-map').show();
+                        event.preventDefault();
+                    } else {
                         event.preventDefault();
                         const countryMap = {
                             'CA': '🇨🇦 加拿大',
@@ -552,7 +559,7 @@
             
             // ========== 2. 初始化美国分州地图 ==========
             $('#us-map').vectorMap({
-                map: 'us_mill_en',
+                map: 'us_aea', // 修复：地图类型要和加载的资源匹配（us_aea 对应 us-aea.min.js）
                 backgroundColor: 'transparent',
                 borderColor: '#ffffff',
                 borderWidth: 1,
