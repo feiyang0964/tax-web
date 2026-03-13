@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>海外税务信息平台 · 全球税务地图</title>
     
-    <!-- 修复1：补充缺失的 US 地图资源 + 调整加载顺序 -->
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/jvectormap/2.0.5/jquery-jvectormap.min.css">
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/jvectormap/2.0.5/jquery-jvectormap.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/jvectormap/2.0.5/maps/jquery-jvectormap-world-mill.min.js"></script>
-    <!-- 新增：US分州地图资源（之前缺失） -->
-    <script src="https://cdn.bootcdn.net/ajax/libs/jvectormap/2.0.5/maps/jquery-jvectormap-us-aea.min.js"></script>
+    <!-- 终极修复：改用更稳定的 CDN + 调整加载顺序 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/jquery-jvectormap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/jquery-jvectormap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/maps/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/maps/jquery-jvectormap-us-aea-en.js"></script>
     
     <style>
         * {
@@ -71,11 +70,11 @@
             margin-bottom: 20px;
         }
         
-        /* 地图容器 - 叠加层 */
+        /* 地图容器 - 核心修复：强制设置高度，避免容器塌陷 */
         .map-container {
             position: relative;
             width: 100%;
-            height: 550px;
+            height: 550px !important; /* 强制高度，优先级最高 */
             margin: 20px 0;
             border: 1px solid #e1e8ed;
             border-radius: 8px;
@@ -83,23 +82,23 @@
             background: #f8fafc;
         }
         
-        .world-map, .us-map {
+        /* 地图容器子元素：必须继承高度 */
+        #world-map, #us-map {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100% !important; /* 强制继承高度 */
         }
         
-        .world-map {
+        #world-map {
             z-index: 1;
         }
         
-        .us-map {
+        #us-map {
             z-index: 2;
-            pointer-events: auto; /* 允许点击美国各州 */
-            /* 修复2：初始隐藏US地图，点击美国后再显示（避免遮挡） */
-            display: none;
+            pointer-events: auto;
+            display: none; /* 默认隐藏，点击美国后显示 */
         }
         
         /* 图例 */
@@ -360,7 +359,7 @@
         /* 响应式 */
         @media (max-width: 768px) {
             header h1 { font-size: 2em; }
-            .map-container { height: 350px; }
+            .map-container { height: 350px !important; }
             .legend { flex-direction: column; align-items: center; gap: 10px; }
             .card-grid { grid-template-columns: 1fr; }
             .ai-chat-window { width: 300px; right: 0; }
@@ -381,10 +380,10 @@
             <h2>📍 全球税务地图</h2>
             <div class="subtitle">点击地图上的 <strong>加州(CA)</strong> 或 <strong>华盛顿州(WA)</strong> 直接查看详情</div>
             
-            <!-- 地图叠加层 -->
+            <!-- 地图容器 -->
             <div class="map-container">
-                <div id="world-map" class="world-map"></div>
-                <div id="us-map" class="us-map"></div>
+                <div id="world-map"></div>
+                <div id="us-map"></div>
             </div>
             
             <!-- 图例 -->
@@ -519,63 +518,55 @@
     </footer>
 
     <script>
-        $(document).ready(function() {
+        // 等待所有资源加载完成后初始化地图
+        window.onload = function() {
             // ========== 1. 初始化世界地图 ==========
             $('#world-map').vectorMap({
-                map: 'world_mill',
+                map: 'world_mill_en', // 匹配加载的 world-mill-en.js
                 backgroundColor: 'transparent',
                 borderColor: '#ffffff',
                 borderWidth: 1,
-                color: '#95a5a6',           // 默认灰色
+                color: '#95a5a6',
                 hoverColor: '#3498db',
-                
                 series: {
                     regions: [{
-                        values: { 'US': '#3498db' },  // 美国标蓝
+                        values: { 'US': '#3498db' },
                         attribute: 'fill'
                     }]
                 },
-                
                 onRegionClick: function(event, code) {
                     if (code === 'US') {
-                        // 点击美国显示分州地图
-                        $('#us-map').show();
+                        $('#us-map').show(); // 显示美国分州地图
                         event.preventDefault();
                     } else {
-                        event.preventDefault();
                         const countryMap = {
-                            'CA': '🇨🇦 加拿大',
-                            'GB': '🇬🇧 英国',
-                            'AU': '🇦🇺 澳大利亚',
-                            'DE': '🇩🇪 德国',
-                            'FR': '🇫🇷 法国',
-                            'JP': '🇯🇵 日本'
+                            'CA': '🇨🇦 加拿大', 'GB': '🇬🇧 英国', 'AU': '🇦🇺 澳大利亚',
+                            'DE': '🇩🇪 德国', 'FR': '🇫🇷 法国', 'JP': '🇯🇵 日本'
                         };
                         const name = countryMap[code] || '该地区';
                         alert(`${name}税务信息即将上线，敬请期待！`);
+                        event.preventDefault();
                     }
                 }
             });
             
             // ========== 2. 初始化美国分州地图 ==========
             $('#us-map').vectorMap({
-                map: 'us_aea', // 修复：地图类型要和加载的资源匹配（us_aea 对应 us-aea.min.js）
+                map: 'us_aea_en', // 匹配加载的 us-aea-en.js
                 backgroundColor: 'transparent',
                 borderColor: '#ffffff',
                 borderWidth: 1,
-                color: '#3498db',             // 所有州默认蓝色
+                color: '#3498db',
                 hoverColor: '#e67e22',
-                
                 series: {
                     regions: [{
                         values: {
-                            'US-CA': '#e74c3c',   // 加州红色
-                            'US-WA': '#e74c3c'    // 华州红色
+                            'US-CA': '#e74c3c',
+                            'US-WA': '#e74c3c'
                         },
                         attribute: 'fill'
                     }]
                 },
-                
                 onRegionClick: function(event, code) {
                     event.preventDefault();
                     if (code === 'US-CA') {
@@ -583,51 +574,36 @@
                     } else if (code === 'US-WA') {
                         window.location.href = 'pages/us-wa.html';
                     } else {
-                        const stateName = getStateName(code);
-                        alert(`${stateName}税务信息即将上线，敬请期待！`);
+                        alert(`${getStateName(code)}税务信息即将上线，敬请期待！`);
                     }
                 },
-                
                 onRegionLabelShow: function(event, label, code) {
                     const name = getStateName(code);
-                    if (code === 'US-CA' || code === 'US-WA') {
-                        label.html(`${name} - 点击查看详情`);
-                    } else {
-                        label.html(`${name} - 即将上线`);
-                    }
+                    label.html(code === 'US-CA' || code === 'US-WA' 
+                        ? `${name} - 点击查看详情` 
+                        : `${name} - 即将上线`);
                 }
             });
             
             // ========== 3. AI助手功能 ==========
-            const chatToggle = $('#ai-chat-toggle');
-            const chatWindow = $('#ai-chat-window');
-            const chatClose = $('#ai-chat-close');
-            const chatInput = $('#ai-chat-input');
-            const chatSend = $('#ai-chat-send');
-            const chatMessages = $('#ai-chat-messages');
-            
-            chatToggle.click(() => chatWindow.toggleClass('show'));
-            chatClose.click(() => chatWindow.removeClass('show'));
+            $('#ai-chat-toggle').click(() => $('#ai-chat-window').toggleClass('show'));
+            $('#ai-chat-close').click(() => $('#ai-chat-window').removeClass('show'));
+            $('#ai-chat-send').click(sendMessage);
+            $('#ai-chat-input').keypress(e => { if (e.which === 13) sendMessage(); });
             
             function sendMessage() {
-                const msg = chatInput.val().trim();
+                const msg = $('#ai-chat-input').val().trim();
                 if (!msg) return;
+                $('#ai-chat-messages').append(`<div class="message user-message">${escapeHtml(msg)}</div>`);
+                $('#ai-chat-input').val('');
+                $('#ai-chat-messages').scrollTop($('#ai-chat-messages')[0].scrollHeight);
                 
-                // 用户消息
-                chatMessages.append(`<div class="message user-message">${escapeHtml(msg)}</div>`);
-                chatInput.val('');
-                chatMessages.scrollTop(chatMessages[0].scrollHeight);
-                
-                // AI回复
                 setTimeout(() => {
                     const reply = getAIReply(msg);
-                    chatMessages.append(`<div class="message ai-message">${reply}</div>`);
-                    chatMessages.scrollTop(chatMessages[0].scrollHeight);
+                    $('#ai-chat-messages').append(`<div class="message ai-message">${reply}</div>`);
+                    $('#ai-chat-messages').scrollTop($('#ai-chat-messages')[0].scrollHeight);
                 }, 500);
             }
-            
-            chatSend.click(sendMessage);
-            chatInput.keypress(e => { if (e.which === 13) sendMessage(); });
             
             function getAIReply(msg) {
                 const lower = msg.toLowerCase();
@@ -639,56 +615,28 @@
                     return 'CA:次月20日，WA:次月25日，公司税统一4月15日。';
                 } else if (lower.includes('sop') || lower.includes('步骤')) {
                     return '1.下载数据 → 2.导入模板 → 3.PQ刷新 → 4.核对 → 5.官网申报 → 6.保存回执';
-                } else if (lower.includes('更新') || lower.includes('提醒')) {
-                    return '税率更新提醒功能即将上线，未来会主动推送变化通知。';
                 }
                 return '你可以问我：CA/WA税率、截止日、SOP步骤等。';
             }
             
             function escapeHtml(unsafe) {
-                return unsafe.replace(/[&<>"]/g, function(m) {
-                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m];
-                });
+                return unsafe.replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m]));
             }
             
             // ========== 4. 更新时间 ==========
             const now = new Date();
             $('#update-time').text(`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`);
-        });
+        };
         
-        // ========== 州名映射函数 ==========
+        // ========== 州名映射 ==========
         function getStateName(code) {
             const names = {
                 'US-CA': '加利福尼亚州 (CA)', 'US-WA': '华盛顿州 (WA)',
                 'US-TX': '德克萨斯州 (TX)', 'US-NY': '纽约州 (NY)',
-                'US-FL': '佛罗里达州 (FL)', 'US-IL': '伊利诺伊州 (IL)',
-                'US-PA': '宾夕法尼亚州 (PA)', 'US-OH': '俄亥俄州 (OH)',
-                'US-GA': '佐治亚州 (GA)', 'US-NC': '北卡罗来纳州 (NC)',
-                'US-MI': '密歇根州 (MI)', 'US-NJ': '新泽西州 (NJ)',
-                'US-VA': '弗吉尼亚州 (VA)', 'US-WA': '华盛顿州 (WA)',
-                'US-MA': '马萨诸塞州 (MA)', 'US-IN': '印第安纳州 (IN)',
-                'US-TN': '田纳西州 (TN)', 'US-MO': '密苏里州 (MO)',
-                'US-MD': '马里兰州 (MD)', 'US-WI': '威斯康星州 (WI)',
-                'US-CO': '科罗拉多州 (CO)', 'US-MN': '明尼苏达州 (MN)',
-                'US-SC': '南卡罗来纳州 (SC)', 'US-AL': '阿拉巴马州 (AL)',
-                'US-LA': '路易斯安那州 (LA)', 'US-KY': '肯塔基州 (KY)',
-                'US-OR': '俄勒冈州 (OR)', 'US-OK': '俄克拉荷马州 (OK)',
-                'US-CT': '康涅狄格州 (CT)', 'US-IA': '爱荷华州 (IA)',
-                'US-MS': '密西西比州 (MS)', 'US-AR': '阿肯色州 (AR)',
-                'US-UT': '犹他州 (UT)', 'US-KS': '堪萨斯州 (KS)',
-                'US-NV': '内华达州 (NV)', 'US-NM': '新墨西哥州 (NM)',
-                'US-NE': '内布拉斯加州 (NE)', 'US-WV': '西弗吉尼亚州 (WV)',
-                'US-ID': '爱达荷州 (ID)', 'US-HI': '夏威夷州 (HI)',
-                'US-ME': '缅因州 (ME)', 'US-NH': '新罕布什尔州 (NH)',
-                'US-RI': '罗德岛州 (RI)', 'US-MT': '蒙大拿州 (MT)',
-                'US-DE': '特拉华州 (DE)', 'US-SD': '南达科他州 (SD)',
-                'US-ND': '北达科他州 (ND)', 'US-AK': '阿拉斯加州 (AK)',
-                'US-VT': '佛蒙特州 (VT)', 'US-WY': '怀俄明州 (WY)',
-                'US-DC': '华盛顿特区 (DC)'
+                'US-FL': '佛罗里达州 (FL)', 'US-IL': '伊利诺伊州 (IL)'
             };
             return names[code] || code.replace('US-', '') + '州';
         }
     </script>
 </body>
-
 </html>
