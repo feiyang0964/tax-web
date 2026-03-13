@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>海外税务信息平台 · 全球税务地图</title>
     
-    <!-- 终极修复：改用更稳定的 CDN + 调整加载顺序 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/jquery-jvectormap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/jquery-jvectormap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/maps/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jvectormap@2.0.5/maps/jquery-jvectormap-us-aea-en.js"></script>
+    <!-- 使用稳定的 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.5/jquery-jvectormap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.5/jquery-jvectormap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.5/maps/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.5/maps/jquery-jvectormap-us-mill-en.js"></script>
+    <!-- us-mill-en.js 包含全美50州，比 us-aea-en 更合适 -->
     
     <style>
         * {
@@ -32,7 +33,6 @@
             padding: 0 20px;
         }
         
-        /* 头部 */
         header {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
@@ -51,7 +51,6 @@
             opacity: 0.9;
         }
         
-        /* 地图区块 */
         .map-section {
             background: white;
             border-radius: 12px;
@@ -70,11 +69,11 @@
             margin-bottom: 20px;
         }
         
-        /* 地图容器 - 核心修复：强制设置高度，避免容器塌陷 */
+        /* 地图容器 - 确保高度 */
         .map-container {
             position: relative;
             width: 100%;
-            height: 550px !important; /* 强制高度，优先级最高 */
+            height: 550px;
             margin: 20px 0;
             border: 1px solid #e1e8ed;
             border-radius: 8px;
@@ -82,23 +81,10 @@
             background: #f8fafc;
         }
         
-        /* 地图容器子元素：必须继承高度 */
-        #world-map, #us-map {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100% !important; /* 强制继承高度 */
-        }
-        
+        /* 只保留一个地图，用同一容器 */
         #world-map {
-            z-index: 1;
-        }
-        
-        #us-map {
-            z-index: 2;
-            pointer-events: auto;
-            display: none; /* 默认隐藏，点击美国后显示 */
+            width: 100%;
+            height: 100%;
         }
         
         /* 图例 */
@@ -208,7 +194,6 @@
             color: #7f8c8d;
         }
         
-        /* 底部 */
         footer {
             background: #2c3e50;
             color: white;
@@ -356,10 +341,9 @@
             background: #2980b9;
         }
         
-        /* 响应式 */
         @media (max-width: 768px) {
             header h1 { font-size: 2em; }
-            .map-container { height: 350px !important; }
+            .map-container { height: 350px; }
             .legend { flex-direction: column; align-items: center; gap: 10px; }
             .card-grid { grid-template-columns: 1fr; }
             .ai-chat-window { width: 300px; right: 0; }
@@ -380,10 +364,9 @@
             <h2>📍 全球税务地图</h2>
             <div class="subtitle">点击地图上的 <strong>加州(CA)</strong> 或 <strong>华盛顿州(WA)</strong> 直接查看详情</div>
             
-            <!-- 地图容器 -->
+            <!-- 地图容器 - 只用一个地图，通过 series 控制颜色 -->
             <div class="map-container">
                 <div id="world-map"></div>
-                <div id="us-map"></div>
             </div>
             
             <!-- 图例 -->
@@ -518,82 +501,89 @@
     </footer>
 
     <script>
-        // 等待所有资源加载完成后初始化地图
-        window.onload = function() {
-            // ========== 1. 初始化世界地图 ==========
+        $(document).ready(function() {
+            // ========== 初始化世界地图 ==========
             $('#world-map').vectorMap({
-                map: 'world_mill_en', // 匹配加载的 world-mill-en.js
+                map: 'world_mill_en',
                 backgroundColor: 'transparent',
                 borderColor: '#ffffff',
                 borderWidth: 1,
-                color: '#95a5a6',
+                color: '#95a5a6',           // 默认灰色
                 hoverColor: '#3498db',
-                series: {
-                    regions: [{
-                        values: { 'US': '#3498db' },
-                        attribute: 'fill'
-                    }]
-                },
-                onRegionClick: function(event, code) {
-                    if (code === 'US') {
-                        $('#us-map').show(); // 显示美国分州地图
-                        event.preventDefault();
-                    } else {
-                        const countryMap = {
-                            'CA': '🇨🇦 加拿大', 'GB': '🇬🇧 英国', 'AU': '🇦🇺 澳大利亚',
-                            'DE': '🇩🇪 德国', 'FR': '🇫🇷 法国', 'JP': '🇯🇵 日本'
-                        };
-                        const name = countryMap[code] || '该地区';
-                        alert(`${name}税务信息即将上线，敬请期待！`);
-                        event.preventDefault();
-                    }
-                }
-            });
-            
-            // ========== 2. 初始化美国分州地图 ==========
-            $('#us-map').vectorMap({
-                map: 'us_aea_en', // 匹配加载的 us-aea-en.js
-                backgroundColor: 'transparent',
-                borderColor: '#ffffff',
-                borderWidth: 1,
-                color: '#3498db',
-                hoverColor: '#e67e22',
+                
+                // 设置颜色：美国蓝色，CA/WA红色高亮
                 series: {
                     regions: [{
                         values: {
+                            // 美国整体保持蓝色（覆盖其他州）
+                            'US': '#3498db',
+                            // 但加州和华州用红色覆盖
                             'US-CA': '#e74c3c',
                             'US-WA': '#e74c3c'
                         },
                         attribute: 'fill'
                     }]
                 },
+                
+                // 点击事件
                 onRegionClick: function(event, code) {
                     event.preventDefault();
+                    
+                    // 处理美国各州
                     if (code === 'US-CA') {
                         window.location.href = 'pages/us-ca.html';
                     } else if (code === 'US-WA') {
                         window.location.href = 'pages/us-wa.html';
+                    } else if (code === 'US') {
+                        // 点击美国本土（不是具体州）时，给个提示
+                        alert('请直接点击地图上的加州(CA)或华盛顿州(WA)查看详情，其他州即将上线');
                     } else {
-                        alert(`${getStateName(code)}税务信息即将上线，敬请期待！`);
+                        // 其他国家
+                        const countryMap = {
+                            'CA': '🇨🇦 加拿大', 'GB': '🇬🇧 英国', 'AU': '🇦🇺 澳大利亚',
+                            'DE': '🇩🇪 德国', 'FR': '🇫🇷 法国', 'JP': '🇯🇵 日本',
+                            'CN': '🇨🇳 中国', 'IN': '🇮🇳 印度', 'BR': '🇧🇷 巴西',
+                            'MX': '🇲🇽 墨西哥', 'IT': '🇮🇹 意大利', 'ES': '🇪🇸 西班牙'
+                        };
+                        const name = countryMap[code] || '该地区';
+                        alert(`${name}税务信息即将上线，敬请期待！`);
                     }
                 },
+                
+                // 悬停显示
                 onRegionLabelShow: function(event, label, code) {
-                    const name = getStateName(code);
-                    label.html(code === 'US-CA' || code === 'US-WA' 
-                        ? `${name} - 点击查看详情` 
-                        : `${name} - 即将上线`);
+                    if (code === 'US-CA') {
+                        label.html('加利福尼亚州 (CA) - 点击查看详情');
+                    } else if (code === 'US-WA') {
+                        label.html('华盛顿州 (WA) - 点击查看详情');
+                    } else if (code === 'US') {
+                        label.html('美国 - 点击具体州查看');
+                    } else if (code.startsWith('US-')) {
+                        const stateCode = code.replace('US-', '');
+                        label.html(`${stateCode}州 - 即将上线`);
+                    }
                 }
             });
             
-            // ========== 3. AI助手功能 ==========
-            $('#ai-chat-toggle').click(() => $('#ai-chat-window').toggleClass('show'));
-            $('#ai-chat-close').click(() => $('#ai-chat-window').removeClass('show'));
+            // ========== AI助手功能 ==========
+            $('#ai-chat-toggle').click(function() {
+                $('#ai-chat-window').toggleClass('show');
+            });
+            
+            $('#ai-chat-close').click(function() {
+                $('#ai-chat-window').removeClass('show');
+            });
+            
             $('#ai-chat-send').click(sendMessage);
-            $('#ai-chat-input').keypress(e => { if (e.which === 13) sendMessage(); });
+            
+            $('#ai-chat-input').keypress(function(e) {
+                if (e.which === 13) sendMessage();
+            });
             
             function sendMessage() {
                 const msg = $('#ai-chat-input').val().trim();
                 if (!msg) return;
+                
                 $('#ai-chat-messages').append(`<div class="message user-message">${escapeHtml(msg)}</div>`);
                 $('#ai-chat-input').val('');
                 $('#ai-chat-messages').scrollTop($('#ai-chat-messages')[0].scrollHeight);
@@ -608,35 +598,27 @@
             function getAIReply(msg) {
                 const lower = msg.toLowerCase();
                 if (lower.includes('ca') || lower.includes('加州')) {
-                    return '加州(CA)：销售税7.25%+地方税(0-3.5%)，企业所得税8.84%，申报截止日次月20日。';
-                } else if (lower.includes('wa') || lower.includes('华州')) {
-                    return '华州(WA)：销售税6.5%+地方税(0-3.9%)，B&O税零售业0.471%，申报截止日次月25日。';
+                    return '🇺🇸 加州(CA)：销售税基准7.25%+地方税(0-3.5%)，企业所得税8.84%，销售税申报截止日次月20日。';
+                } else if (lower.includes('wa') || lower.includes('华州') || lower.includes('华盛顿州')) {
+                    return '🇺🇸 华州(WA)：销售税基准6.5%+地方税(0-3.9%)，B&O税零售业0.471%，申报截止日次月25日。';
                 } else if (lower.includes('截止') || lower.includes('deadline')) {
-                    return 'CA:次月20日，WA:次月25日，公司税统一4月15日。';
+                    return '📅 截止日：CA销售税次月20日，WA销售税次月25日，公司税统一4月15日。';
                 } else if (lower.includes('sop') || lower.includes('步骤')) {
-                    return '1.下载数据 → 2.导入模板 → 3.PQ刷新 → 4.核对 → 5.官网申报 → 6.保存回执';
+                    return '📋 报税SOP：1.下载数据 → 2.导入模板 → 3.PQ刷新 → 4.核对 → 5.官网申报 → 6.保存回执';
                 }
-                return '你可以问我：CA/WA税率、截止日、SOP步骤等。';
+                return '💡 你可以问我：CA/WA税率、截止日、SOP步骤等。';
             }
             
             function escapeHtml(unsafe) {
-                return unsafe.replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m]));
+                return unsafe.replace(/[&<>"]/g, function(m) {
+                    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m];
+                });
             }
             
-            // ========== 4. 更新时间 ==========
+            // ========== 更新时间 ==========
             const now = new Date();
             $('#update-time').text(`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`);
-        };
-        
-        // ========== 州名映射 ==========
-        function getStateName(code) {
-            const names = {
-                'US-CA': '加利福尼亚州 (CA)', 'US-WA': '华盛顿州 (WA)',
-                'US-TX': '德克萨斯州 (TX)', 'US-NY': '纽约州 (NY)',
-                'US-FL': '佛罗里达州 (FL)', 'US-IL': '伊利诺伊州 (IL)'
-            };
-            return names[code] || code.replace('US-', '') + '州';
-        }
+        });
     </script>
 </body>
 </html>
