@@ -5,13 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>海外税务信息平台 · 全球税务地图</title>
     
-    <!-- 使用稳定的 CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.5/jquery-jvectormap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.5/jquery-jvectormap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.5/maps/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.5/maps/jquery-jvectormap-us-mill-en.js"></script>
-    <!-- us-mill-en.js 包含全美50州，比 us-aea-en 更合适 -->
+    <!-- 加载 Google Charts -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     
     <style>
         * {
@@ -69,22 +64,13 @@
             margin-bottom: 20px;
         }
         
-        /* 地图容器 - 确保高度 */
-        .map-container {
-            position: relative;
+        /* 地图容器 */
+        #geochart-colors {
             width: 100%;
             height: 550px;
             margin: 20px 0;
             border: 1px solid #e1e8ed;
             border-radius: 8px;
-            overflow: hidden;
-            background: #f8fafc;
-        }
-        
-        /* 只保留一个地图，用同一容器 */
-        #world-map {
-            width: 100%;
-            height: 100%;
         }
         
         /* 图例 */
@@ -343,7 +329,7 @@
         
         @media (max-width: 768px) {
             header h1 { font-size: 2em; }
-            .map-container { height: 350px; }
+            #geochart-colors { height: 350px; }
             .legend { flex-direction: column; align-items: center; gap: 10px; }
             .card-grid { grid-template-columns: 1fr; }
             .ai-chat-window { width: 300px; right: 0; }
@@ -362,12 +348,10 @@
         <!-- 地图区域 -->
         <section class="map-section">
             <h2>📍 全球税务地图</h2>
-            <div class="subtitle">点击地图上的 <strong>加州(CA)</strong> 或 <strong>华盛顿州(WA)</strong> 直接查看详情</div>
+            <div class="subtitle">点击地图上的 <strong>美国加州(CA)</strong> 或 <strong>华盛顿州(WA)</strong> 直接查看详情</div>
             
-            <!-- 地图容器 - 只用一个地图，通过 series 控制颜色 -->
-            <div class="map-container">
-                <div id="world-map"></div>
-            </div>
+            <!-- Google Charts 地图容器 -->
+            <div id="geochart-colors"></div>
             
             <!-- 图例 -->
             <div class="legend">
@@ -501,71 +485,109 @@
     </footer>
 
     <script>
-        $(document).ready(function() {
-            // ========== 初始化世界地图 ==========
-            $('#world-map').vectorMap({
-                map: 'world_mill_en',
-                backgroundColor: 'transparent',
-                borderColor: '#ffffff',
-                borderWidth: 1,
-                color: '#95a5a6',           // 默认灰色
-                hoverColor: '#3498db',
-                
-                // 设置颜色：美国蓝色，CA/WA红色高亮
-                series: {
-                    regions: [{
-                        values: {
-                            // 美国整体保持蓝色（覆盖其他州）
-                            'US': '#3498db',
-                            // 但加州和华州用红色覆盖
-                            'US-CA': '#e74c3c',
-                            'US-WA': '#e74c3c'
-                        },
-                        attribute: 'fill'
-                    }]
+        // 加载 Google Charts
+        google.charts.load('current', {
+            'packages': ['geochart'],
+            'mapsApiKey': '' // 可选，不加也能用
+        });
+        
+        google.charts.setOnLoadCallback(drawRegionsMap);
+        
+        function drawRegionsMap() {
+            // 定义数据：国家/地区 + 颜色分类
+            var data = google.visualization.arrayToDataTable([
+                ['Country', 'Status', 'Color'],
+                // 美国各州 - 使用 ISO 3166-2 代码
+                ['US-CA', '已上线', 1],   // 加州
+                ['US-WA', '已上线', 1],   // 华盛顿州
+                ['US', '其他州', 2],       // 其他美国地区
+                // 主要国家
+                ['GB', '开发中', 3],       // 英国
+                ['CA', '开发中', 3],       // 加拿大
+                ['AU', '开发中', 3],       // 澳大利亚
+                ['DE', '开发中', 3],       // 德国
+                ['FR', '开发中', 3],       // 法国
+                ['JP', '开发中', 3],       // 日本
+                ['CN', '开发中', 3],       // 中国
+                ['IN', '开发中', 3],       // 印度
+                ['BR', '开发中', 3],       // 巴西
+                ['MX', '开发中', 3],       // 墨西哥
+                ['IT', '开发中', 3],       // 意大利
+                ['ES', '开发中', 3],       // 西班牙
+                ['KR', '开发中', 3],       // 韩国
+                ['RU', '开发中', 3],       // 俄罗斯
+                ['ZA', '开发中', 3],       // 南非
+                ['EG', '开发中', 3],       // 埃及
+            ]);
+            
+            // 设置颜色
+            var options = {
+                region: 'world',
+                displayMode: 'regions',
+                resolution: 'countries',
+                colorAxis: {
+                    colors: ['#e74c3c', '#3498db', '#95a5a6'],
+                    values: [1, 2, 3]
                 },
-                
-                // 点击事件
-                onRegionClick: function(event, code) {
-                    event.preventDefault();
+                backgroundColor: '#f8fafc',
+                datalessRegionColor: '#f8fafc',
+                defaultColor: '#95a5a6',
+                tooltip: {
+                    textStyle: { color: '#333' },
+                    trigger: 'focus'
+                }
+            };
+            
+            var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
+            
+            // 注册点击事件
+            google.visualization.events.addListener(chart, 'select', function() {
+                var selection = chart.getSelection();
+                if (selection.length > 0) {
+                    var selectedRow = selection[0].row;
+                    var selectedCountry = data.getValue(selectedRow, 0);
                     
-                    // 处理美国各州
-                    if (code === 'US-CA') {
+                    // 处理点击跳转
+                    if (selectedCountry === 'US-CA') {
                         window.location.href = 'pages/us-ca.html';
-                    } else if (code === 'US-WA') {
+                    } else if (selectedCountry === 'US-WA') {
                         window.location.href = 'pages/us-wa.html';
-                    } else if (code === 'US') {
-                        // 点击美国本土（不是具体州）时，给个提示
-                        alert('请直接点击地图上的加州(CA)或华盛顿州(WA)查看详情，其他州即将上线');
                     } else {
-                        // 其他国家
-                        const countryMap = {
-                            'CA': '🇨🇦 加拿大', 'GB': '🇬🇧 英国', 'AU': '🇦🇺 澳大利亚',
-                            'DE': '🇩🇪 德国', 'FR': '🇫🇷 法国', 'JP': '🇯🇵 日本',
-                            'CN': '🇨🇳 中国', 'IN': '🇮🇳 印度', 'BR': '🇧🇷 巴西',
-                            'MX': '🇲🇽 墨西哥', 'IT': '🇮🇹 意大利', 'ES': '🇪🇸 西班牙'
-                        };
-                        const name = countryMap[code] || '该地区';
-                        alert(`${name}税务信息即将上线，敬请期待！`);
-                    }
-                },
-                
-                // 悬停显示
-                onRegionLabelShow: function(event, label, code) {
-                    if (code === 'US-CA') {
-                        label.html('加利福尼亚州 (CA) - 点击查看详情');
-                    } else if (code === 'US-WA') {
-                        label.html('华盛顿州 (WA) - 点击查看详情');
-                    } else if (code === 'US') {
-                        label.html('美国 - 点击具体州查看');
-                    } else if (code.startsWith('US-')) {
-                        const stateCode = code.replace('US-', '');
-                        label.html(`${stateCode}州 - 即将上线`);
+                        var countryName = getCountryName(selectedCountry);
+                        alert(`${countryName}税务信息即将上线，敬请期待！`);
                     }
                 }
             });
             
-            // ========== AI助手功能 ==========
+            chart.draw(data, options);
+        }
+        
+        // 国家名称映射
+        function getCountryName(code) {
+            const names = {
+                'US': '美国其他州',
+                'GB': '🇬🇧 英国',
+                'CA': '🇨🇦 加拿大',
+                'AU': '🇦🇺 澳大利亚',
+                'DE': '🇩🇪 德国',
+                'FR': '🇫🇷 法国',
+                'JP': '🇯🇵 日本',
+                'CN': '🇨🇳 中国',
+                'IN': '🇮🇳 印度',
+                'BR': '🇧🇷 巴西',
+                'MX': '🇲🇽 墨西哥',
+                'IT': '🇮🇹 意大利',
+                'ES': '🇪🇸 西班牙',
+                'KR': '🇰🇷 韩国',
+                'RU': '🇷🇺 俄罗斯',
+                'ZA': '🇿🇦 南非',
+                'EG': '🇪🇬 埃及'
+            };
+            return names[code] || '该地区';
+        }
+        
+        // AI助手功能
+        $(document).ready(function() {
             $('#ai-chat-toggle').click(function() {
                 $('#ai-chat-window').toggleClass('show');
             });
@@ -615,7 +637,7 @@
                 });
             }
             
-            // ========== 更新时间 ==========
+            // 更新时间
             const now = new Date();
             $('#update-time').text(`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`);
         });
