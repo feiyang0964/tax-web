@@ -23,7 +23,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;  /* 加宽容器，减少地图边缘空白 */
             margin: 0 auto;
             padding: 0 20px;
         }
@@ -64,10 +64,10 @@
             margin-bottom: 20px;
         }
         
-        /* 地图容器 */
+        /* 地图容器 - 调整比例，减少空白 */
         #geochart-colors {
             width: 100%;
-            height: 550px;
+            height: 600px;
             margin: 20px 0;
             border: 1px solid #e1e8ed;
             border-radius: 8px;
@@ -98,11 +98,12 @@
             border-radius: 50%;
         }
         
-        .legend-dot.red { background: #e74c3c; }
-        .legend-dot.blue { background: #3498db; }
-        .legend-dot.gray { background: #95a5a6; }
+        .legend-dot.red { background: #e74c3c; }      /* 已上线州 */
+        .legend-dot.blue { background: #3498db; }     /* 美国其他州 */
+        .legend-dot.gray { background: #95a5a6; }     /* 待开发国家 */
+        .legend-dot.white { background: #ecf0f1; border: 1px solid #bdc3c7; } /* 其他国家 */
         
-        /* 快速入口卡片 */
+        /* 快速入口卡片 - 按国家分组 */
         .quick-section {
             background: white;
             border-radius: 12px;
@@ -115,16 +116,33 @@
             margin-bottom: 20px;
         }
         
-        .card-grid {
+        /* 国家分组 */
+        .country-group {
+            margin-bottom: 30px;
+        }
+        
+        .country-group h3 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #e1e8ed;
+        }
+        
+        .country-group h3 .flag {
+            margin-right: 8px;
+        }
+        
+        .state-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
         }
         
         .card {
             background: #f8f9fa;
             border-radius: 10px;
-            padding: 20px;
+            padding: 18px;
             transition: all 0.2s ease;
             cursor: pointer;
             border-left: 4px solid transparent;
@@ -143,6 +161,11 @@
         .card.future {
             border-left-color: #3498db;
             opacity: 0.8;
+        }
+        
+        .card.other {
+            border-left-color: #95a5a6;
+            opacity: 0.7;
         }
         
         .card-header {
@@ -171,6 +194,11 @@
         }
         
         .badge.future {
+            background: #3498db;
+            color: white;
+        }
+        
+        .badge.other {
             background: #95a5a6;
             color: white;
         }
@@ -329,9 +357,9 @@
         
         @media (max-width: 768px) {
             header h1 { font-size: 2em; }
-            #geochart-colors { height: 350px; }
+            #geochart-colors { height: 400px; }
             .legend { flex-direction: column; align-items: center; gap: 10px; }
-            .card-grid { grid-template-columns: 1fr; }
+            .state-grid { grid-template-columns: 1fr; }
             .ai-chat-window { width: 300px; right: 0; }
         }
     </style>
@@ -340,7 +368,7 @@
     <header>
         <div class="container">
             <h1>🌍 海外税务信息平台</h1>
-            <p>全球税务地图 · 一键直达 · CA/WA已上线</p>
+            <p>全球税务地图 · 点击查看详情</p>
         </div>
     </header>
 
@@ -348,7 +376,7 @@
         <!-- 地图区域 -->
         <section class="map-section">
             <h2>📍 全球税务地图</h2>
-            <div class="subtitle">点击地图上的 <strong>美国加州(CA)</strong> 或 <strong>华盛顿州(WA)</strong> 直接查看详情</div>
+            <div class="subtitle">红色：已上线州 | 蓝色：美国其他州 | 灰色：待开发国家 | 白色：其他国家</div>
             
             <!-- Google Charts 地图容器 -->
             <div id="geochart-colors"></div>
@@ -361,93 +389,176 @@
                 </div>
                 <div class="legend-item">
                     <span class="legend-dot blue"></span>
-                    <span>其他美国州 - 即将上线</span>
+                    <span>美国其他州 - 即将上线</span>
                 </div>
                 <div class="legend-item">
                     <span class="legend-dot gray"></span>
-                    <span>其他国家 - 开发中</span>
+                    <span>待开发国家 - 点击可查看</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot white"></span>
+                    <span>其他国家 - 暂未规划</span>
                 </div>
             </div>
         </section>
         
-        <!-- 快速入口卡片 -->
+        <!-- 快速入口卡片 - 按国家分组 -->
         <section class="quick-section">
             <h2>📌 快速入口</h2>
-            <div class="card-grid">
-                <!-- 加州 - 已上线 -->
-                <div class="card active" onclick="window.location.href='pages/us-ca.html'">
-                    <div class="card-header">
-                        <span class="card-title">🇺🇸 加利福尼亚州 (CA)</span>
-                        <span class="badge active">已上线</span>
+            
+            <!-- 美国分组 -->
+            <div class="country-group">
+                <h3><span class="flag">🇺🇸</span> 美国</h3>
+                <div class="state-grid">
+                    <!-- 加州 - 已上线 -->
+                    <div class="card active" onclick="window.location.href='pages/us-ca.html'">
+                        <div class="card-header">
+                            <span class="card-title">加利福尼亚州 (CA)</span>
+                            <span class="badge active">已上线</span>
+                        </div>
+                        <div class="card-desc">
+                            销售税 7.25% + 地方税 · 企业所得税 8.84%
+                        </div>
                     </div>
-                    <div class="card-desc">
-                        销售税 7.25% + 地方税 · 企业所得税 8.84% · 月/季申报
+                    
+                    <!-- 华州 - 已上线 -->
+                    <div class="card active" onclick="window.location.href='pages/us-wa.html'">
+                        <div class="card-header">
+                            <span class="card-title">华盛顿州 (WA)</span>
+                            <span class="badge active">已上线</span>
+                        </div>
+                        <div class="card-desc">
+                            销售税 6.5% + 地方税 · B&O税 0.471%
+                        </div>
                     </div>
-                </div>
-                
-                <!-- 华州 - 已上线 -->
-                <div class="card active" onclick="window.location.href='pages/us-wa.html'">
-                    <div class="card-header">
-                        <span class="card-title">🇺🇸 华盛顿州 (WA)</span>
-                        <span class="badge active">已上线</span>
+                    
+                    <!-- 德州 - 即将上线 -->
+                    <div class="card future" onclick="alert('德克萨斯州(TX)税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">德克萨斯州 (TX)</span>
+                            <span class="badge future">开发中</span>
+                        </div>
+                        <div class="card-desc">
+                            州销售税 6.25% · 地方税最高2%
+                        </div>
                     </div>
-                    <div class="card-desc">
-                        销售税 6.5% + 地方税 · B&O税 · 月/季申报
+                    
+                    <!-- 纽约州 - 即将上线 -->
+                    <div class="card future" onclick="alert('纽约州(NY)税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">纽约州 (NY)</span>
+                            <span class="badge future">开发中</span>
+                        </div>
+                        <div class="card-desc">
+                            州销售税 4% · 地方税最高4.875%
+                        </div>
                     </div>
-                </div>
-                
-                <!-- 德州 - 即将上线 -->
-                <div class="card future" onclick="alert('德克萨斯州(TX)税务信息即将上线，敬请期待！')">
-                    <div class="card-header">
-                        <span class="card-title">🇺🇸 德克萨斯州 (TX)</span>
-                        <span class="badge future">开发中</span>
-                    </div>
-                    <div class="card-desc">
-                        州销售税 6.25% · 地方税最高2%
-                    </div>
-                </div>
-                
-                <!-- 纽约州 - 即将上线 -->
-                <div class="card future" onclick="alert('纽约州(NY)税务信息即将上线，敬请期待！')">
-                    <div class="card-header">
-                        <span class="card-title">🇺🇸 纽约州 (NY)</span>
-                        <span class="badge future">开发中</span>
-                    </div>
-                    <div class="card-desc">
-                        州销售税 4% · 地方税最高4.875%
-                    </div>
-                </div>
-                
-                <!-- 佛州 - 即将上线 -->
-                <div class="card future" onclick="alert('佛罗里达州(FL)税务信息即将上线，敬请期待！')">
-                    <div class="card-header">
-                        <span class="card-title">🇺🇸 佛罗里达州 (FL)</span>
-                        <span class="badge future">开发中</span>
-                    </div>
-                    <div class="card-desc">
-                        州销售税 6% · 地方税最高1.5%
-                    </div>
-                </div>
-                
-                <!-- 英国 - 开发中 -->
-                <div class="card future" onclick="alert('🇬🇧 英国税务信息即将上线，敬请期待！')">
-                    <div class="card-header">
-                        <span class="card-title">🇬🇧 英国</span>
-                        <span class="badge future">开发中</span>
-                    </div>
-                    <div class="card-desc">
-                        VAT 20% · 季度申报
+                    
+                    <!-- 佛州 - 即将上线 -->
+                    <div class="card future" onclick="alert('佛罗里达州(FL)税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">佛罗里达州 (FL)</span>
+                            <span class="badge future">开发中</span>
+                        </div>
+                        <div class="card-desc">
+                            州销售税 6% · 地方税最高1.5%
+                        </div>
                     </div>
                 </div>
-                
-                <!-- 加拿大 - 开发中 -->
-                <div class="card future" onclick="alert('🇨🇦 加拿大税务信息即将上线，敬请期待！')">
-                    <div class="card-header">
-                        <span class="card-title">🇨🇦 加拿大</span>
-                        <span class="badge future">开发中</span>
+            </div>
+            
+            <!-- 亚洲分组 -->
+            <div class="country-group">
+                <h3><span class="flag">🌏</span> 亚洲</h3>
+                <div class="state-grid">
+                    <div class="card other" onclick="alert('🇸🇬 新加坡税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">新加坡</span>
+                            <span class="badge other">开发中</span>
+                        </div>
+                        <div class="card-desc">GST 9% · 季度申报</div>
                     </div>
-                    <div class="card-desc">
-                        GST 5% · 各省PST · 月/季申报
+                    
+                    <div class="card other" onclick="alert('🇲🇾 马来西亚税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">马来西亚</span>
+                            <span class="badge other">开发中</span>
+                        </div>
+                        <div class="card-desc">SST · 企业所得税</div>
+                    </div>
+                    
+                    <div class="card other" onclick="alert('🇭🇰 香港税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">香港</span>
+                            <span class="badge other">开发中</span>
+                        </div>
+                        <div class="card-desc">利得税 16.5% · 无销售税</div>
+                    </div>
+                    
+                    <div class="card other" onclick="alert('🇯🇵 日本税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">日本</span>
+                            <span class="badge other">开发中</span>
+                        </div>
+                        <div class="card-desc">消费税 10% · 法人税</div>
+                    </div>
+                    
+                    <div class="card other" onclick="alert('🇰🇷 韩国税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">韩国</span>
+                            <span class="badge other">开发中</span>
+                        </div>
+                        <div class="card-desc">增值税 10% · 法人税</div>
+                    </div>
+                    
+                    <div class="card other" onclick="alert('🇨🇳 中国税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">中国</span>
+                            <span class="badge other">开发中</span>
+                        </div>
+                        <div class="card-desc">增值税 · 企业所得税 25%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 大洋洲分组 -->
+            <div class="country-group">
+                <h3><span class="flag">🌏</span> 大洋洲</h3>
+                <div class="state-grid">
+                    <div class="card other" onclick="alert('🇦🇺 澳大利亚税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">澳大利亚</span>
+                            <span class="badge other">开发中</span>
+                        </div>
+                        <div class="card-desc">GST 10% · 季度申报</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 欧洲分组 -->
+            <div class="country-group">
+                <h3><span class="flag">🌍</span> 欧洲</h3>
+                <div class="state-grid">
+                    <div class="card other" onclick="alert('🇬🇧 英国税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">英国</span>
+                            <span class="badge other">开发中</span>
+                        </div>
+                        <div class="card-desc">VAT 20% · 季度申报</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 美洲分组 -->
+            <div class="country-group">
+                <h3><span class="flag">🌎</span> 美洲</h3>
+                <div class="state-grid">
+                    <div class="card other" onclick="alert('🇨🇦 加拿大税务信息即将上线，敬请期待！')">
+                        <div class="card-header">
+                            <span class="card-title">加拿大</span>
+                            <span class="badge other">开发中</span>
+                        </div>
+                        <div class="card-desc">GST 5% · 各省PST</div>
                     </div>
                 </div>
             </div>
@@ -487,51 +598,69 @@
     <script>
         // 加载 Google Charts
         google.charts.load('current', {
-            'packages': ['geochart'],
-            'mapsApiKey': '' // 可选，不加也能用
+            'packages': ['geochart']
         });
         
         google.charts.setOnLoadCallback(drawRegionsMap);
         
         function drawRegionsMap() {
-            // 定义数据：国家/地区 + 颜色分类
+            // 定义数据：国家/地区 + 状态
             var data = google.visualization.arrayToDataTable([
                 ['Country', 'Status', 'Color'],
-                // 美国各州 - 使用 ISO 3166-2 代码
-                ['US-CA', '已上线', 1],   // 加州
-                ['US-WA', '已上线', 1],   // 华盛顿州
-                ['US', '其他州', 2],       // 其他美国地区
-                // 主要国家
-                ['GB', '开发中', 3],       // 英国
-                ['CA', '开发中', 3],       // 加拿大
-                ['AU', '开发中', 3],       // 澳大利亚
-                ['DE', '开发中', 3],       // 德国
-                ['FR', '开发中', 3],       // 法国
-                ['JP', '开发中', 3],       // 日本
-                ['CN', '开发中', 3],       // 中国
-                ['IN', '开发中', 3],       // 印度
-                ['BR', '开发中', 3],       // 巴西
-                ['MX', '开发中', 3],       // 墨西哥
-                ['IT', '开发中', 3],       // 意大利
-                ['ES', '开发中', 3],       // 西班牙
-                ['KR', '开发中', 3],       // 韩国
-                ['RU', '开发中', 3],       // 俄罗斯
-                ['ZA', '开发中', 3],       // 南非
-                ['EG', '开发中', 3],       // 埃及
+                // 美国各州 - 细分到州级别
+                ['US-CA', '已上线', 1],      // 加州 - 红色
+                ['US-WA', '已上线', 1],      // 华盛顿州 - 红色
+                ['US-TX', '开发中', 2],      // 德州 - 蓝色
+                ['US-NY', '开发中', 2],      // 纽约州 - 蓝色
+                ['US-FL', '开发中', 2],      // 佛州 - 蓝色
+                ['US-IL', '开发中', 2],      // 伊利诺伊 - 蓝色
+                ['US-PA', '开发中', 2],      // 宾州 - 蓝色
+                ['US-OH', '开发中', 2],      // 俄亥俄 - 蓝色
+                ['US-GA', '开发中', 2],      // 佐治亚 - 蓝色
+                ['US-NC', '开发中', 2],      // 北卡 - 蓝色
+                ['US-MI', '开发中', 2],      // 密歇根 - 蓝色
+                ['US-NJ', '开发中', 2],      // 新泽西 - 蓝色
+                ['US-VA', '开发中', 2],      // 弗吉尼亚 - 蓝色
+                ['US-MA', '开发中', 2],      // 马萨诸塞 - 蓝色
+                
+                // 待开发国家 - 灰色
+                ['SG', '待开发', 3],          // 新加坡
+                ['MY', '待开发', 3],          // 马来西亚
+                ['HK', '待开发', 3],          // 香港
+                ['JP', '待开发', 3],          // 日本
+                ['KR', '待开发', 3],          // 韩国
+                ['CN', '待开发', 3],          // 中国
+                ['AU', '待开发', 3],          // 澳大利亚
+                ['GB', '待开发', 3],          // 英国
+                ['CA', '待开发', 3],          // 加拿大
+                
+                // 其他国家不在这里定义，会默认显示白色
             ]);
             
-            // 设置颜色
+            // 设置颜色和地图参数
             var options = {
                 region: 'world',
                 displayMode: 'regions',
                 resolution: 'countries',
+                
+                // 颜色映射：红色、蓝色、灰色
                 colorAxis: {
                     colors: ['#e74c3c', '#3498db', '#95a5a6'],
                     values: [1, 2, 3]
                 },
+                
+                // 背景色和默认颜色
                 backgroundColor: '#f8fafc',
-                datalessRegionColor: '#f8fafc',
-                defaultColor: '#95a5a6',
+                datalessRegionColor: '#ecf0f1',  // 其他国家白色
+                defaultColor: '#ecf0f1',
+                
+                // 放大比例，减少边缘空白
+                sizeAxis: { minSize: 0.5, maxSize: 1 },
+                keepAspectRatio: false,
+                width: '100%',
+                height: '100%',
+                
+                // 工具提示
                 tooltip: {
                     textStyle: { color: '#333' },
                     trigger: 'focus'
@@ -562,26 +691,30 @@
             chart.draw(data, options);
         }
         
-        // 国家名称映射
+        // 国家/地区名称映射
         function getCountryName(code) {
             const names = {
-                'US': '美国其他州',
-                'GB': '🇬🇧 英国',
-                'CA': '🇨🇦 加拿大',
-                'AU': '🇦🇺 澳大利亚',
-                'DE': '🇩🇪 德国',
-                'FR': '🇫🇷 法国',
+                'US-TX': '德克萨斯州 (TX)',
+                'US-NY': '纽约州 (NY)',
+                'US-FL': '佛罗里达州 (FL)',
+                'US-IL': '伊利诺伊州 (IL)',
+                'US-PA': '宾夕法尼亚州 (PA)',
+                'US-OH': '俄亥俄州 (OH)',
+                'US-GA': '佐治亚州 (GA)',
+                'US-NC': '北卡罗来纳州 (NC)',
+                'US-MI': '密歇根州 (MI)',
+                'US-NJ': '新泽西州 (NJ)',
+                'US-VA': '弗吉尼亚州 (VA)',
+                'US-MA': '马萨诸塞州 (MA)',
+                'SG': '🇸🇬 新加坡',
+                'MY': '🇲🇾 马来西亚',
+                'HK': '🇭🇰 香港',
                 'JP': '🇯🇵 日本',
-                'CN': '🇨🇳 中国',
-                'IN': '🇮🇳 印度',
-                'BR': '🇧🇷 巴西',
-                'MX': '🇲🇽 墨西哥',
-                'IT': '🇮🇹 意大利',
-                'ES': '🇪🇸 西班牙',
                 'KR': '🇰🇷 韩国',
-                'RU': '🇷🇺 俄罗斯',
-                'ZA': '🇿🇦 南非',
-                'EG': '🇪🇬 埃及'
+                'CN': '🇨🇳 中国',
+                'AU': '🇦🇺 澳大利亚',
+                'GB': '🇬🇧 英国',
+                'CA': '🇨🇦 加拿大'
             };
             return names[code] || '该地区';
         }
