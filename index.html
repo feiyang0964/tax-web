@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>海外税务信息平台 · 全球视图</title>
     
-    <!-- 加载 Google Charts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     
@@ -24,7 +23,6 @@
             font-weight: 400;
         }
 
-        /* 固定导航栏 - 深蓝色渐变（参考图片配色） */
         .navbar {
             position: fixed;
             top: 0;
@@ -81,7 +79,6 @@
             border-bottom-color: #ffffff;
         }
 
-        /* 下拉菜单样式 - 支持点击展开 */
         .dropdown {
             position: relative;
             display: inline-block;
@@ -159,21 +156,18 @@
             opacity: 0.7;
         }
 
-        /* 主内容区 - 1440x900 适配 */
         .main-content {
             max-width: 1440px;
             margin: 100px auto 40px;
             padding: 0 48px;
         }
 
-        /* 标题系统 */
         h1 { font-size: 36px; font-weight: 500; color: #0f172a; margin-bottom: 8px; letter-spacing: -0.01em; }
         h2 { font-size: 28px; font-weight: 500; margin-bottom: 20px; color: #1e293b; }
         h3 { font-size: 20px; font-weight: 500; margin-bottom: 16px; color: #334155; }
         .body-text { font-size: 16px; color: #334155; }
         .helper-text { font-size: 14px; color: #64748b; }
 
-        /* 按钮系统 */
         .btn {
             border: none;
             border-radius: 8px;
@@ -190,7 +184,6 @@
         .btn-outline { background: transparent; border: 1px solid #cbd5e1; color: #1e293b; }
         .btn-outline:hover { background: #f1f5f9; }
 
-        /* 地图卡片 */
         .map-card {
             background: white;
             border-radius: 24px;
@@ -208,7 +201,6 @@
             background: #ffffff;
         }
 
-        /* 图例 */
         .legend-bar {
             display: flex;
             gap: 36px;
@@ -230,13 +222,12 @@
             height: 16px;
             border-radius: 16px;
         }
-        .dot.blue-us { background: #0f3b73; }           /* 美国主色 */
-        .dot.blue-ca { background: #2d6cb8; }           /* 已上线州深蓝色 */
-        .dot.blue-light { background: #9ac0e8; }        /* 未上线州浅蓝色 */
-        .dot.gray { background: #94a3b8; }              /* 待开发国家灰色 */
-        .dot.white { background: #ffffff; border: 1px solid #cbd5e1; } /* 其他国家 */
+        .dot.blue-us { background: #0f3b73; }
+        .dot.blue-ca { background: #2d6cb8; }
+        .dot.blue-light { background: #9ac0e8; }
+        .dot.gray { background: #94a3b8; }
+        .dot.white { background: #ffffff; border: 1px solid #cbd5e1; }
 
-        /* 快速入口卡片网格 */
         .quick-section {
             background: white;
             border-radius: 24px;
@@ -314,7 +305,6 @@
             color: #64748b;
         }
 
-        /* 美国专版样式 */
         .usa-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -346,7 +336,6 @@
             color: #64748b;
         }
 
-        /* AI助手 */
         .ai-chat-container {
             position: fixed;
             bottom: 24px;
@@ -412,429 +401,408 @@
     </style>
 </head>
 <body>
-    <!-- 固定导航栏 - 深蓝色渐变 -->
-    <div class="navbar">
-        <div class="nav-brand">
-            <span>🌐</span> 海外税务信息平台
-        </div>
-        <div class="nav-links">
-            <a class="active" onclick="switchView('global')">全球视图</a>
-            <div class="dropdown">
-                <a onclick="toggleDropdown()" class="dropdown-trigger">美国专版 ▾</a>
-                <div class="dropdown-content" id="usa-dropdown">
-                    <div class="dropdown-item" onclick="window.location.href='pages/us-ca.html'">
-                        <div class="state-info">
-                            <span class="state-code">CA</span>
-                            <span class="state-name">加利福尼亚州</span>
-                        </div>
-                        <span class="link-icon">↗</span>
+
+<div class="navbar">
+    <div class="nav-brand">
+        <span>🌐</span> 海外税务信息平台
+    </div>
+    <div class="nav-links">
+        <a class="active" onclick="switchView('global')">全球视图</a>
+        <div class="dropdown">
+            <a onclick="toggleDropdown()" class="dropdown-trigger">美国专版 ▾</a>
+            <div class="dropdown-content" id="usa-dropdown">
+                <div class="dropdown-item" onclick="window.location.href='pages/us-ca.html'">
+                    <div class="state-info">
+                        <span class="state-code">CA</span>
+                        <span class="state-name">加利福尼亚州</span>
                     </div>
-                    <div class="dropdown-item" onclick="window.location.href='pages/us-wa.html'">
-                        <div class="state-info">
-                            <span class="state-code">WA</span>
-                            <span class="state-name">华盛顿州</span>
-                        </div>
-                        <span class="link-icon">↗</span>
+                    <span class="link-icon">↗</span>
+                </div>
+                <div class="dropdown-item" onclick="window.location.href='pages/us-wa.html'">
+                    <div class="state-info">
+                        <span class="state-code">WA</span>
+                        <span class="state-name">华盛顿州</span>
                     </div>
+                    <span class="link-icon">↗</span>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- 主内容区域 1440px -->
-    <div class="main-content">
-        <!-- 全球视图 -->
-        <div id="global-view">
-            <h1>全球税务地图</h1>
-            <div class="helper-text" style="margin-bottom: 20px;">美国蓝色 · 已上线州：加利福尼亚州(CA)、华盛顿州(WA) · 点击美国跳转专版 · 其他指定国家灰色（待开发）</div>
-            
-            <div class="map-card">
-                <div id="world-map" class="map-container"></div>
-                
-                <div class="legend-bar">
-                    <div class="legend-item"><span class="dot blue-us"></span> 美国 (点击进入专版，已上线CA/WA)</div>
-                    <div class="legend-item"><span class="dot gray"></span> 待开发国家 (新加坡/香港/马来西亚等)</div>
-                    <div class="legend-item"><span class="dot white"></span> 其他国家</div>
-                </div>
-            </div>
-
-            <!-- 快速入口 · 全球 -->
-            <div class="quick-section">
-                <h2>📌 快速入口 · 全球</h2>
-                <div class="tab-bar">
-                    <button class="tab active" data-tab="global-america">🌎 美洲</button>
-                    <button class="tab" data-tab="global-asia">🌏 亚洲</button>
-                    <button class="tab" data-tab="global-europe">🌍 欧洲</button>
-                    <button class="tab" data-tab="global-oceania">🌏 大洋洲</button>
-                </div>
-
-                <div id="global-america" class="card-grid"></div>
-                <div id="global-asia" class="card-grid" style="display: none;"></div>
-                <div id="global-europe" class="card-grid" style="display: none;"></div>
-                <div id="global-oceania" class="card-grid" style="display: none;"></div>
+<div class="main-content">
+    <div id="global-view">
+        <h1>全球税务地图</h1>
+        <div class="helper-text" style="margin-bottom: 20px;">美国深蓝色 · 待开发国家灰色 · 其他国家白色 · 点击美国跳转专版</div>
+        
+        <div class="map-card">
+            <div id="world-map" class="map-container"></div>
+            <div class="legend-bar">
+                <div class="legend-item"><span class="dot blue-us"></span> 美国 (已上线CA/WA)</div>
+                <div class="legend-item"><span class="dot gray"></span> 待开发国家</div>
+                <div class="legend-item"><span class="dot white"></span> 其他国家</div>
             </div>
         </div>
 
-        <!-- 美国专版 -->
-        <div id="usa-view" class="hidden">
-            <h1>🇺🇸 美国税务专版</h1>
-            <div class="helper-text" style="margin-bottom: 20px;">所有州显示中英文名称 · 深蓝色为已上线州 (CA/WA) · 浅蓝色为开发中州</div>
-            
-            <div class="map-card">
-                <div id="usa-map" class="map-container"></div>
-                
-                <div class="legend-bar">
-                    <div class="legend-item"><span class="dot blue-ca"></span> 已上线州 (CA/WA)</div>
-                    <div class="legend-item"><span class="dot blue-light"></span> 其他州 (开发中)</div>
-                </div>
+        <div class="quick-section">
+            <h2>📌 快速入口 · 全球</h2>
+            <div class="tab-bar">
+                <button class="tab active" data-tab="global-america">🌎 美洲</button>
+                <button class="tab" data-tab="global-asia">🌏 亚洲</button>
+                <button class="tab" data-tab="global-europe">🌍 欧洲</button>
+                <button class="tab" data-tab="global-oceania">🌏 大洋洲</button>
             </div>
-
-            <!-- 快速入口 · 美国各州 -->
-            <div class="quick-section">
-                <h2>📌 快速入口 · 美国各州</h2>
-                <div class="tab-bar">
-                    <button class="tab active" data-tab="usa-all">🗽 全部州</button>
-                    <button class="tab" data-tab="usa-online">✅ 已上线</button>
-                    <button class="tab" data-tab="usa-major">⭐ 主要大州</button>
-                </div>
-
-                <div id="usa-all" class="usa-grid"></div>
-                <div id="usa-online" class="usa-grid" style="display: none;"></div>
-                <div id="usa-major" class="usa-grid" style="display: none;"></div>
-            </div>
-        </div>
-
-        <footer>
-            <span id="update-time"></span> · 数据仅供参考，以官方机构为准
-        </footer>
-    </div>
-
-    <!-- AI助手 -->
-    <div class="ai-chat-container">
-        <button class="ai-chat-toggle" id="ai-chat-toggle">💬</button>
-        <div class="ai-chat-window" id="ai-chat-window">
-            <div class="ai-chat-header">🤖 税务助手</div>
-            <div class="ai-chat-messages" id="ai-chat-messages">
-                <div class="message ai-message">输入 CA/WA 税率或截止日</div>
-            </div>
-            <div class="ai-chat-input">
-                <input id="ai-chat-input" placeholder="例如 CA 税率">
-                <button id="ai-chat-send">发送</button>
-            </div>
+            <div id="global-america" class="card-grid"></div>
+            <div id="global-asia" class="card-grid" style="display: none;"></div>
+            <div id="global-europe" class="card-grid" style="display: none;"></div>
+            <div id="global-oceania" class="card-grid" style="display: none;"></div>
         </div>
     </div>
 
-    <script>
-        // 视图切换
-        window.switchView = function(view) {
-            if (view === 'global') {
-                $('#global-view').removeClass('hidden');
-                $('#usa-view').addClass('hidden');
-                $('.nav-links a').removeClass('active');
-                $('.nav-links a:first-child').addClass('active');
-            } else {
-                $('#global-view').addClass('hidden');
-                $('#usa-view').removeClass('hidden');
-                $('.nav-links a').removeClass('active');
-                $('.nav-links .dropdown > a').addClass('active');
-                if (typeof drawUsaMap === 'function') setTimeout(drawUsaMap, 100);
+    <div id="usa-view" class="hidden">
+        <h1>🇺🇸 美国税务专版</h1>
+        <div class="helper-text" style="margin-bottom: 20px;">所有州显示中英文 · 深蓝色已上线 · 浅蓝色开发中</div>
+        
+        <div class="map-card">
+            <div id="usa-map" class="map-container"></div>
+            <div class="legend-bar">
+                <div class="legend-item"><span class="dot blue-ca"></span> 已上线州 (CA/WA)</div>
+                <div class="legend-item"><span class="dot blue-light"></span> 开发中州</div>
+            </div>
+        </div>
+
+        <div class="quick-section">
+            <h2>📌 快速入口 · 美国各州</h2>
+            <div class="tab-bar">
+                <button class="tab active" data-tab="usa-online">✅ 已上线</button>
+                <button class="tab" data-tab="usa-west">🌄 西部</button>
+                <button class="tab" data-tab="usa-central">🏙️ 中部</button>
+                <button class="tab" data-tab="usa-east">🌆 东部</button>
+            </div>
+            <div id="usa-online" class="usa-grid"></div>
+            <div id="usa-west" class="usa-grid" style="display: none;"></div>
+            <div id="usa-central" class="usa-grid" style="display: none;"></div>
+            <div id="usa-east" class="usa-grid" style="display: none;"></div>
+        </div>
+    </div>
+
+    <footer>
+        <span id="update-time"></span> · 数据仅供参考，以官方机构为准
+    </footer>
+</div>
+
+<div class="ai-chat-container">
+    <button class="ai-chat-toggle" id="ai-chat-toggle">💬</button>
+    <div class="ai-chat-window" id="ai-chat-window">
+        <div class="ai-chat-header">🤖 税务助手</div>
+        <div class="ai-chat-messages" id="ai-chat-messages">
+            <div class="message ai-message">输入 CA/WA 税率或截止日</div>
+        </div>
+        <div class="ai-chat-input">
+            <input id="ai-chat-input" placeholder="例如 CA 税率">
+            <button id="ai-chat-send">发送</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.switchView = function(view) {
+        if (view === 'global') {
+            $('#global-view').removeClass('hidden');
+            $('#usa-view').addClass('hidden');
+            $('.nav-links a').removeClass('active');
+            $('.nav-links a:first-child').addClass('active');
+        } else {
+            $('#global-view').addClass('hidden');
+            $('#usa-view').removeClass('hidden');
+            $('.nav-links a').removeClass('active');
+            $('.nav-links .dropdown > a').addClass('active');
+            setTimeout(drawUsaMap, 100);
+        }
+    };
+
+    window.toggleDropdown = function() {
+        const dropdown = document.getElementById('usa-dropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    };
+
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.dropdown').length) {
+            $('#usa-dropdown').hide();
+        }
+    });
+
+    google.charts.load('current', { packages: ['geochart'] });
+    google.charts.setOnLoadCallback(initMaps);
+
+    function initMaps() {
+        drawWorldMap();
+        drawUsaMap();
+        initGlobalCards();
+        initUsaCards();
+        initTabs();
+    }
+
+    function drawWorldMap() {
+        var rows = [
+            ['US', '美国', 2],
+            ['CN', '中国', 3], ['SG', '新加坡', 3], ['MY', '马来西亚', 3], ['HK', '香港', 3],
+            ['JP', '日本', 3], ['KR', '韩国', 3], ['GB', '英国', 3], ['AU', '澳大利亚', 3], ['CA', '加拿大', 3],
+            ['DE', '德国', 4], ['FR', '法国', 4], ['IT', '意大利', 4], ['ES', '西班牙', 4],
+            ['BR', '巴西', 4], ['IN', '印度', 4], ['RU', '俄罗斯', 4], ['ZA', '南非', 4]
+        ];
+
+        var data = google.visualization.arrayToDataTable([['Country', 'Name', 'Color'], ...rows]);
+
+        var options = {
+            region: 'world',
+            displayMode: 'regions',
+            resolution: 'countries',
+            colorAxis: {
+                colors: ['#0f3b73', '#94a3b8', '#ffffff'],
+                minValue: 2,
+                maxValue: 4,
+                values: [2, 3, 4]
+            },
+            backgroundColor: '#ffffff',
+            datalessRegionColor: '#ffffff',
+            keepAspectRatio: false,
+            width: '100%',
+            height: '100%',
+            tooltip: { 
+                trigger: 'focus',
+                isHtml: true,
+                formatter: row => data.getValue(row, 1)
             }
         };
 
-        // 美国专版下拉菜单点击展开/关闭
-        window.toggleDropdown = function() {
-            const dropdown = document.getElementById('usa-dropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        var chart = new google.visualization.GeoChart(document.getElementById('world-map'));
+        
+        google.visualization.events.addListener(chart, 'select', function() {
+            var sel = chart.getSelection();
+            if (sel.length) {
+                var row = sel[0].row;
+                var code = data.getValue(row, 0);
+                var name = data.getValue(row, 1);
+                if (code === 'US') {
+                    switchView('usa');
+                } else if (['CN','SG','MY','HK','JP','KR','GB','AU','CA'].includes(code)) {
+                    alert(`${name} 税务信息待开发中`);
+                }
+            }
+        });
+        
+        chart.draw(data, options);
+    }
+
+    function drawUsaMap() {
+        var rows = [
+            ['US-CA', '加利福尼亚州(CA)', 2], ['US-WA', '华盛顿州(WA)', 2],
+            ['US-OR', '俄勒冈州(OR)', 3], ['US-NV', '内华达州(NV)', 3], ['US-ID', '爱达荷州(ID)', 3],
+            ['US-UT', '犹他州(UT)', 3], ['US-AZ', '亚利桑那州(AZ)', 3], ['US-CO', '科罗拉多州(CO)', 3],
+            ['US-NM', '新墨西哥州(NM)', 3], ['US-MT', '蒙大拿州(MT)', 3], ['US-WY', '怀俄明州(WY)', 3],
+            ['US-ND', '北达科他州(ND)', 3], ['US-SD', '南达科他州(SD)', 3], ['US-NE', '内布拉斯加州(NE)', 3],
+            ['US-KS', '堪萨斯州(KS)', 3], ['US-OK', '俄克拉荷马州(OK)', 3], ['US-TX', '德克萨斯州(TX)', 3],
+            ['US-MN', '明尼苏达州(MN)', 3], ['US-IA', '爱荷华州(IA)', 3], ['US-MO', '密苏里州(MO)', 3],
+            ['US-AR', '阿肯色州(AR)', 3], ['US-LA', '路易斯安那州(LA)', 3], ['US-WI', '威斯康星州(WI)', 3],
+            ['US-IL', '伊利诺伊州(IL)', 3], ['US-IN', '印第安纳州(IN)', 3], ['US-OH', '俄亥俄州(OH)', 3],
+            ['US-MI', '密歇根州(MI)', 3], ['US-KY', '肯塔基州(KY)', 3], ['US-TN', '田纳西州(TN)', 3],
+            ['US-AL', '阿拉巴马州(AL)', 3], ['US-MS', '密西西比州(MS)', 3],
+            ['US-ME', '缅因州(ME)', 3], ['US-NH', '新罕布什尔州(NH)', 3], ['US-VT', '佛蒙特州(VT)', 3],
+            ['US-MA', '马萨诸塞州(MA)', 3], ['US-RI', '罗德岛州(RI)', 3], ['US-CT', '康涅狄格州(CT)', 3],
+            ['US-NY', '纽约州(NY)', 3], ['US-PA', '宾夕法尼亚州(PA)', 3], ['US-NJ', '新泽西州(NJ)', 3],
+            ['US-DE', '特拉华州(DE)', 3], ['US-MD', '马里兰州(MD)', 3], ['US-WV', '西弗吉尼亚州(WV)', 3],
+            ['US-VA', '弗吉尼亚州(VA)', 3], ['US-NC', '北卡罗来纳州(NC)', 3], ['US-SC', '南卡罗来纳州(SC)', 3],
+            ['US-GA', '佐治亚州(GA)', 3], ['US-FL', '佛罗里达州(FL)', 3],
+            ['US-HI', '夏威夷州(HI)', 3], ['US-AK', '阿拉斯加州(AK)', 3]
+        ];
+
+        var data = google.visualization.arrayToDataTable([['State', 'Name', 'Color'], ...rows]);
+
+        var options = {
+            region: 'US',
+            displayMode: 'regions',
+            resolution: 'provinces',
+            colorAxis: { colors: ['#2d6cb8', '#9ac0e8'], values: [2, 3] },
+            backgroundColor: '#ffffff',
+            datalessRegionColor: '#f1f5f9',
+            keepAspectRatio: false,
+            width: '100%',
+            height: '100%',
+            tooltip: { 
+                trigger: 'focus',
+                isHtml: true,
+                formatter: row => data.getValue(row, 1)
+            }
         };
 
-        // 点击其他区域关闭下拉菜单
-        $(document).click(function(e) {
-            if (!$(e.target).closest('.dropdown').length) {
-                $('#usa-dropdown').hide();
+        var chart = new google.visualization.GeoChart(document.getElementById('usa-map'));
+        
+        google.visualization.events.addListener(chart, 'select', function() {
+            var sel = chart.getSelection();
+            if (sel.length) {
+                var row = sel[0].row;
+                var code = data.getValue(row, 0);
+                var name = data.getValue(row, 1);
+                if (code === 'US-CA') window.location.href = 'pages/us-ca.html';
+                else if (code === 'US-WA') window.location.href = 'pages/us-wa.html';
+                else alert(`${name} 税务开发中`);
             }
         });
+        
+        chart.draw(data, options);
+    }
 
-        google.charts.load('current', { packages: ['geochart'] });
-        google.charts.setOnLoadCallback(initMaps);
+    function initGlobalCards() {
+        const cards = {
+            'global-america': [
+                { name:'美国 (CA)', code:'CA', desc:'已上线 · 销售税7.25%', type:'online' },
+                { name:'美国 (WA)', code:'WA', desc:'已上线 · 销售税6.5%', type:'online' },
+                { name:'加拿大', desc:'GST 5% · 待开发', type:'other' }
+            ],
+            'global-asia': [
+                { name:'中国', desc:'增值税 · 企税25%', type:'other' },
+                { name:'日本', desc:'消费税10% · 待开发', type:'other' },
+                { name:'韩国', desc:'增值税10% · 待开发', type:'other' },
+                { name:'新加坡', desc:'GST 9% · 待开发', type:'other' },
+                { name:'马来西亚', desc:'SST · 待开发', type:'other' },
+                { name:'香港', desc:'利得税16.5% · 待开发', type:'other' }
+            ],
+            'global-europe': [
+                { name:'英国', desc:'VAT 20% · 待开发', type:'other' }
+            ],
+            'global-oceania': [
+                { name:'澳大利亚', desc:'GST 10% · 待开发', type:'other' }
+            ]
+        };
 
-        function initMaps() {
-            drawWorldMap();
-            drawUsaMap();
-            initGlobalCards();
-            initUsaCards();
-            initTabs();
-        }
-
-        // 世界地图：美国蓝色，待开发国家灰色，其他国家白色
-        function drawWorldMap() {
-            var rows = [
-                // 美国整体 - 蓝色 (值设为2)
-                ['US', '美国', 2],
-                
-                // 待开发国家 - 灰色 (值设为3)
-                ['CN', '中国', 3], ['SG', '新加坡', 3], ['MY', '马来西亚', 3], ['HK', '香港', 3],
-                ['JP', '日本', 3], ['KR', '韩国', 3], ['GB', '英国', 3], ['AU', '澳大利亚', 3],
-                ['CA', '加拿大', 3]
-            ];
-
-            var data = google.visualization.arrayToDataTable([
-                ['Country', 'Name', 'Color'], ...rows
-            ]);
-
-            var options = {
-                region: 'world',
-                displayMode: 'regions',
-                resolution: 'countries',
-                colorAxis: {
-                    colors: ['#0f3b73', '#94a3b8', '#ffffff'],
-                    values: [2, 3]
-                },
-                backgroundColor: '#ffffff',
-                datalessRegionColor: '#ffffff',
-                keepAspectRatio: false,
-                width: '100%',
-                height: '100%',
-                tooltip: { 
-                    trigger: 'focus',
-                    isHtml: true,
-                    textStyle: { fontSize: 12 }
-                }
-            };
-
-            var chart = new google.visualization.GeoChart(document.getElementById('world-map'));
-            
-            google.visualization.events.addListener(chart, 'select', function() {
-                var sel = chart.getSelection();
-                if (sel.length) {
-                    var row = sel[0].row;
-                    var code = data.getValue(row, 0);
-                    var name = data.getValue(row, 1);
-                    
-                    if (code === 'US') {
-                        switchView('usa');
-                    } else if (['SG','MY','HK','JP','KR','GB','AU','CA','CN'].includes(code)) {
-                        alert(`${name} 税务信息待开发中`);
-                    }
-                }
+        for (let tab in cards) {
+            let html = '';
+            cards[tab].forEach(c => {
+                let clickAction = c.code ? `window.location.href='pages/us-${c.code.toLowerCase()}.html'` : `alert('${c.name} 税务信息开发中')`;
+                html += `<div class="card ${c.type}" onclick="${clickAction}">
+                    <div class="card-header">
+                        <span class="card-title">${c.name}</span>
+                        <span class="badge ${c.type}">${c.type === 'online' ? '已上线' : '待开发'}</span>
+                    </div>
+                    <div class="card-desc">${c.desc}</div>
+                </div>`;
             });
-            
-            chart.draw(data, options);
+            $('#' + tab).html(html);
         }
+    }
 
-        // 美国专版地图 - 显示州的中英文名称，已开发州颜色更深
-        function drawUsaMap() {
-            var rows = [
-                // 已上线州 - 深蓝色 (值设为2)
-                ['US-CA', '加利福尼亚州(CA)', 2], ['US-WA', '华盛顿州(WA)', 2],
-                // 其他州 - 浅蓝色 (值设为3)
-                ['US-TX', '德克萨斯州(TX)', 3], ['US-NY', '纽约州(NY)', 3],
-                ['US-FL', '佛罗里达州(FL)', 3], ['US-IL', '伊利诺伊州(IL)', 3],
-                ['US-PA', '宾夕法尼亚州(PA)', 3], ['US-OH', '俄亥俄州(OH)', 3],
-                ['US-GA', '佐治亚州(GA)', 3], ['US-NC', '北卡罗来纳州(NC)', 3],
-                ['US-MI', '密歇根州(MI)', 3], ['US-NJ', '新泽西州(NJ)', 3],
-                ['US-VA', '弗吉尼亚州(VA)', 3], ['US-MA', '马萨诸塞州(MA)', 3],
-                ['US-AZ', '亚利桑那州(AZ)', 3], ['US-CO', '科罗拉多州(CO)', 3],
-                ['US-UT', '犹他州(UT)', 3], ['US-NV', '内华达州(NV)', 3],
-                ['US-OR', '俄勒冈州(OR)', 3], ['US-ID', '爱达荷州(ID)', 3],
-                ['US-MT', '蒙大拿州(MT)', 3], ['US-WY', '怀俄明州(WY)', 3],
-                ['US-ND', '北达科他州(ND)', 3], ['US-SD', '南达科他州(SD)', 3],
-                ['US-NE', '内布拉斯加州(NE)', 3], ['US-KS', '堪萨斯州(KS)', 3],
-                ['US-OK', '俄克拉荷马州(OK)', 3], ['US-AR', '阿肯色州(AR)', 3],
-                ['US-LA', '路易斯安那州(LA)', 3], ['US-MS', '密西西比州(MS)', 3],
-                ['US-AL', '阿拉巴马州(AL)', 3], ['US-TN', '田纳西州(TN)', 3],
-                ['US-KY', '肯塔基州(KY)', 3], ['US-IN', '印第安纳州(IN)', 3],
-                ['US-WV', '西弗吉尼亚州(WV)', 3], ['US-SC', '南卡罗来纳州(SC)', 3],
-                ['US-MD', '马里兰州(MD)', 3], ['US-DE', '特拉华州(DE)', 3],
-                ['US-CT', '康涅狄格州(CT)', 3], ['US-RI', '罗德岛州(RI)', 3],
-                ['US-NH', '新罕布什尔州(NH)', 3], ['US-VT', '佛蒙特州(VT)', 3],
-                ['US-ME', '缅因州(ME)', 3], ['US-HI', '夏威夷州(HI)', 3],
-                ['US-AK', '阿拉斯加州(AK)', 3]
-            ];
+    function initUsaCards() {
+        const allStates = [
+            { code:'CA', name:'加利福尼亚', desc:'销售税7.25%+地方', type:'online' },
+            { code:'WA', name:'华盛顿', desc:'销售税6.5%+地方', type:'online' },
+            { code:'OR', name:'俄勒冈', desc:'无销售税', type:'other' },
+            { code:'NV', name:'内华达', desc:'销售税6.85%+地方', type:'other' },
+            { code:'ID', name:'爱达荷', desc:'销售税6%+地方', type:'other' },
+            { code:'UT', name:'犹他', desc:'销售税6.1%+地方', type:'other' },
+            { code:'AZ', name:'亚利桑那', desc:'销售税5.6%+地方', type:'other' },
+            { code:'CO', name:'科罗拉多', desc:'销售税2.9%+地方', type:'other' },
+            { code:'NM', name:'新墨西哥', desc:'销售税5.125%+地方', type:'other' },
+            { code:'MT', name:'蒙大拿', desc:'无销售税', type:'other' },
+            { code:'WY', name:'怀俄明', desc:'无销售税', type:'other' },
+            { code:'ND', name:'北达科他', desc:'销售税5%+地方', type:'other' },
+            { code:'SD', name:'南达科他', desc:'销售税4.5%+地方', type:'other' },
+            { code:'NE', name:'内布拉斯加', desc:'销售税5.5%+地方', type:'other' },
+            { code:'KS', name:'堪萨斯', desc:'销售税6.5%+地方', type:'other' },
+            { code:'OK', name:'俄克拉荷马', desc:'销售税4.5%+地方', type:'other' },
+            { code:'TX', name:'德克萨斯', desc:'销售税6.25%+地方', type:'other' },
+            { code:'MN', name:'明尼苏达', desc:'销售税6.875%+地方', type:'other' },
+            { code:'IA', name:'爱荷华', desc:'销售税6%+地方', type:'other' },
+            { code:'MO', name:'密苏里', desc:'销售税4.225%+地方', type:'other' },
+            { code:'AR', name:'阿肯色', desc:'销售税6.5%+地方', type:'other' },
+            { code:'LA', name:'路易斯安那', desc:'销售税4.45%+地方', type:'other' },
+            { code:'WI', name:'威斯康星', desc:'销售税5%+地方', type:'other' },
+            { code:'IL', name:'伊利诺伊', desc:'销售税6.25%+地方', type:'other' },
+            { code:'IN', name:'印第安纳', desc:'销售税7%', type:'other' },
+            { code:'OH', name:'俄亥俄', desc:'销售税5.75%+地方', type:'other' },
+            { code:'MI', name:'密歇根', desc:'销售税6%+地方', type:'other' },
+            { code:'KY', name:'肯塔基', desc:'销售税6%+地方', type:'other' },
+            { code:'TN', name:'田纳西', desc:'销售税7%+地方', type:'other' },
+            { code:'AL', name:'阿拉巴马', desc:'销售税4%+地方', type:'other' },
+            { code:'MS', name:'密西西比', desc:'销售税7%+地方', type:'other' },
+            { code:'ME', name:'缅因', desc:'销售税5.5%+地方', type:'other' },
+            { code:'NH', name:'新罕布什尔', desc:'无销售税', type:'other' },
+            { code:'VT', name:'佛蒙特', desc:'销售税6%+地方', type:'other' },
+            { code:'MA', name:'马萨诸塞', desc:'销售税6.25%', type:'other' },
+            { code:'RI', name:'罗德岛', desc:'销售税7%', type:'other' },
+            { code:'CT', name:'康涅狄格', desc:'销售税6.35%', type:'other' },
+            { code:'NY', name:'纽约', desc:'销售税4%+地方', type:'other' },
+            { code:'PA', name:'宾夕法尼亚', desc:'销售税6%', type:'other' },
+            { code:'NJ', name:'新泽西', desc:'销售税6.625%', type:'other' },
+            { code:'DE', name:'特拉华', desc:'无销售税', type:'other' },
+            { code:'MD', name:'马里兰', desc:'销售税6%', type:'other' },
+            { code:'WV', name:'西弗吉尼亚', desc:'销售税6%+地方', type:'other' },
+            { code:'VA', name:'弗吉尼亚', desc:'销售税5.3%+地方', type:'other' },
+            { code:'NC', name:'北卡罗来纳', desc:'销售税4.75%+地方', type:'other' },
+            { code:'SC', name:'南卡罗来纳', desc:'销售税6%+地方', type:'other' },
+            { code:'GA', name:'佐治亚', desc:'销售税4%+地方', type:'other' },
+            { code:'FL', name:'佛罗里达', desc:'销售税6%+地方', type:'other' },
+            { code:'HI', name:'夏威夷', desc:'销售税4%+地方', type:'other' },
+            { code:'AK', name:'阿拉斯加', desc:'无州销售税', type:'other' }
+        ];
 
-            var data = google.visualization.arrayToDataTable([
-                ['State', 'Name', 'Color'], ...rows
-            ]);
+        const onlineStates = allStates.filter(s => s.type === 'online');
+        const westStates = allStates.filter(s => ['OR','NV','ID','UT','AZ','CO','NM','MT','WY'].includes(s.code));
+        const centralStates = allStates.filter(s => ['ND','SD','NE','KS','OK','TX','MN','IA','MO','AR','LA','WI','IL','IN','OH','MI','KY','TN','AL','MS'].includes(s.code));
+        const eastStates = allStates.filter(s => ['ME','NH','VT','MA','RI','CT','NY','PA','NJ','DE','MD','WV','VA','NC','SC','GA','FL','HI','AK'].includes(s.code));
 
-            var options = {
-                region: 'US',
-                displayMode: 'regions',
-                resolution: 'provinces',
-                // 已开发州深蓝色，其他州浅蓝色
-                colorAxis: { colors: ['#2d6cb8', '#9ac0e8'], values: [2, 3] },
-                backgroundColor: '#ffffff',
-                datalessRegionColor: '#f1f5f9',
-                keepAspectRatio: false,
-                width: '100%',
-                height: '100%',
-                tooltip: { trigger: 'focus' }
-            };
-
-            var chart = new google.visualization.GeoChart(document.getElementById('usa-map'));
-            
-            google.visualization.events.addListener(chart, 'select', function() {
-                var sel = chart.getSelection();
-                if (sel.length) {
-                    var row = sel[0].row;
-                    var code = data.getValue(row, 0);
-                    var name = data.getValue(row, 1);
-                    if (code === 'US-CA') window.location.href = 'pages/us-ca.html';
-                    else if (code === 'US-WA') window.location.href = 'pages/us-wa.html';
-                    else alert(`${name} 税务开发中`);
-                }
+        function renderCards(container, states) {
+            let html = '';
+            states.forEach(s => {
+                html += `<div class="usa-card ${s.type}" onclick="window.location.href='pages/us-${s.code.toLowerCase()}.html'">
+                    <div class="card-header">
+                        <span class="card-title"><span class="state-code">${s.code}</span> · ${s.name}</span>
+                        <span class="badge ${s.type}">${s.type === 'online' ? '已上线' : '开发中'}</span>
+                    </div>
+                    <div class="card-desc">${s.desc}</div>
+                </div>`;
             });
-            
-            chart.draw(data, options);
+            $('#' + container).html(html);
         }
 
-        // 全球快速入口卡片
-        function initGlobalCards() {
-            const cards = {
-                'global-america': [
-                    { name:'美国 (CA)', code:'CA', desc:'已上线 · 销售税7.25%', type:'online' },
-                    { name:'美国 (WA)', code:'WA', desc:'已上线 · 销售税6.5%', type:'online' },
-                    { name:'加拿大', desc:'GST 5% · 待开发', type:'other' }
-                ],
-                'global-asia': [
-                    { name:'中国', desc:'增值税 · 企税25%', type:'other' },
-                    { name:'日本', desc:'消费税10% · 待开发', type:'other' },
-                    { name:'韩国', desc:'增值税10% · 待开发', type:'other' },
-                    { name:'新加坡', desc:'GST 9% · 待开发', type:'other' },
-                    { name:'马来西亚', desc:'SST · 待开发', type:'other' },
-                    { name:'香港', desc:'利得税16.5% · 待开发', type:'other' }
-                ],
-                'global-europe': [
-                    { name:'英国', desc:'VAT 20% · 待开发', type:'other' }
-                ],
-                'global-oceania': [
-                    { name:'澳大利亚', desc:'GST 10% · 待开发', type:'other' }
-                ]
-            };
+        renderCards('usa-online', onlineStates);
+        renderCards('usa-west', westStates);
+        renderCards('usa-central', centralStates);
+        renderCards('usa-east', eastStates);
+    }
 
-            for (let tab in cards) {
-                let html = '';
-                cards[tab].forEach(c => {
-                    let clickAction = c.code ? `window.location.href='pages/us-${c.code.toLowerCase()}.html'` : `alert('${c.name} 税务信息开发中')`;
-                    html += `<div class="card ${c.type}" onclick="${clickAction}">
-                        <div class="card-header">
-                            <span class="card-title">${c.name}</span>
-                            <span class="badge ${c.type}">${c.type === 'online' ? '已上线' : '待开发'}</span>
-                        </div>
-                        <div class="card-desc">${c.desc}</div>
-                    </div>`;
-                });
-                $('#' + tab).html(html);
-            }
-        }
-
-        // 美国所有州卡片
-        function initUsaCards() {
-            const allStates = [
-                { code:'CA', name:'加利福尼亚', desc:'销售税7.25%+地方 · 企税8.84%', type:'online' },
-                { code:'WA', name:'华盛顿', desc:'销售税6.5%+地方 · B&O 0.471%', type:'online' },
-                { code:'TX', name:'德克萨斯', desc:'州销售税6.25% · 地方税最高2%', type:'other' },
-                { code:'NY', name:'纽约', desc:'州销售税4% · 地方税最高4.875%', type:'other' },
-                { code:'FL', name:'佛罗里达', desc:'州销售税6% · 地方税最高1.5%', type:'other' },
-                { code:'IL', name:'伊利诺伊', desc:'销售税6.25% · 地方税', type:'other' },
-                { code:'PA', name:'宾夕法尼亚', desc:'销售税6% · 地方税', type:'other' },
-                { code:'OH', name:'俄亥俄', desc:'销售税5.75% · 地方税', type:'other' },
-                { code:'GA', name:'佐治亚', desc:'销售税4% · 地方税', type:'other' },
-                { code:'NC', name:'北卡罗来纳', desc:'销售税4.75% · 地方税', type:'other' },
-                { code:'MI', name:'密歇根', desc:'销售税6% · 地方税', type:'other' },
-                { code:'NJ', name:'新泽西', desc:'销售税6.625% · 地方税', type:'other' },
-                { code:'VA', name:'弗吉尼亚', desc:'销售税5.3% · 地方税', type:'other' },
-                { code:'MA', name:'马萨诸塞', desc:'销售税6.25% · 地方税', type:'other' },
-                { code:'AZ', name:'亚利桑那', desc:'销售税5.6% · 地方税', type:'other' },
-                { code:'CO', name:'科罗拉多', desc:'销售税2.9% · 地方税', type:'other' },
-                { code:'UT', name:'犹他', desc:'销售税6.1% · 地方税', type:'other' },
-                { code:'NV', name:'内华达', desc:'销售税6.85% · 地方税', type:'other' },
-                { code:'OR', name:'俄勒冈', desc:'无销售税 · 企业所得税', type:'other' },
-                { code:'ID', name:'爱达荷', desc:'销售税6% · 地方税', type:'other' },
-                { code:'MT', name:'蒙大拿', desc:'无销售税 · 企业所得税', type:'other' },
-                { code:'WY', name:'怀俄明', desc:'无销售税 · 企业所得税', type:'other' },
-                { code:'ND', name:'北达科他', desc:'销售税5% · 地方税', type:'other' },
-                { code:'SD', name:'南达科他', desc:'销售税4.5% · 地方税', type:'other' },
-                { code:'NE', name:'内布拉斯加', desc:'销售税5.5% · 地方税', type:'other' },
-                { code:'KS', name:'堪萨斯', desc:'销售税6.5% · 地方税', type:'other' },
-                { code:'OK', name:'俄克拉荷马', desc:'销售税4.5% · 地方税', type:'other' },
-                { code:'AR', name:'阿肯色', desc:'销售税6.5% · 地方税', type:'other' },
-                { code:'LA', name:'路易斯安那', desc:'销售税4.45% · 地方税', type:'other' },
-                { code:'MS', name:'密西西比', desc:'销售税7% · 地方税', type:'other' },
-                { code:'AL', name:'阿拉巴马', desc:'销售税4% · 地方税', type:'other' },
-                { code:'TN', name:'田纳西', desc:'销售税7% · 地方税', type:'other' },
-                { code:'KY', name:'肯塔基', desc:'销售税6% · 地方税', type:'other' },
-                { code:'IN', name:'印第安纳', desc:'销售税7% · 地方税', type:'other' },
-                { code:'WV', name:'西弗吉尼亚', desc:'销售税6% · 地方税', type:'other' },
-                { code:'SC', name:'南卡罗来纳', desc:'销售税6% · 地方税', type:'other' },
-                { code:'MD', name:'马里兰', desc:'销售税6% · 地方税', type:'other' },
-                { code:'DE', name:'特拉华', desc:'无销售税 · 企业所得税', type:'other' },
-                { code:'CT', name:'康涅狄格', desc:'销售税6.35% · 地方税', type:'other' },
-                { code:'RI', name:'罗德岛', desc:'销售税7% · 地方税', type:'other' },
-                { code:'NH', name:'新罕布什尔', desc:'无销售税 · 企业所得税', type:'other' },
-                { code:'VT', name:'佛蒙特', desc:'销售税6% · 地方税', type:'other' },
-                { code:'ME', name:'缅因', desc:'销售税5.5% · 地方税', type:'other' },
-                { code:'HI', name:'夏威夷', desc:'销售税4% · 地方税', type:'other' },
-                { code:'AK', name:'阿拉斯加', desc:'无州销售税 · 地方税可能', type:'other' }
-            ];
-
-            const onlineStates = allStates.filter(s => s.type === 'online');
-            const majorStates = allStates.filter(s => ['CA','WA','TX','NY','FL','IL','PA','OH','GA','NC','MI','NJ','VA','MA','AZ','CO','NV','OR'].includes(s.code));
-
-            function renderCards(container, states) {
-                let html = '';
-                states.forEach(s => {
-                    html += `<div class="usa-card ${s.type}" onclick="window.location.href='pages/us-${s.code.toLowerCase()}.html'">
-                        <div class="card-header">
-                            <span class="card-title"><span class="state-code">${s.code}</span> · ${s.name}</span>
-                            <span class="badge ${s.type}">${s.type === 'online' ? '已上线' : '开发中'}</span>
-                        </div>
-                        <div class="card-desc">${s.desc}</div>
-                    </div>`;
-                });
-                $('#' + container).html(html);
-            }
-
-            renderCards('usa-all', allStates);
-            renderCards('usa-online', onlineStates);
-            renderCards('usa-major', majorStates);
-        }
-
-        // 选项卡切换
-        function initTabs() {
-            $('.tab').click(function() {
-                let parent = $(this).closest('.quick-section');
-                parent.find('.tab').removeClass('active');
-                $(this).addClass('active');
-                let target = '#' + $(this).data('tab');
-                parent.find('.card-grid, .usa-grid').hide();
-                $(target).show();
-            });
-        }
-
-        // AI助手
-        $(document).ready(function() {
-            $('#ai-chat-toggle').click(function() { $('#ai-chat-window').toggleClass('show'); });
-            $('#ai-chat-send').click(sendMsg);
-            $('#ai-chat-input').keypress(function(e) { if(e.which === 13) sendMsg(); });
-            
-            function sendMsg() {
-                let msg = $('#ai-chat-input').val().trim();
-                if (!msg) return;
-                $('#ai-chat-messages').append(`<div class="message user-message">${escapeHtml(msg)}</div>`);
-                $('#ai-chat-input').val('');
-                setTimeout(() => {
-                    let reply = 'CA税率7.25%+地方税 / WA税率6.5%+地方税 · 截止日:次月20日(CA)/25日(WA) · 需了解其他州税务信息可点击美国专版';
-                    $('#ai-chat-messages').append(`<div class="message ai-message">${reply}</div>`);
-                    $('#ai-chat-messages').scrollTop($('#ai-chat-messages')[0].scrollHeight);
-                }, 300);
-            }
-            
-            function escapeHtml(unsafe) {
-                return unsafe.replace(/[&<>\"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '\"':'&quot;' }[m]));
-            }
-            
-            let d = new Date();
-            $('#update-time').text(`© 2026 · 数据更新于 ${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`);
+    function initTabs() {
+        $('.tab').click(function() {
+            let parent = $(this).closest('.quick-section');
+            parent.find('.tab').removeClass('active');
+            $(this).addClass('active');
+            let target = '#' + $(this).data('tab');
+            parent.find('.card-grid, .usa-grid').hide();
+            $(target).show();
         });
-    </script>
+    }
+
+    $(document).ready(function() {
+        $('#ai-chat-toggle').click(function() { $('#ai-chat-window').toggleClass('show'); });
+        $('#ai-chat-send').click(sendMsg);
+        $('#ai-chat-input').keypress(function(e) { if(e.which === 13) sendMsg(); });
+        
+        function sendMsg() {
+            let msg = $('#ai-chat-input').val().trim();
+            if (!msg) return;
+            $('#ai-chat-messages').append(`<div class="message user-message">${msg}</div>`);
+            $('#ai-chat-input').val('');
+            setTimeout(() => {
+                let reply = 'CA税率7.25%+地方税 / WA税率6.5%+地方税 · 截止日:次月20日(CA)/25日(WA)';
+                $('#ai-chat-messages').append(`<div class="message ai-message">${reply}</div>`);
+                $('#ai-chat-messages').scrollTop($('#ai-chat-messages')[0].scrollHeight);
+            }, 300);
+        }
+        
+        let d = new Date();
+        $('#update-time').text(`© 2026 · 数据更新于 ${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`);
+    });
+</script>
+
 </body>
 </html>
