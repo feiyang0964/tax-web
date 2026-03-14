@@ -24,20 +24,20 @@
             font-weight: 400;
         }
 
-        /* 固定导航栏 - 浅蓝色 */
+        /* 固定导航栏 - 深蓝色渐变（参考图片配色） */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             height: 80px;
-            background: #4a89d1;
-            background: linear-gradient(135deg, #5c9bd5 0%, #4a89d1 100%);
+            background: #0f3b73;
+            background: linear-gradient(135deg, #1a4a8a 0%, #0f3b73 100%);
             display: flex;
             align-items: center;
             padding: 0 60px;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(74,137,209,0.25);
+            box-shadow: 0 4px 12px rgba(15,59,115,0.25);
         }
 
         .nav-brand {
@@ -81,7 +81,7 @@
             border-bottom-color: #ffffff;
         }
 
-        /* 下拉菜单样式 */
+        /* 下拉菜单样式 - 支持点击展开 */
         .dropdown {
             position: relative;
             display: inline-block;
@@ -108,7 +108,8 @@
             z-index: 1001;
         }
 
-        .dropdown:hover .dropdown-content {
+        .dropdown:hover .dropdown-content,
+        .dropdown-content.show {
             display: block;
         }
 
@@ -140,7 +141,7 @@
 
         .dropdown-item .state-code {
             font-weight: 600;
-            color: #4a89d1;
+            color: #0f3b73;
             background: #e8f0fe;
             padding: 2px 8px;
             border-radius: 20px;
@@ -153,7 +154,7 @@
         }
 
         .dropdown-item .link-icon {
-            color: #4a89d1;
+            color: #0f3b73;
             font-size: 18px;
             opacity: 0.7;
         }
@@ -184,8 +185,8 @@
         .btn-large { height: 45px; padding: 0 28px; font-size: 16px; }
         .btn-medium { height: 34px; padding: 0 22px; font-size: 15px; }
         .btn-small { height: 26px; padding: 0 16px; font-size: 14px; }
-        .btn-primary { background: #4a89d1; color: white; }
-        .btn-primary:hover { background: #3b6da8; }
+        .btn-primary { background: #0f3b73; color: white; }
+        .btn-primary:hover { background: #0a2955; }
         .btn-outline { background: transparent; border: 1px solid #cbd5e1; color: #1e293b; }
         .btn-outline:hover { background: #f1f5f9; }
 
@@ -229,8 +230,9 @@
             height: 16px;
             border-radius: 16px;
         }
-        .dot.blue-us { background: #4a89d1; }           /* 美国主色 */
-        .dot.blue-ca { background: #9ac0e8; }           /* 已上线州浅蓝 */
+        .dot.blue-us { background: #0f3b73; }           /* 美国主色 */
+        .dot.blue-ca { background: #2d6cb8; }           /* 已上线州深蓝色 */
+        .dot.blue-light { background: #9ac0e8; }        /* 未上线州浅蓝色 */
         .dot.gray { background: #94a3b8; }              /* 待开发国家灰色 */
         .dot.white { background: #ffffff; border: 1px solid #cbd5e1; } /* 其他国家 */
 
@@ -265,7 +267,7 @@
         }
         .tab.active {
             background: white;
-            color: #4a89d1;
+            color: #0f3b73;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
@@ -284,7 +286,7 @@
             border-left: 4px solid transparent;
         }
         .card:hover { background: #f1f5f9; transform: translateY(-2px); }
-        .card.online { border-left-color: #9ac0e8; }
+        .card.online { border-left-color: #2d6cb8; }
         .card.other { border-left-color: #94a3b8; }
 
         .card-header {
@@ -304,7 +306,7 @@
             border-radius: 30px;
             font-weight: 500;
         }
-        .badge.online { background: #9ac0e8; color: #1e3a5f; }
+        .badge.online { background: #2d6cb8; color: white; }
         .badge.other { background: #e2e8f0; color: #475569; }
 
         .card-desc {
@@ -325,10 +327,10 @@
             padding: 20px;
             cursor: pointer;
             transition: all 0.2s;
-            border-left: 4px solid #4a89d1;
+            border-left: 4px solid #0f3b73;
         }
         .usa-card:hover { background: #f1f5f9; }
-        .usa-card.online { border-left-color: #9ac0e8; }
+        .usa-card.online { border-left-color: #2d6cb8; }
         .usa-card .state-code {
             font-weight: 600;
             font-size: 16px;
@@ -354,12 +356,12 @@
         .ai-chat-toggle {
             width: 48px;
             height: 48px;
-            background: #4a89d1;
+            background: #0f3b73;
             border: none;
             border-radius: 48px;
             font-size: 24px;
             cursor: pointer;
-            box-shadow: 0 6px 16px rgba(74,137,209,0.3);
+            box-shadow: 0 6px 16px rgba(15,59,115,0.3);
             color: white;
         }
         .ai-chat-window {
@@ -397,7 +399,7 @@
         .ai-chat-input button { 
             margin-left:8px; 
             padding:0 18px; 
-            background:#4a89d1; 
+            background:#0f3b73; 
             color:white; 
             border:none; 
             border-radius:30px; 
@@ -410,7 +412,7 @@
     </style>
 </head>
 <body>
-    <!-- 固定导航栏 - 浅蓝色 -->
+    <!-- 固定导航栏 - 深蓝色渐变 -->
     <div class="navbar">
         <div class="nav-brand">
             <span>🌐</span> 海外税务信息平台
@@ -418,8 +420,8 @@
         <div class="nav-links">
             <a class="active" onclick="switchView('global')">全球视图</a>
             <div class="dropdown">
-                <a onclick="switchView('usa')">美国专版 ▾</a>
-                <div class="dropdown-content">
+                <a onclick="toggleDropdown()" class="dropdown-trigger">美国专版 ▾</a>
+                <div class="dropdown-content" id="usa-dropdown">
                     <div class="dropdown-item" onclick="window.location.href='pages/us-ca.html'">
                         <div class="state-info">
                             <span class="state-code">CA</span>
@@ -444,15 +446,14 @@
         <!-- 全球视图 -->
         <div id="global-view">
             <h1>全球税务地图</h1>
-            <div class="helper-text" style="margin-bottom: 20px;">美国蓝色 · 待开发国家灰色 · 点击美国可跳转专版 · 点击CA/WA直接跳转</div>
+            <div class="helper-text" style="margin-bottom: 20px;">美国蓝色 · 已上线州：加利福尼亚州(CA)、华盛顿州(WA) · 点击美国跳转专版 · 其他指定国家灰色（待开发）</div>
             
             <div class="map-card">
                 <div id="world-map" class="map-container"></div>
                 
                 <div class="legend-bar">
-                    <div class="legend-item"><span class="dot blue-us"></span> 美国 (点击进入专版)</div>
-                    <div class="legend-item"><span class="dot blue-ca"></span> 已上线州 (CA/WA)</div>
-                    <div class="legend-item"><span class="dot gray"></span> 待开发国家</div>
+                    <div class="legend-item"><span class="dot blue-us"></span> 美国 (点击进入专版，已上线CA/WA)</div>
+                    <div class="legend-item"><span class="dot gray"></span> 待开发国家 (新加坡/香港/马来西亚等)</div>
                     <div class="legend-item"><span class="dot white"></span> 其他国家</div>
                 </div>
             </div>
@@ -477,14 +478,14 @@
         <!-- 美国专版 -->
         <div id="usa-view" class="hidden">
             <h1>🇺🇸 美国税务专版</h1>
-            <div class="helper-text" style="margin-bottom: 20px;">所有州显示名称 · 浅蓝色为已上线州 (CA/WA)</div>
+            <div class="helper-text" style="margin-bottom: 20px;">所有州显示中英文名称 · 深蓝色为已上线州 (CA/WA) · 浅蓝色为开发中州</div>
             
             <div class="map-card">
                 <div id="usa-map" class="map-container"></div>
                 
                 <div class="legend-bar">
                     <div class="legend-item"><span class="dot blue-ca"></span> 已上线州 (CA/WA)</div>
-                    <div class="legend-item"><span class="dot blue-us"></span> 其他州 (开发中)</div>
+                    <div class="legend-item"><span class="dot blue-light"></span> 其他州 (开发中)</div>
                 </div>
             </div>
 
@@ -540,6 +541,19 @@
             }
         };
 
+        // 美国专版下拉菜单点击展开/关闭
+        window.toggleDropdown = function() {
+            const dropdown = document.getElementById('usa-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        };
+
+        // 点击其他区域关闭下拉菜单
+        $(document).click(function(e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $('#usa-dropdown').hide();
+            }
+        });
+
         google.charts.load('current', { packages: ['geochart'] });
         google.charts.setOnLoadCallback(initMaps);
 
@@ -554,19 +568,8 @@
         // 世界地图：美国蓝色，待开发国家灰色，其他国家白色
         function drawWorldMap() {
             var rows = [
-                // 美国各州 - 蓝色 (值设为2)
-                ['US-CA', 'CA', 2], ['US-WA', 'WA', 2], ['US-TX', 'TX', 2], ['US-NY', 'NY', 2],
-                ['US-FL', 'FL', 2], ['US-IL', 'IL', 2], ['US-PA', 'PA', 2], ['US-OH', 'OH', 2],
-                ['US-GA', 'GA', 2], ['US-NC', 'NC', 2], ['US-MI', 'MI', 2], ['US-NJ', 'NJ', 2],
-                ['US-VA', 'VA', 2], ['US-MA', 'MA', 2], ['US-AZ', 'AZ', 2], ['US-CO', 'CO', 2],
-                ['US-UT', 'UT', 2], ['US-NV', 'NV', 2], ['US-OR', 'OR', 2], ['US-ID', 'ID', 2],
-                ['US-MT', 'MT', 2], ['US-WY', 'WY', 2], ['US-ND', 'ND', 2], ['US-SD', 'SD', 2],
-                ['US-NE', 'NE', 2], ['US-KS', 'KS', 2], ['US-OK', 'OK', 2], ['US-AR', 'AR', 2],
-                ['US-LA', 'LA', 2], ['US-MS', 'MS', 2], ['US-AL', 'AL', 2], ['US-TN', 'TN', 2],
-                ['US-KY', 'KY', 2], ['US-IN', 'IN', 2], ['US-WV', 'WV', 2], ['US-SC', 'SC', 2],
-                ['US-MD', 'MD', 2], ['US-DE', 'DE', 2], ['US-CT', 'CT', 2], ['US-RI', 'RI', 2],
-                ['US-NH', 'NH', 2], ['US-VT', 'VT', 2], ['US-ME', 'ME', 2], ['US-HI', 'HI', 2],
-                ['US-AK', 'AK', 2],
+                // 美国整体 - 蓝色 (值设为2)
+                ['US', '美国', 2],
                 
                 // 待开发国家 - 灰色 (值设为3)
                 ['CN', '中国', 3], ['SG', '新加坡', 3], ['MY', '马来西亚', 3], ['HK', '香港', 3],
@@ -581,9 +584,9 @@
             var options = {
                 region: 'world',
                 displayMode: 'regions',
-                resolution: 'provinces',
+                resolution: 'countries',
                 colorAxis: {
-                    colors: ['#4a89d1', '#94a3b8', '#ffffff'],
+                    colors: ['#0f3b73', '#94a3b8', '#ffffff'],
                     values: [2, 3]
                 },
                 backgroundColor: '#ffffff',
@@ -591,7 +594,11 @@
                 keepAspectRatio: false,
                 width: '100%',
                 height: '100%',
-                tooltip: { trigger: 'focus' }
+                tooltip: { 
+                    trigger: 'focus',
+                    isHtml: true,
+                    textStyle: { fontSize: 12 }
+                }
             };
 
             var chart = new google.visualization.GeoChart(document.getElementById('world-map'));
@@ -601,14 +608,12 @@
                 if (sel.length) {
                     var row = sel[0].row;
                     var code = data.getValue(row, 0);
+                    var name = data.getValue(row, 1);
                     
-                    if (code === 'US-CA') window.location.href = 'pages/us-ca.html';
-                    else if (code === 'US-WA') window.location.href = 'pages/us-wa.html';
-                    else if (code.startsWith('US-')) {
+                    if (code === 'US') {
                         switchView('usa');
-                    } else if (code === 'CN') alert('🇨🇳 中国税务信息开发中');
-                    else if (['SG','MY','HK','JP','KR','GB','AU','CA'].includes(code)) {
-                        alert('该地区税务信息待开发');
+                    } else if (['SG','MY','HK','JP','KR','GB','AU','CA','CN'].includes(code)) {
+                        alert(`${name} 税务信息待开发中`);
                     }
                 }
             });
@@ -616,21 +621,34 @@
             chart.draw(data, options);
         }
 
-        // 美国专版地图 - 所有州显示名称
+        // 美国专版地图 - 显示州的中英文名称，已开发州颜色更深
         function drawUsaMap() {
             var rows = [
-                ['US-CA', 'CA', 2], ['US-WA', 'WA', 2], ['US-TX', 'TX', 3], ['US-NY', 'NY', 3],
-                ['US-FL', 'FL', 3], ['US-IL', 'IL', 3], ['US-PA', 'PA', 3], ['US-OH', 'OH', 3],
-                ['US-GA', 'GA', 3], ['US-NC', 'NC', 3], ['US-MI', 'MI', 3], ['US-NJ', 'NJ', 3],
-                ['US-VA', 'VA', 3], ['US-MA', 'MA', 3], ['US-AZ', 'AZ', 3], ['US-CO', 'CO', 3],
-                ['US-UT', 'UT', 3], ['US-NV', 'NV', 3], ['US-OR', 'OR', 3], ['US-ID', 'ID', 3],
-                ['US-MT', 'MT', 3], ['US-WY', 'WY', 3], ['US-ND', 'ND', 3], ['US-SD', 'SD', 3],
-                ['US-NE', 'NE', 3], ['US-KS', 'KS', 3], ['US-OK', 'OK', 3], ['US-AR', 'AR', 3],
-                ['US-LA', 'LA', 3], ['US-MS', 'MS', 3], ['US-AL', 'AL', 3], ['US-TN', 'TN', 3],
-                ['US-KY', 'KY', 3], ['US-IN', 'IN', 3], ['US-WV', 'WV', 3], ['US-SC', 'SC', 3],
-                ['US-MD', 'MD', 3], ['US-DE', 'DE', 3], ['US-CT', 'CT', 3], ['US-RI', 'RI', 3],
-                ['US-NH', 'NH', 3], ['US-VT', 'VT', 3], ['US-ME', 'ME', 3], ['US-HI', 'HI', 3],
-                ['US-AK', 'AK', 3]
+                // 已上线州 - 深蓝色 (值设为2)
+                ['US-CA', '加利福尼亚州(CA)', 2], ['US-WA', '华盛顿州(WA)', 2],
+                // 其他州 - 浅蓝色 (值设为3)
+                ['US-TX', '德克萨斯州(TX)', 3], ['US-NY', '纽约州(NY)', 3],
+                ['US-FL', '佛罗里达州(FL)', 3], ['US-IL', '伊利诺伊州(IL)', 3],
+                ['US-PA', '宾夕法尼亚州(PA)', 3], ['US-OH', '俄亥俄州(OH)', 3],
+                ['US-GA', '佐治亚州(GA)', 3], ['US-NC', '北卡罗来纳州(NC)', 3],
+                ['US-MI', '密歇根州(MI)', 3], ['US-NJ', '新泽西州(NJ)', 3],
+                ['US-VA', '弗吉尼亚州(VA)', 3], ['US-MA', '马萨诸塞州(MA)', 3],
+                ['US-AZ', '亚利桑那州(AZ)', 3], ['US-CO', '科罗拉多州(CO)', 3],
+                ['US-UT', '犹他州(UT)', 3], ['US-NV', '内华达州(NV)', 3],
+                ['US-OR', '俄勒冈州(OR)', 3], ['US-ID', '爱达荷州(ID)', 3],
+                ['US-MT', '蒙大拿州(MT)', 3], ['US-WY', '怀俄明州(WY)', 3],
+                ['US-ND', '北达科他州(ND)', 3], ['US-SD', '南达科他州(SD)', 3],
+                ['US-NE', '内布拉斯加州(NE)', 3], ['US-KS', '堪萨斯州(KS)', 3],
+                ['US-OK', '俄克拉荷马州(OK)', 3], ['US-AR', '阿肯色州(AR)', 3],
+                ['US-LA', '路易斯安那州(LA)', 3], ['US-MS', '密西西比州(MS)', 3],
+                ['US-AL', '阿拉巴马州(AL)', 3], ['US-TN', '田纳西州(TN)', 3],
+                ['US-KY', '肯塔基州(KY)', 3], ['US-IN', '印第安纳州(IN)', 3],
+                ['US-WV', '西弗吉尼亚州(WV)', 3], ['US-SC', '南卡罗来纳州(SC)', 3],
+                ['US-MD', '马里兰州(MD)', 3], ['US-DE', '特拉华州(DE)', 3],
+                ['US-CT', '康涅狄格州(CT)', 3], ['US-RI', '罗德岛州(RI)', 3],
+                ['US-NH', '新罕布什尔州(NH)', 3], ['US-VT', '佛蒙特州(VT)', 3],
+                ['US-ME', '缅因州(ME)', 3], ['US-HI', '夏威夷州(HI)', 3],
+                ['US-AK', '阿拉斯加州(AK)', 3]
             ];
 
             var data = google.visualization.arrayToDataTable([
@@ -641,7 +659,8 @@
                 region: 'US',
                 displayMode: 'regions',
                 resolution: 'provinces',
-                colorAxis: { colors: ['#9ac0e8', '#4a89d1'], values: [2,3] },
+                // 已开发州深蓝色，其他州浅蓝色
+                colorAxis: { colors: ['#2d6cb8', '#9ac0e8'], values: [2, 3] },
                 backgroundColor: '#ffffff',
                 datalessRegionColor: '#f1f5f9',
                 keepAspectRatio: false,
@@ -657,9 +676,10 @@
                 if (sel.length) {
                     var row = sel[0].row;
                     var code = data.getValue(row, 0);
+                    var name = data.getValue(row, 1);
                     if (code === 'US-CA') window.location.href = 'pages/us-ca.html';
                     else if (code === 'US-WA') window.location.href = 'pages/us-wa.html';
-                    else alert(code + ' 税务开发中');
+                    else alert(`${name} 税务开发中`);
                 }
             });
             
@@ -809,7 +829,7 @@
             }
             
             function escapeHtml(unsafe) {
-                return unsafe.replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m]));
+                return unsafe.replace(/[&<>\"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '\"':'&quot;' }[m]));
             }
             
             let d = new Date();
