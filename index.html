@@ -156,7 +156,6 @@
             opacity: 0.7;
         }
 
-        /* 统一内容宽度1200px */
         .main-content {
             max-width: 1200px;
             margin: 100px auto 40px;
@@ -263,7 +262,6 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
-        /* 全球卡片网格保持原样（自动填充） */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -307,7 +305,6 @@
             color: #64748b;
         }
 
-        /* 美国网格: 每行5个卡片，固定宽度 */
         .usa-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -546,7 +543,9 @@
         initTabs();
     }
 
+    // 重构世界地图绘制逻辑：移除Color列，直接用值映射颜色
     function drawWorldMap() {
+        // 数据结构改为 [国家代码, 显示名称, 状态值]
         var rows = [
             ['US', '美国', 2],
             ['CN', '中国', 3], ['SG', '新加坡', 3], ['MY', '马来西亚', 3], ['HK', '香港', 3],
@@ -555,8 +554,18 @@
             ['BR', '巴西', 4], ['IN', '印度', 4], ['RU', '俄罗斯', 4], ['ZA', '南非', 4]
         ];
 
-        var data = google.visualization.arrayToDataTable([ ['Country', 'Name', 'Color'], ...rows]);
-        // 隐藏第 2 列（Color 列，索引从 0 开始）
+        // 只定义两列：地区代码 + 显示名称（状态值作为隐藏的数值列）
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Region');       // 地区代码列
+        data.addColumn('string', 'Name');         // 显示名称列
+        data.addColumn('number', 'Status');       // 状态值列（用于配色）
+        
+        // 添加数据行
+        rows.forEach(row => {
+            data.addRow([row[0], row[1], row[2]]);
+        });
+
+        // 关键：隐藏状态值列
         data.setColumnProperty(2, 'visible', false);
 
         var options = {
@@ -574,12 +583,13 @@
             keepAspectRatio: false,
             width: '100%',
             height: '100%',
-            tooltip: { 
-                trigger: 'focus',
+            // 终极方案：完全自定义tooltip的HTML内容
+            tooltip: {
                 isHtml: true,
-                // 修改：只显示国家名称，不显示颜色数值
-                formatter: (row, column) => {
-                    return data.getValue(row, 1); // 只返回名称
+                trigger: 'focus',
+                // 直接返回纯名称，不依赖任何列的默认渲染
+                formatter: function (row, column) {
+                    return `<div style="font-family: inherit; font-size: 14px; padding: 6px 10px;">${data.getValue(row, 1)}</div>`;
                 }
             }
         };
@@ -603,6 +613,7 @@
         chart.draw(data, options);
     }
 
+    // 重构美国地图绘制逻辑
     function drawUsaMap() {
         var rows = [
             ['US-CA', '加利福尼亚州(CA)', 2], ['US-WA', '华盛顿州(WA)', 2],
@@ -625,8 +636,15 @@
             ['US-HI', '夏威夷州(HI)', 3], ['US-AK', '阿拉斯加州(AK)', 3]
         ];
 
-        var data = google.visualization.arrayToDataTable([ ['Country', 'Name', 'Color'], ...rows]);
-        // 隐藏第 2 列（Color 列，索引从 0 开始）
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Region');
+        data.addColumn('string', 'Name');
+        data.addColumn('number', 'Status');
+        
+        rows.forEach(row => {
+            data.addRow([row[0], row[1], row[2]]);
+        });
+
         data.setColumnProperty(2, 'visible', false);
 
         var options = {
@@ -639,12 +657,11 @@
             keepAspectRatio: false,
             width: '100%',
             height: '100%',
-            tooltip: { 
-                trigger: 'focus',
+            tooltip: {
                 isHtml: true,
-                // 修改：只显示州名，不显示颜色值
-                formatter: (row, column) => {
-                    return data.getValue(row, 1); // 只返回名称
+                trigger: 'focus',
+                formatter: function (row, column) {
+                    return `<div style="font-family: inherit; font-size: 14px; padding: 6px 10px;">${data.getValue(row, 1)}</div>`;
                 }
             }
         };
