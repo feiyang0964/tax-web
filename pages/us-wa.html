@@ -583,11 +583,8 @@
         <div class="tax-nav">
             <h4>📋 税种导航</h4>
             <div class="tax-nav-list">
-                <div class="tax-nav-item active" data-pane="bo-pane">
-                    <span class="emoji-bg">🏭</span> 商业职业税 B&O
-                </div>
-                <div class="tax-nav-item" data-pane="sales-pane">
-                    <span class="emoji-bg">🛒</span> 销售使用税 SUT
+                <div class="tax-nav-item active" data-pane="bo-sales-pane">
+                    <span class="emoji-bg">🏭🛒</span> B&O + SUT (合并模板)
                 </div>
                 <div class="tax-nav-item" data-pane="payroll-pane">
                     <span class="emoji-bg">👔</span> 工资税
@@ -607,79 +604,87 @@
         <!-- 右侧内容区域 -->
         <div class="tax-content-panel">
 
-            <!-- B&O SUT 窗格 - 主税种 -->
-            <div id="bo-pane" class="tax-content-pane active-pane">
+            <!-- B&O + SUT 合并窗格（主税种） -->
+            <div id="bo-sales-pane" class="tax-content-pane active-pane">
                 <div class="pane-card">
-                    <h5>🏭 商业和职业税 (B&O)</h5>
-                    <div class="rate-badge">0.138% - 3.3%</div>
-                    <div class="rate-desc">根据不同行业征收，无企业所得税，按总收入计算，无抵扣项</div>
+                    <h5>🏭 商业和职业税 (B&O) + 🛒 销售税 (SUT) 合并模板</h5>
+                    
+                    <!-- B&O 部分 -->
+                    <div class="rate-badge" style="font-size:1.6rem;">B&O: 0.138% - 3.3%</div>
+                    <div class="rate-desc">B&O：按行业征收，无企业所得税，按总收入计算，无抵扣项</div>
+                    
+                    <div class="rate-badge" style="font-size:1.6rem; margin-top:16px;">销售税: 6.5% + 地方税</div>
+                    <div class="rate-desc">销售税：州基准6.5% + 地方附加税 (0-4.0%)，综合最高10.5%。按交易发生地计税</div>
 
                     <div class="data-block">
-                        <h6>📥 公司内部原始数据</h6>
+                        <h6>📥 公司内部原始数据 (B&O + 销售税共用数据源)</h6>
                         <div class="data-links">
                             <div class="data-link-item">
                                 <h6>数据源 A</h6>
-                                <div class="data-link-desc">商品订单、服务收入 </div>
+                                <div class="data-link-desc">商品订单、服务收入、销售地点信息</div>
                                 <a href="https://sso.100tal.com/portal/login/489804597" target="_blank" class="btn btn-primary">登录下载</a>
                             </div>
                             <div class="data-link-item">
                                 <h6>数据源 B</h6>
-                                <div class="data-link-desc">预收计算明细表、收入分类报表</div>
+                                <div class="data-link-desc">收入分类报表、行业分类、地方税率表</div>
                                 <a href="https://sso.100tal.com/portal/login/388143234" target="_blank" class="btn btn-primary">登录下载</a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 算税模板 -->
+                    <!-- 合并算税模板 -->
                     <div class="data-block">
-                        <h6>📊 WA州B&O SUT算税模板 (PQ一键刷新)</h6>
+                        <h6>📊 WA州 B&O + SUT 合并算税模板 (PQ一键刷新)</h6>
                         <div style="display: flex; gap:12px; flex-wrap:wrap; margin:16px 0;">
-                            <a href="assets/templates/wa-tax-calculator.xlsx" class="btn btn-primary" download>⬇ 下载Excel模板</a>
+                            <a href="assets/templates/wa-combined-tax-calculator.xlsx" class="btn btn-primary" download>⬇ 下载合并模板 (Excel)</a>
                         </div>
                         <div class="template-guide">
-                            <strong>📌 模板使用步骤：</strong>
+                            <strong>📌 合并模板使用步骤：</strong>
                             <ol>
                                 <li>从上方「数据源A/B」下载当月原始CSV数据文件</li>
-                                <li>打开 <code>wa-tax-calculator.xlsx</code>，点击「数据」→「全部刷新」，Power Query将自动：
+                                <li>打开 <code>wa-combined-tax-calculator.xlsx</code>，点击「数据」→「全部刷新」，Power Query将自动：
                                     <ul>
                                         <li>读取原始数据</li>
-                                        <li>按行业分类匹配B&O税率</li>
-                                        <li>区分不同收入类型</li>
-                                        <li>自动计算B&O SUT税额</li>
+                                        <li><strong>B&O部分：</strong>按行业分类匹配B&O税率，计算B&O税额</li>
+                                        <li><strong>SUT部分：</strong>按交易地点匹配地方税率，计算SUT</li>
+                                        <li>区分不同收入类型和交易类型</li>
+                                        <li>自动生成两张计算结果表：B&O汇总表、销售税汇总表</li>
                                     </ul>
                                 </li>
-                                <li>核对计算结果，重点检查税率准确性与收入分类正确性</li>
+                                <li>核对计算结果，重点检查行业分类准确性、地方税率匹配正确性</li>
                                 <li>保存模板副本，作为当月税务底稿归档</li>
                             </ol>
                         </div>
                     </div>
 
-                    <!-- SOP折叠块 -->
+                    <!-- SOP折叠块 - B&O+SUT合并SOP -->
                     <div class="sop-section">
-                        <button class="collapsible" data-target="bo-sop">📂 报税SOP (标准操作流程)</button>
-                        <div id="bo-sop" class="sop-content">
+                        <button class="collapsible" data-target="bo-sales-sop">📂 B&O + 销售税 合并SOP (标准操作流程)</button>
+                        <div id="bo-sales-sop" class="sop-content">
                             <div class="sop-content-inner">
                                 <!-- 步骤1：数据下载 -->
                                 <div class="sop-step">
                                     <div class="sop-step-title">
-                                        <span class="step-number">1</span> 数据下载
+                                        <span class="step-number">1</span> 数据下载 (B&O + 销售税)
                                     </div>
-                                    <p>登录上方「数据源A/B」下载当月 4 类核心报表</p>
+                                    <p>登录 Think Engine 下载核心报表：</p>
                                     <ul>
-                                        <li><strong>商品订单收入报表</strong> - 包含B&O应税收入</li>
-                                        <li><strong>预收明细报表</strong> - 预收款项跟踪</li>
+                                        <li><strong>商品订单收入报表</strong> - 包含B&O应税收入、销售税信息</li>
                                         <li><strong>服务收入报表</strong> - 服务业B&O计税依据</li>
-                                        <li><strong>行业分类报表</strong> - 确定适用税率</li>
+                                        <li><strong>预收明细报表</strong> - 预收款项跟踪</li>
+                                        <li><strong>行业分类报表</strong> - 确定B&O适用税率</li>
+                                        <li><strong>地方税率表</strong> - 销售税地方附加税率</li>
                                     </ul>
                                 </div>
 
-                                <!-- 步骤2：数据清洗 -->
+                                <!-- 步骤2：数据清洗（通用） -->
                                 <div class="sop-step">
                                     <div class="sop-step-title">
-                                        <span class="step-number">2</span> 数据清洗
+                                        <span class="step-number">2</span> 数据清洗 (通用)
                                     </div>
                                     <p>筛选商品订单收入报表，删除「交易类型名称」列为「退款」的对应订单ID及相关数据。</p>
-                                    <p>按行业分类标记：零售业、服务业、制造业、批发业等，对应不同B&O税率。</p>
+                                    <p><strong>B&O部分：</strong>按行业分类标记：零售业、服务业、制造业、批发业等，对应不同B&O税率。</p>
+                                    <p><strong>销售税部分：</strong>按交易地点（城市/郡）标记，为匹配地方税率做准备。</p>
                                 </div>
 
                                 <!-- 步骤3：数据合并 -->
@@ -688,21 +693,27 @@
                                         <span class="step-number">3</span> 数据合并
                                     </div>
                                     <p>以订单编号为关联键，将清洗后的商品订单表与服务收入表合并，整合关联数据。</p>
-                                    <p>按行业分类汇总总收入，为B&O税率匹配做准备。</p>
+                                    <p>按行业分类汇总总收入（B&O计税基础），按交易地点汇总销售额（销售税计税基础）。</p>
                                 </div>
 
-                                <!-- 步骤4：税率匹配 -->
+                                <!-- 步骤4：税率匹配（分两部分） -->
                                 <div class="sop-step">
                                     <div class="sop-step-title">
-                                        <span class="step-number">4</span> 税率匹配
+                                        <span class="step-number">4</span> 税率匹配（B&O + 销售税）
                                     </div>
-                                    <p>根据行业分类匹配B&O税率：</p>
+                                    <p><strong>B&O税率匹配：</strong></p>
                                     <ul>
-                                        <li><strong>零售业</strong>：0.471%</li>
-                                        <li><strong>服务业</strong>：1.5% - 3.3% (按具体服务类型)</li>
-                                        <li><strong>制造业</strong>：0.484%</li>
-                                        <li><strong>批发业</strong>：0.484%</li>
-                                        <li><strong>其他</strong>：0.138% - 1.5%</li>
+                                        <li>零售业：0.471%</li>
+                                        <li>服务业：1.5% - 3.3% (按具体服务类型)</li>
+                                        <li>制造业：0.484%</li>
+                                        <li>批发业：0.484%</li>
+                                        <li>其他：0.138% - 1.5%</li>
+                                    </ul>
+                                    <p><strong>销售税地方税率匹配：</strong></p>
+                                    <ul>
+                                        <li>州基准税率：6.5%</li>
+                                        <li>地方附加税：0% - 4.0% (按交易地点匹配)</li>
+                                        <li>综合税率 = 6.5% + 地方附加税</li>
                                     </ul>
                                 </div>
 
@@ -712,43 +723,17 @@
                                     <ul>
                                         <li><strong>数据筛选核心规则：</strong>仅剔除「退款」类订单ID，保留其他交易类型数据；</li>
                                         <li><strong>合并核心依据：</strong>严格以「订单编号」为唯一匹配维度，确保多表数据关联准确；</li>
-                                        <li><strong>行业分类准确性：</strong>B&O税率按行业划分，错误分类将导致税额计算错误；</li>
+                                        <li><strong>B&O行业分类准确性：</strong>错误分类将导致税额计算错误；</li>
+                                        <li><strong>SUT地方税率准确性：</strong>按交易发生地匹配，跨州交易需特殊处理；</li>
                                         <li><strong>数据源范围：</strong>覆盖华盛顿州所有收入来源，需区分州内/州外收入。</li>
                                     </ul>
                                 </div>
 
                                 <div class="sop-download">
-                                    <a href="assets/sop/WA-BO-SOP.pdf" class="btn btn-secondary" download>📥 下载PDF版SOP</a>
+                                    <a href="assets/sop/WA-BO-SALES-SOP.pdf" class="btn btn-secondary" download>📥 下载合并SOP (PDF)</a>
                                     <span style="color:#94a3b8; font-size:0.8rem;">PDF版本包含完整流程图</span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 销售使用税窗格 -->
-            <div id="sales-pane" class="tax-content-pane">
-                <div class="pane-card">
-                    <h5>🛒 销售税 / 使用税 (SUT)</h5>
-                    <div class="rate-badge">6.5% + 地方税</div>
-                    <div class="rate-desc">州基准6.5% + 地方附加税 (0-4.0%)，综合最高10.5%。按交易发生地计税</div>
-                    
-                    <div class="data-block">
-                        <h6>📥 销售税原始数据</h6>
-                        <div class="data-links">
-                            <div class="data-link-item">
-                                <h6>销售订单报表</h6>
-                                <div class="data-link-desc">包含销售地点、金额、税额</div>
-                                <a href="https://sso.100tal.com/portal/login/489804597" target="_blank" class="btn btn-primary">登录下载</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="data-block">
-                        <h6>📊 销售税算税模板</h6>
-                        <div style="display: flex; gap:12px; flex-wrap:wrap;">
-                            <a href="assets/templates/wa-sales-tax.xlsx" class="btn btn-primary" download>下载模板</a>
                         </div>
                     </div>
                 </div>
@@ -763,7 +748,13 @@
                     <div class="data-block">
                         <h6>🔍 ESD 相关</h6>
                         <p>失业保险税率根据企业裁员历史浮动，新雇主通常为2.5%</p>
-                        <a href="https://esd.wa.gov/失业税" target="_blank" class="btn btn-primary">查看ESD税率表</a>
+                        <a href="https://esd.wa.gov/unemployment-taxes" target="_blank" class="btn btn-primary">查看ESD税率表</a>
+                    </div>
+                    <div class="data-block">
+                        <h6>📊 工资税对账模板</h6>
+                        <div style="display: flex; gap:12px; flex-wrap:wrap;">
+                            <a href="assets/templates/wa-payroll-reconciliation.xlsx" class="btn btn-primary" download>下载对账模板</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -788,19 +779,19 @@
                     <p style="margin-bottom:20px; font-size:0.9rem; color:#475569;">包含B&O税、销售税、工资税常用流程与计算模板</p>
                     <div class="data-links" style="flex-direction: column; gap:16px;">
                         <div class="data-link-item">
-                            <h6>B&O税 月度申报 SOP+模板</h6>
-                            <div class="data-link-desc">含Power Query自动计税文件，按行业分类</div>
-                            <a href="assets/templates/wa-tax-calculator.xlsx" class="btn btn-primary" download>下载 Excel</a>
-                        </div>
-                        <div class="data-link-item">
-                            <h6>销售税计算模板</h6>
-                            <div class="data-link-desc">按交易地匹配地方税率</div>
-                            <a href="assets/templates/wa-sales-tax.xlsx" class="btn btn-primary" download>下载 Excel</a>
+                            <h6>B&O + SUT税 合并模板</h6>
+                            <div class="data-link-desc">含Power Query自动计税，一键生成两张税表</div>
+                            <a href="assets/templates/wa-combined-tax-calculator.xlsx" class="btn btn-primary" download>下载 Excel</a>
                         </div>
                         <div class="data-link-item">
                             <h6>工资税对账模板</h6>
                             <div class="data-link-desc">核对季度工资单与ESD申报表</div>
-                            <a href="#" class="btn btn-secondary" onclick="alert('准备中')">预览</a>
+                            <a href="assets/templates/wa-payroll-reconciliation.xlsx" class="btn btn-primary" download>下载 Excel</a>
+                        </div>
+                        <div class="data-link-item">
+                            <h6>财产税计算器</h6>
+                            <div class="data-link-desc">估算年度财产税</div>
+                            <a href="#" class="btn btn-secondary" onclick="alert('开发中')">预览</a>
                         </div>
                     </div>
                 </div>
@@ -817,7 +808,7 @@
             <span class="ai-chat-close" id="ai-chat-close">×</span>
         </div>
         <div class="ai-chat-messages" id="ai-chat-messages">
-            <div class="message ai-message">点击左侧税种查看详细内容。我可以回答B&O税率、销售税、截止日等问题。</div>
+            <div class="message ai-message">点击左侧税种查看详细内容。B&O和销售税已合并模板，可一键计算。</div>
         </div>
         <div class="ai-chat-input">
             <input id="ai-chat-input" placeholder="例如：B&O税率">
@@ -891,7 +882,9 @@
             if (msg.includes('B&O') || msg.includes('商业')) {
                 aiDiv.textContent = 'WA B&O税率：零售0.471%，服务业1.5-3.3%，制造/批发0.484%，其他0.138-1.5%。按总收入计税。';
             } else if (msg.includes('销售税') || msg.includes('SUT')) {
-                aiDiv.textContent = 'WA销售税 = 6.5%州税 + 地方税 (0-4.0%)，最高10.5%。按交易发生地计税。';
+                aiDiv.textContent = 'WA销售使用税 = 6.5%州税 + 地方税 (0-4.0%)，最高10.5%。按交易发生地计税。';
+            } else if (msg.includes('合并') || msg.includes('模板')) {
+                aiDiv.textContent = 'B&O和销售税使用同一合并模板，下载后一键刷新即可同时计算两种税。';
             } else if (msg.includes('截止')) {
                 aiDiv.textContent = 'B&O税：月度申报次月25日；销售税：月度申报次月20日。';
             } else {
