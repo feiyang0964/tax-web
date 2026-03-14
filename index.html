@@ -288,7 +288,7 @@
         }
         .card-title {
             font-weight: 600;
-            font-size: 17px;
+            font-size: 15px; /* 缩小字体 */
             color: #0f172a;
         }
         .badge {
@@ -301,7 +301,7 @@
         .badge.other { background: #e2e8f0; color: #475569; }
 
         .card-desc {
-            font-size: 14px;
+            font-size: 13px; /* 缩小字体 */
             color: #64748b;
         }
 
@@ -323,7 +323,7 @@
         .usa-card.online { border-left-color: #2d6cb8; }
         .usa-card .state-code {
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px; /* 缩小字体 */
             color: #1e293b;
         }
 
@@ -380,7 +380,7 @@
         .ai-chat-input input { 
             flex:1; 
             padding: 8px 14px; 
-            border:1px solid #e2e8f0; 
+            border:1px solid #cbd5e1; 
             border-radius: 30px; 
             outline:none; 
             font-size:14px;
@@ -398,6 +398,38 @@
         }
 
         .hidden { display: none; }
+
+        /* 关键修复：Tooltip 中文横向排列 */
+        .google-visualization-tooltip {
+            white-space: nowrap !important;
+            width: auto !important;
+            height: auto !important;
+            padding: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+        }
+        .google-visualization-tooltip > div {
+            background: white !important;
+            padding: 8px 12px !important;
+            border-radius: 4px !important;
+            font-family: inherit !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+            border: 1px solid #e2e8f0 !important;
+            white-space: nowrap !important;
+        }
+
+        /* 快速入口区域整体字体缩小 */
+        .quick-section h2 {
+            font-size: 22px !important;
+            margin-bottom: 16px !important;
+        }
+        .quick-section .tab {
+            font-size: 14px !important;
+            padding: 6px 20px !important;
+        }
     </style>
 </head>
 <body>
@@ -409,7 +441,8 @@
     <div class="nav-links">
         <a class="active" onclick="switchView('global')">全球视图</a>
         <div class="dropdown">
-            <a onclick="toggleDropdown()" class="dropdown-trigger">美国专版 ▾</a>
+            <!-- 修改：点击美国专版文字直接跳转美国地图 -->
+            <a onclick="switchView('usa'); toggleDropdown()" class="dropdown-trigger">美国专版 ▾</a>
             <div class="dropdown-content" id="usa-dropdown">
                 <div class="dropdown-item" onclick="window.location.href='pages/us-ca.html'">
                     <div class="state-info">
@@ -543,7 +576,7 @@
         initTabs();
     }
 
-    // 世界地图绘制函数 - 使用tooltip列，确保不显示颜色值
+    // 世界地图绘制函数 - 修复Tooltip横向显示
     function drawWorldMap() {
         var rows = [
             ['US', '美国', 2],
@@ -553,16 +586,13 @@
             ['BR', '巴西', 4], ['IN', '印度', 4], ['RU', '俄罗斯', 4], ['ZA', '南非', 4]
         ];
 
-        // 创建DataTable - 使用tooltip列
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Country');      // 国家代码
-        data.addColumn('number', 'ColorValue');    // 颜色值（用于着色）
-        data.addColumn({type: 'string', role: 'tooltip', p: {'html': true}}); // 自定义HTML tooltip
+        data.addColumn('string', 'Country');      
+        data.addColumn('number', 'ColorValue');    
+        data.addColumn({type: 'string', role: 'tooltip', p: {'html': true}}); 
         
-        // 添加数据行，为每个国家创建自定义tooltip
         rows.forEach(row => {
-            // 创建只显示国家名称的tooltip
-            var tooltipHtml = `<div style="background: white; padding: 8px 12px; border-radius: 4px; font-family: inherit; font-size: 14px; font-weight: 500; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">${row[1]}</div>`;
+            var tooltipHtml = `<div style="white-space: nowrap;">${row[1]}</div>`;
             data.addRow([row[0], row[2], tooltipHtml]);
         });
 
@@ -581,8 +611,8 @@
             width: '100%',
             height: '100%',
             tooltip: {
-                isHtml: true,      // 启用HTML tooltip
-                trigger: 'focus'    // 悬停时显示
+                isHtml: true,      
+                trigger: 'focus'    
             }
         };
 
@@ -593,7 +623,7 @@
             if (sel.length) {
                 var row = sel[0].row;
                 var code = data.getValue(row, 0);
-                var name = rows[row][1];  // 从原始数据获取名称
+                var name = rows[row][1];  
                 if (code === 'US') {
                     switchView('usa');
                 } else if (['CN','SG','MY','HK','JP','KR','GB','AU','CA'].includes(code)) {
@@ -607,7 +637,7 @@
         chart.draw(data, options);
     }
 
-    // 美国地图绘制函数 - 使用tooltip列，确保不显示颜色值
+    // 美国地图绘制函数 - 修复Tooltip横向显示
     function drawUsaMap() {
         var rows = [
             ['US-CA', '加利福尼亚州(CA)', 2], ['US-WA', '华盛顿州(WA)', 2],
@@ -631,13 +661,12 @@
         ];
 
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'State');        // 州代码
-        data.addColumn('number', 'ColorValue');    // 颜色值（用于着色）
-        data.addColumn({type: 'string', role: 'tooltip', p: {'html': true}}); // 自定义HTML tooltip
+        data.addColumn('string', 'State');        
+        data.addColumn('number', 'ColorValue');    
+        data.addColumn({type: 'string', role: 'tooltip', p: {'html': true}}); 
         
         rows.forEach(row => {
-            // 创建只显示州名称的tooltip
-            var tooltipHtml = `<div style="background: white; padding: 8px 12px; border-radius: 4px; font-family: inherit; font-size: 14px; font-weight: 500; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">${row[1]}</div>`;
+            var tooltipHtml = `<div style="white-space: nowrap;">${row[1]}</div>`;
             data.addRow([row[0], row[2], tooltipHtml]);
         });
 
@@ -668,7 +697,7 @@
             if (sel.length) {
                 var row = sel[0].row;
                 var code = data.getValue(row, 0);
-                var name = rows[row][1];  // 从原始数据获取名称
+                var name = rows[row][1];  
                 if (code === 'US-CA') window.location.href = 'pages/us-ca.html';
                 else if (code === 'US-WA') window.location.href = 'pages/us-wa.html';
                 else alert(`${name} 税务开发中`);
