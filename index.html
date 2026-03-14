@@ -555,7 +555,9 @@
             ['BR', '巴西', 4], ['IN', '印度', 4], ['RU', '俄罗斯', 4], ['ZA', '南非', 4]
         ];
 
-        var data = google.visualization.arrayToDataTable([['Country', 'Name', 'Color'], ...rows]);
+        var data = google.visualization.arrayToDataTable([ ['Country', 'Name', 'Color'], ...rows]);
+        // 隐藏第 2 列（Color 列，索引从 0 开始）
+        data.setColumnProperty(2, 'visible', false);
 
         var options = {
             region: 'world',
@@ -623,7 +625,9 @@
             ['US-HI', '夏威夷州(HI)', 3], ['US-AK', '阿拉斯加州(AK)', 3]
         ];
 
-        var data = google.visualization.arrayToDataTable([['State', 'Name', 'Color'], ...rows]);
+        var data = google.visualization.arrayToDataTable([ ['Country', 'Name', 'Color'], ...rows]);
+        // 隐藏第 2 列（Color 列，索引从 0 开始）
+        data.setColumnProperty(2, 'visible', false);
 
         var options = {
             region: 'US',
