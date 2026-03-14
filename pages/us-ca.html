@@ -55,6 +55,7 @@
             border-radius: 30px;
             font-weight: 500;
             transition: background 0.2s;
+            cursor: pointer;
         }
         .back-link:hover {
             background: rgba(255,255,255,0.3);
@@ -298,28 +299,72 @@
             background: #f1f5f9;
         }
 
-        /* 折叠SOP */
+        /* 模板使用步骤 - 小号文字美化 */
+        .template-guide {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .template-guide strong {
+            font-size: 0.9rem;
+            color: #0f3b73;
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .template-guide ol, .template-guide ul {
+            margin-left: 20px;
+            color: #475569;
+            font-size: 0.85rem;
+        }
+        .template-guide li {
+            margin: 6px 0;
+            line-height: 1.5;
+            font-size: 0.85rem;
+        }
+        .template-guide code {
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #0f3b73;
+            font-family: monospace;
+        }
+        .template-guide ul {
+            list-style-type: disc;
+        }
+
+        /* 折叠SOP - 全新精致样式 */
+        .sop-section {
+            margin-top: 24px;
+        }
         .collapsible {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            padding: 16px 20px;
+            background: white;
+            border: 1px solid #d1d9e6;
+            padding: 14px 20px;
             width: 100%;
             text-align: left;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 14px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 10px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 20px 0 8px;
+            transition: all 0.2s;
+            color: #1e293b;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
         .collapsible:hover {
-            background: #e2e8f0;
+            background: #f1f5f9;
+            border-color: #9aa9b9;
         }
         .collapsible::after {
             content: '▼';
-            font-size: 0.8rem;
+            font-size: 0.75rem;
+            color: #64748b;
             transition: transform 0.3s;
         }
         .collapsible.active::after {
@@ -330,27 +375,45 @@
             overflow: hidden;
             transition: max-height 0.4s ease-out;
             background: #ffffff;
-            border-radius: 0 0 14px 14px;
-            padding: 0 20px;
+            border-radius: 0 0 12px 12px;
             border: 1px solid #e2e8f0;
             border-top: none;
+            margin-top: -1px;
         }
         .sop-content-inner {
-            padding: 20px 0;
-        }
-
-        .template-guide {
-            background: #f1f5f9;
-            border-radius: 16px;
             padding: 20px;
-            margin-top: 20px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #334155;
         }
-        .template-guide ol {
+        .sop-content-inner p {
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+        }
+        .sop-content-inner strong {
+            color: #0f3b73;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .sop-content-inner ul, .sop-content-inner ol {
             margin-left: 20px;
-            margin-top: 10px;
+            margin-bottom: 16px;
         }
-        .template-guide li {
-            margin: 8px 0;
+        .sop-content-inner li {
+            margin: 6px 0;
+            font-size: 0.85rem;
+        }
+        .sop-download {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px dashed #cbd5e1;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .sop-download .btn {
+            font-size: 0.8rem;
+            padding: 6px 14px;
         }
 
         /* AI 悬浮窗 */
@@ -454,7 +517,8 @@
 <header>
     <div class="container">
         <h1>🌐 海外税务信息平台 · 美国专版</h1>
-        <a href="index.html" class="back-link">← 返回全球视图</a>
+        <!-- 修复返回链接：使用 onclick 跳转，避免 404 -->
+        <a onclick="window.location.href='index.html'" class="back-link">← 返回全球视图</a>
     </div>
 </header>
 
@@ -525,7 +589,7 @@
                         </div>
                     </div>
 
-                    <!-- 算税模板（无文档链接，直接展示步骤文字） -->
+                    <!-- 算税模板 - 文字步骤 -->
                     <div class="data-block">
                         <h6>📊 CA州SUT算税模板 (PQ一键刷新)</h6>
                         <div style="display: flex; gap:12px; flex-wrap:wrap; margin:16px 0;">
@@ -535,8 +599,8 @@
                             <strong>📌 模板使用步骤：</strong>
                             <ol>
                                 <li>从上方「数据源A/B」下载当月原始CSV数据文件</li>
-                                <li>打开 <code>ca-tax-calculator.xlsx</code>，点击「数据」→「全部刷新」，Power Query将自动：
-                                    <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li>打开 <code>ca-tax-calculator.xlsx</code>，复制粘贴，点击「数据」→「全部刷新」，Power Query将自动：
+                                    <ul>
                                         <li>读取原始数据</li>
                                         <li>按收货地址邮编匹配对应地方税率</li>
                                         <li>区分应税/免税交易（如Resale免税项）</li>
@@ -549,30 +613,35 @@
                         </div>
                     </div>
 
-                    <!-- SOP折叠块 -->
-                    <button class="collapsible" data-target="sut-sop">📂 报税SOP (点击展开)</button>
-                    <div id="sut-sop" class="sop-content">
-                        <div class="sop-content-inner">
-                            <p><strong>一、核心原则与定义</strong><br>
-                            CA SUT = 7.25% 基准 + 地方附加税，按收货地计税；卖方收 Sales Tax，买方补 Use Tax，核心是“有形动产 + 零售/使用”，合规关键在税率准确、Use Tax不漏报。<br>
-                            - <strong>Sales Tax</strong>：对有形动产零售销售征收，由卖方代收代缴给CDTFA。<br>
-                            - <strong>Use Tax</strong>：对在加州使用但未缴销售税的应税商品征收，由买方自行申报。<br>
-                            - 征管主体：CDTFA，遵循目的地原则（按收货地计税）。</p>
+                    <!-- SOP折叠块 - 美化版 -->
+                    <div class="sop-section">
+                        <button class="collapsible" data-target="sut-sop">📂 报税SOP (标准操作流程)</button>
+                        <div id="sut-sop" class="sop-content">
+                            <div class="sop-content-inner">
+                                <p><strong>一、核心原则与定义</strong><br>
+                                CA SUT = 7.25% 基准 + 地方附加税，按收货地计税；卖方收 Sales Tax，买方补 Use Tax，核心是“有形动产 + 零售/使用”，合规关键在税率准确、Use Tax不漏报。</p>
+                                <ul>
+                                    <li><strong>Sales Tax</strong>：对有形动产零售销售征收，由卖方代收代缴给CDTFA。</li>
+                                    <li><strong>Use Tax</strong>：对在加州使用但未缴销售税的应税商品征收，由买方自行申报。</li>
+                                    <li>征管主体：CDTFA，遵循目的地原则（按收货地计税）。</li>
+                                </ul>
 
-                            <p><strong>二、税率结构（2026年）</strong><br>
-                            - 州基准税率：7.25%（含6.00%州税 + 1.25%强制地方税）<br>
-                            - 地方附加税：0%–3.5%，综合税率最高可达10.75%（如旧金山、洛杉矶部分区域）<br>
-                            - 税率查询：使用CDTFA官方工具，按收货邮编查询精确税率。</p>
+                                <p><strong>二、税率结构（2026年）</strong><br>
+                                州基准税率：7.25%（含6.00%州税 + 1.25%强制地方税）<br>
+                                地方附加税：0%–3.5%，综合税率最高可达10.75%（如旧金山、洛杉矶部分区域）<br>
+                                税率查询：使用CDTFA官方工具，按收货邮编查询精确税率。</p>
 
-                            <p><strong>三、征税范围</strong><br>
-                            ✅ 应税项目：有形动产零售、跨境/跨州采购自用、赠予/内部领用应税商品<br>
-                            ❌ 免税项目：未加工食品杂货、处方药/医疗设备、制造业/研发设备、转售商品（凭Resale Certificate）、州际/国际贸易商品</p>
+                                <p><strong>三、征税范围</strong></p>
+                                <ul>
+                                    <li>✅ 应税项目：有形动产零售、跨境/跨州采购自用、赠予/内部领用应税商品</li>
+                                    <li>❌ 免税项目：未加工食品杂货、处方药/医疗设备、制造业/研发设备、转售商品（凭Resale Certificate）、州际/国际贸易商品</li>
+                                </ul>
 
-                            <p><strong>四、Sales Tax vs. Use Tax 区分</strong><br>
-                            1. <strong>Sales Tax（卖方税）</strong>：在加州从事零售业务的卖方需办理Seller‘s Permit，向买方收税并按期申报给CDTFA；触发条件为加州实体存在或远程销售超过阈值（2026年：年销售额≥$500,000 或交易笔数≥200笔）。<br>
-                            2. <strong>Use Tax（买方税）</strong>：在加州使用应税商品但未缴Sales Tax的买方需申报；常见场景为外州/跨境无税采购自用、内部领用免税商品；企业并入CDTFA-401申报，个人可在Form 540申报。</p>
-
-                            <a href="assets/sop/CA-SUT-SOP.pdf" class="btn btn-secondary" style="margin-top:16px;" download>📥 下载PDF版SOP</a>
+                                <div class="sop-download">
+                                    <a href="assets/sop/CA-SUT-SOP.pdf" class="btn btn-secondary" download>📥 下载PDF版SOP</a>
+                                    <span style="color:#94a3b8; font-size:0.8rem;">PDF版本包含完整流程图</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -632,7 +701,7 @@
             <div id="sop-pane" class="tax-content-pane">
                 <div class="pane-card">
                     <h5>📂 加州税务综合SOP & 模板</h5>
-                    <p style="margin-bottom:20px;">包含销售税、工资税、所得税常用流程与计算模板</p>
+                    <p style="margin-bottom:20px; font-size:0.9rem; color:#475569;">包含销售税、工资税、所得税常用流程与计算模板</p>
                     <div class="data-links" style="flex-direction: column; gap:16px;">
                         <div class="data-link-item">
                             <h6>SUT 月度申报 SOP+模板</h6>
