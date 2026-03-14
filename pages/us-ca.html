@@ -3,662 +3,749 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>美国 - 加利福尼亚州 (CA) 税务信息</title>
+    <title>加利福尼亚州 (CA) · 税务详情</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f7fa;
+            line-height: 1.5;
+            color: #1e293b;
+            background-color: #f5f7fb;
         }
-        
-        /* 核心容器固定1200px宽度 */
+
+        /* 固定宽度1200px */
         .container {
             width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
-        /* 深蓝色导航栏 */
+
+        /* 导航栏 */
         header {
-            background: linear-gradient(135deg, #0f4c81 0%, #1a5f99 100%);
+            background: linear-gradient(135deg, #0f3b73, #1a4a8a);
             color: white;
-            padding: 30px 0;
-            position: relative;
+            padding: 24px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        
+
         header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
         }
-        
+
         header h1 {
-            font-size: 1.8em;
-            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
+
         .back-link {
             color: white;
             text-decoration: none;
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 4px;
-            transition: background 0.3s;
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 30px;
+            font-weight: 500;
+            transition: background 0.2s;
         }
-        
         .back-link:hover {
             background: rgba(255,255,255,0.3);
         }
-        
+
+        /* 主体 */
         main {
             padding: 40px 0;
         }
-        
+
+        /* 头部标题区 */
         .tax-detail-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .tax-detail-header h2 {
-            font-size: 2.2em;
-            color: #2c3e50;
-        }
-        
-        .update-tag {
-            background: #e8f4fd;
-            color: #1a5f99;
-            padding: 6px 12px;
+            background: white;
+            padding: 24px 28px;
             border-radius: 20px;
-            font-size: 0.9em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #eef2f6;
+        }
+        .tax-detail-header h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .update-tag {
+            background: #e8f0fe;
+            color: #0f3b73;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
             font-weight: 500;
         }
-        
-        /* 核心官网链接区域样式强化 */
+
+        /* 核心官网链接 */
         .core-links-section {
             background: white;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-top: 5px solid #1a5f99;
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #eef2f6;
         }
-        
         .core-links-section h3 {
-            color: #2c3e50;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0f172a;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e1e8ed;
-            font-size: 1.5em;
-        }
-        
-        .tax-section {
-            background: white;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .tax-section h3 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e1e8ed;
-        }
-        
-        .links-grid {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .template-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #1a5f99;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .template-button:hover {
-            background: #0f4c81;
-        }
-        
-        .template-button.secondary {
-            background: #95a5a6;
-        }
-        
-        .template-button.secondary:hover {
-            background: #7f8c8d;
-        }
-        
-        .tax-info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 15px;
-        }
-        
-        /* 税种卡片样式优化 */
-        .tax-card {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 5px solid #1a5f99;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-        }
-        
-        .tax-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .tax-card h4 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.3em;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
-        .tax-card h4::before {
-            content: "";
+        .links-grid {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .gov-button {
             display: inline-block;
-            width: 4px;
-            height: 18px;
-            background: #1a5f99;
-            border-radius: 2px;
+            padding: 12px 24px;
+            background: #f1f5f9;
+            color: #0f3b73;
+            text-decoration: none;
+            border-radius: 40px;
+            font-weight: 500;
+            border: 1px solid #cbd5e1;
+            transition: all 0.2s;
         }
-        
-        .tax-rate {
-            font-size: 1.8em;
+        .gov-button:hover {
+            background: #e2e8f0;
+            border-color: #94a3b8;
+        }
+
+        /* ===== 左右分栏导航 ===== */
+        .tax-detail-grid {
+            display: flex;
+            gap: 30px;
+            background: white;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            border: 1px solid #eef2f6;
+            min-height: 600px;
+        }
+
+        /* 左侧税种导航 */
+        .tax-nav {
+            width: 280px;
+            flex-shrink: 0;
+            border-right: 2px solid #f1f5f9;
+            padding-right: 24px;
+        }
+        .tax-nav h4 {
+            font-size: 1.2rem;
             font-weight: 600;
-            color: #e74c3c;
-            margin: 15px 0;
+            color: #334155;
+            margin-bottom: 18px;
+            letter-spacing: 0.3px;
         }
-        
-        .tax-desc {
-            color: #7f8c8d;
-            font-size: 0.95em;
+        .tax-nav-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .tax-nav-item {
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid transparent;
+        }
+        .tax-nav-item:hover {
+            background: #f8fafc;
+            color: #0f3b73;
+        }
+        .tax-nav-item.active {
+            background: #e8f0fe;
+            color: #0f3b73;
+            border-left-color: #0f3b73;
+            font-weight: 600;
+        }
+        .tax-nav-item .emoji-bg {
+            font-size: 1.3rem;
+        }
+
+        /* 右侧内容面板 */
+        .tax-content-panel {
+            flex: 1;
+            min-width: 0;  /* 防止flex溢出 */
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 10px 5px 10px 20px;
+        }
+        .tax-content-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tax-content-pane.active-pane {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0.3; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 右侧内容卡片样式（统一） */
+        .pane-card {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 24px;
             margin-bottom: 20px;
         }
-        
-        /* SUT税专属模块样式 */
-        .sut-tax-content {
-            background: #f0f7ff;
+        .pane-card h5 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .rate-badge {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e11d48;
+            margin: 10px 0 5px;
+        }
+        .rate-desc {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 16px;
+        }
+        .data-block {
+            background: white;
+            border-radius: 14px;
             padding: 20px;
-            border-radius: 6px;
-            margin-top: 20px;
-            border: 1px solid #d4e6f1;
+            margin: 20px 0;
+            border: 1px solid #e2e8f0;
         }
-        
-        .sut-tax-content h5 {
-            color: #1a5f99;
-            font-size: 1.1em;
-            margin-bottom: 15px;
+        .data-block h6 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1e293b;
         }
-        
-        .collapsible {
-            background: #f8f9fa;
-            color: #2c3e50;
-            cursor: pointer;
-            padding: 15px 20px;
-            width: 100%;
-            border: 1px solid #e1e8ed;
-            border-radius: 6px;
-            text-align: left;
-            font-size: 16px;
+        .data-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+        .data-link-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            flex: 1 1 200px;
+            border: 1px solid #e2e8f0;
+        }
+        .data-link-item h6 {
+            margin-bottom: 8px;
+        }
+        .data-link-desc {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 40px;
             font-weight: 500;
-            margin: 10px 0;
-            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        
-        .collapsible:hover {
-            background: #e8f4fd;
-        }
-        
-        .collapsible.active {
-            background: #1a5f99;
+        .btn-primary {
+            background: #0f3b73;
             color: white;
-            border-color: #0f4c81;
         }
-        
-        .content {
+        .btn-primary:hover {
+            background: #0a2955;
+        }
+        .btn-secondary {
+            background: white;
+            color: #0f3b73;
+            border: 1px solid #cbd5e1;
+        }
+        .btn-secondary:hover {
+            background: #f1f5f9;
+        }
+
+        /* 折叠SOP */
+        .collapsible {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 16px 20px;
+            width: 100%;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 8px;
+        }
+        .collapsible:hover {
+            background: #e2e8f0;
+        }
+        .collapsible::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+        .collapsible.active::after {
+            transform: rotate(180deg);
+        }
+        .sop-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            background: #f8f9fa;
-            border-radius: 0 0 6px 6px;
+            transition: max-height 0.4s ease-out;
+            background: #ffffff;
+            border-radius: 0 0 14px 14px;
             padding: 0 20px;
+            border: 1px solid #e2e8f0;
+            border-top: none;
         }
-        
-        .content p {
-            margin: 15px 0;
+        .sop-content-inner {
+            padding: 20px 0;
         }
-        
+
         .template-guide {
-            background: white;
+            background: #f1f5f9;
+            border-radius: 16px;
             padding: 20px;
-            border-radius: 6px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
-        
         .template-guide ol {
             margin-left: 20px;
             margin-top: 10px;
         }
-        
         .template-guide li {
             margin: 8px 0;
         }
-        
-        .data-links {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        
-        .data-link-item {
-            flex: 1;
-            min-width: 250px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        
-        .data-link-item h5 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-        
-        .data-link-desc {
-            color: #7f8c8d;
-            font-size: 0.9em;
-            margin-bottom: 15px;
-        }
-        
+
+        /* AI 悬浮窗 */
         .ai-chat-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 24px;
+            right: 24px;
             z-index: 1000;
         }
-        
         .ai-chat-toggle {
-            width: 60px;
-            height: 60px;
-            background: #1a5f99;
-            color: white;
+            width: 56px;
+            height: 56px;
+            background: #0f3b73;
             border: none;
-            border-radius: 50%;
-            font-size: 24px;
+            border-radius: 56px;
+            font-size: 26px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
+            box-shadow: 0 6px 16px rgba(15,59,115,0.3);
+            color: white;
         }
-        
-        .ai-chat-toggle:hover {
-            transform: scale(1.1);
-        }
-        
         .ai-chat-window {
             position: absolute;
             bottom: 70px;
             right: 0;
-            width: 350px;
+            width: 340px;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
             display: none;
         }
-        
-        .ai-chat-window.show {
-            display: block;
-        }
-        
+        .ai-chat-window.show { display: block; }
         .ai-chat-header {
-            background: #1a5f99;
-            color: white;
-            padding: 15px;
-            border-radius: 12px 12px 0 0;
+            padding: 16px;
+            font-weight: 600;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
-        
-        .ai-chat-close {
-            cursor: pointer;
-            font-size: 24px;
-        }
-        
+        .ai-chat-close { cursor: pointer; font-size: 22px; line-height: 1; }
         .ai-chat-messages {
-            height: 300px;
+            height: 260px;
             overflow-y: auto;
-            padding: 15px;
-            background: #f5f7fa;
+            padding: 16px;
+            background: #f8fafc;
         }
-        
         .message {
-            margin-bottom: 10px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            max-width: 80%;
+            margin-bottom: 12px;
+            padding: 8px 14px;
+            border-radius: 18px;
+            max-width: 85%;
+            font-size: 0.9rem;
         }
-        
         .ai-message {
-            background: #e8f4fd;
-            color: #2c3e50;
+            background: #e8f0fe;
+            color: #1e293b;
             margin-right: auto;
         }
-        
         .user-message {
-            background: #1a5f99;
+            background: #0f3b73;
             color: white;
             margin-left: auto;
         }
-        
         .ai-chat-input {
             display: flex;
-            padding: 15px;
-            border-top: 1px solid #e1e8ed;
+            padding: 12px;
+            border-top: 1px solid #e2e8f0;
         }
-        
         .ai-chat-input input {
             flex: 1;
-            padding: 10px;
-            border: 1px solid #e1e8ed;
-            border-radius: 4px 0 0 4px;
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px 0 0 30px;
             outline: none;
         }
-        
         .ai-chat-input button {
-            padding: 10px 15px;
-            background: #1a5f99;
+            padding: 0 20px;
+            background: #0f3b73;
             color: white;
             border: none;
-            border-radius: 0 4px 4px 0;
+            border-radius: 0 30px 30px 0;
             cursor: pointer;
         }
-        
+
         footer {
-            background: #2c3e50;
-            color: white;
-            padding: 20px 0;
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 30px 0;
             text-align: center;
+            margin-top: 40px;
         }
-        
-        /* 响应式适配 */
+
+        /* 响应式简单处理 */
         @media (max-width: 1200px) {
-            .container {
-                width: 100%;
-                max-width: 1200px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            header .container {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .tax-detail-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .data-links {
-                flex-direction: column;
-            }
-            
-            .ai-chat-window {
-                width: 300px;
-            }
-            
-            .tax-info-grid {
-                grid-template-columns: 1fr;
-            }
+            .container { width: 100%; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>🌍 海外税务信息平台</h1>
-            <a href="../index.html" class="back-link">← 返回首页</a>
-        </div>
-    </header>
 
-    <main class="container">
-        <!-- 页面标题 -->
-        <div class="tax-detail-header">
-            <h2>🇺🇸 加利福尼亚州 (CA) 税务指南</h2>
-            <span class="update-tag">税率最后更新：2026-03-12</span>
-        </div>
+<header>
+    <div class="container">
+        <h1>🌐 海外税务信息平台 · 美国专版</h1>
+        <a href="index.html" class="back-link">← 返回全球视图</a>
+    </div>
+</header>
 
-        <!-- 核心官网链接（置顶展示） -->
-        <section class="core-links-section">
-            <h3>🔗 加州核心税务官网</h3>
-            <div class="links-grid">
-                <a href="https://www.ftb.ca.gov/" target="_blank" class="template-button">加州税费管理局 (FTB) 官网</a>
-                <a href="https://www.cdtfa.ca.gov/" target="_blank" class="template-button">加州税务与收费管理局 (CDTFA) 官网</a>
-                <a href="https://www.edd.ca.gov/" target="_blank" class="template-button">加州就业发展局 (EDD) 官网</a>
-            </div>
-        </section>
+<main class="container">
+    <!-- 头部概览 -->
+    <div class="tax-detail-header">
+        <h2>🇺🇸 加利福尼亚州 (CA) 税务指南</h2>
+        <span class="update-tag">税率更新：2026-03-14</span>
+    </div>
 
-        <!-- 主要税种（卡片式展示） -->
-        <section class="tax-section">
-            <h3>💰 加州主要税种</h3>
-            <div class="tax-info-grid">
-                <!-- 企业所得税 -->
-                <div class="tax-card">
-                    <h4>企业所得税</h4>
-                    <div class="tax-rate">8.84%</div>
-                    <div class="tax-desc">固定税率，基于在加州产生的净收入计算。S型公司税率1.5%</div>
-                </div>
-                
-                <!-- 销售税/使用税（包含SOP、模板、数据下载） -->
-                <div class="tax-card">
-                    <h4>销售税 / 使用税 (SUT)</h4>
-                    <div class="tax-rate">7.25% + 地方税</div>
-                    <div class="tax-desc">州基准7.25% + 地方附加税(0-3.5%)，综合最高10.75%。按收货地址计税</div>
-                    
-                    <!-- SUT税专属内容模块 -->
-                    <div class="sut-tax-content">
-                        <h5>📥 公司内部原始数据下载</h5>
-                        <div class="data-links">
-                            <div class="data-link-item">
-                                <h5>数据源A</h5>
-                                <div class="data-link-desc">包含：商品订单、课程订单（Resale Certificate）</div>
-                                <a href="https://sso.100tal.com/portal/login/489804597" target="_blank" class="template-button secondary">🔐 登录下载</a>
-                            </div>
-                            <div class="data-link-item">
-                                <h5>数据源B</h5>
-                                <div class="data-link-desc">包含：预收明细报表、商品订单收入报表</div>
-                                <a href="https://sso.100tal.com/portal/login/388143234" target="_blank" class="template-button secondary">🔐 登录下载</a>
-                            </div>
-                        </div>
-
-                        <!-- 报税SOP -->
-                        <div style="margin-top: 20px;">
-                            <button class="collapsible">📂 报税SOP文档（点击展开）</button>
-                            <div class="content">
-                                <p><strong>第1步：下载原始数据</strong><br>
-                                从上方「公司内部原始数据下载」区域，下载当月税务原始数据</p>
-                                
-                                <p><strong>第2步：打开算税模板</strong><br>
-                                打开CA州算税模板Excel文件</p>
-                                
-                                <p><strong>第3步：PQ一键刷新</strong><br>
-                                在Excel中替换原始数据，然后点击「数据」选项卡 → 「全部刷新」，Power Query自动读取最新数据并计算</p>
-                                
-                                <p><strong>第4步：核对税额</strong><br>
-                                检查模板生成的应缴税额是否合理，与上月数据对比是否有异常波动</p>
-                                
-                                <p><strong>第5步：登录官网申报</strong><br>
-                                - 销售税：登录 <a href="https://www.cdtfa.ca.gov/" target="_blank">CDTFA官网</a> 填写申报表 CDTFA-401</p>
-                                
-                                <p><strong>第6步：保存回执</strong><br>
-                                下载申报回执/缴款凭证，保存至公司税务档案备查</p>
-                                
-                                <a href="#" class="template-button" style="margin-top:15px;" onclick="alert('PDF版SOP正在生成中，敬请期待')">📥 下载PDF版SOP</a>
-                            </div>
-                        </div>
-
-                        <!-- 算税模板 -->
-                        <div style="margin-top: 20px;">
-                            <h5>📊 CA州SUT算税模板（PQ一键更新版）</h5>
-                            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
-                                <a href="assets/templates/ca-tax-calculator.xlsx" class="template-button" download>下载算税模板 (Excel)</a>
-                                <a href="#" class="template-button secondary" onclick="alert('使用指引正在准备中')">📄 模板使用指引 (PDF)</a>
-                            </div>
-                            
-                            <div class="template-guide">
-                                <strong>📌 模板使用步骤：</strong>
-                                <ol>
-                                    <li><strong>下载原始数据：</strong>点击上方「销售税/使用税原始数据」链接，登录SSO下载当月CSV文件</li>
-                                    <li><strong>打开模板：</strong>下载并打开「CA算税模板.xlsx」</li>
-                                    <li><strong>复制并刷新数据：</strong>在Excel中点击 <code>数据 → 全部刷新</code>，Power Query会自动：
-                                        <ul style="margin-left: 20px; margin-top: 5px;">
-                                            <li>读取原始文件</li>
-                                            <li>按收货邮编匹配地方税率</li>
-                                            <li>区分应税/免税交易</li>
-                                            <li>计算销售税、使用税</li>
-                                        </ul>
-                                    </li>
-                                    <li><strong>核对结果：</strong>检查生成，确认无误后即可用于申报</li>
-                                    <li><strong>归档：</strong>保存模板副本，作为当月税务底稿</li>
-                                </ol>
-                            </div>
-                            
-                            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-top: 15px; border-radius: 4px;">
-                                <strong>⚠️ 注意：</strong> 模板中的税率数据每月自动从CDTFA官网同步，但建议在申报前手动核对 <a href="https://www.cdtfa.ca.gov/taxes-and-fees/sales-use-tax-rates.htm" target="_blank">官方最新税率表</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 工资税 -->
-                <div class="tax-card">
-                    <h4>工资税</h4>
-                    <div class="tax-rate">3.5% - 6.2%</div>
-                    <div class="tax-desc">包含：失业保险(UI)、就业培训税(ETT)、残疾保险(SDI)等，雇主和雇员共同承担</div>
-                </div>
-                
-                <!-- 财产税 -->
-                <div class="tax-card">
-                    <h4>财产税</h4>
-                    <div class="tax-rate">约1% + 地方附加</div>
-                    <div class="tax-desc">按房产评估价值的1%征收，外加选民批准的地方附加税</div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- AI对话悬浮窗 -->
-    <div class="ai-chat-container">
-        <button class="ai-chat-toggle" id="ai-chat-toggle">🤖</button>
-        <div class="ai-chat-window" id="ai-chat-window">
-            <div class="ai-chat-header">
-                CA税务AI助手
-                <span class="ai-chat-close" id="ai-chat-close">×</span>
-            </div>
-            <div class="ai-chat-messages" id="ai-chat-messages">
-                <div class="message ai-message">你好！我是加州税务助手，可以查询：<br>• 企业所得税率 (8.84%)<br>• 销售税税率 (7.25%+地方税)<br>• 报税截止日<br>• SOP步骤等</div>
-            </div>
-            <div class="ai-chat-input">
-                <input type="text" id="ai-chat-input" placeholder="输入你的问题...">
-                <button onclick="sendAIMessage()">发送</button>
-            </div>
+    <!-- 核心官网链接（始终显示） -->
+    <div class="core-links-section">
+        <h3>🔗 加州核心税务机构官网</h3>
+        <div class="links-grid">
+            <a href="https://www.ftb.ca.gov/" target="_blank" class="gov-button">加州税费管理局 (FTB)</a>
+            <a href="https://www.cdtfa.ca.gov/" target="_blank" class="gov-button">税务与收费管理局 (CDTFA)</a>
+            <a href="https://www.edd.ca.gov/" target="_blank" class="gov-button">就业发展局 (EDD)</a>
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>© 2026 海外税务信息平台 · 数据仅供参考，请以加州官方机构（FTB/CDTFA/EDD）为准</p>
+    <!-- 左右分栏：左侧导航，右侧动态内容 -->
+    <div class="tax-detail-grid">
+        <!-- 左侧税种导航 -->
+        <div class="tax-nav">
+            <h4>📋 税种导航</h4>
+            <div class="tax-nav-list">
+                <div class="tax-nav-item active" data-pane="sut-pane">
+                    <span class="emoji-bg">🛒</span> 销售使用税 SUT
+                </div>
+                <div class="tax-nav-item" data-pane="income-pane">
+                    <span class="emoji-bg">🏢</span> 企业所得税
+                </div>
+                <div class="tax-nav-item" data-pane="payroll-pane">
+                    <span class="emoji-bg">👔</span> 工资税
+                </div>
+                <div class="tax-nav-item" data-pane="property-pane">
+                    <span class="emoji-bg">🏠</span> 财产税
+                </div>
+                <div class="tax-nav-item" data-pane="sop-pane">
+                    <span class="emoji-bg">📂</span> 综合SOP / 模板
+                </div>
+            </div>
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #f1f5f9;">
+                <p style="color:#64748b; font-size:0.9rem;">点击左侧税种<br>查看详细指引与内部数据</p>
+            </div>
         </div>
-    </footer>
 
-    <script>
-        // 折叠面板
-        var coll = document.getElementsByClassName("collapsible");
-        for (var i = 0; i < coll.length; i++) {
-            coll[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-            });
-        }
-        
-        // AI对话悬浮窗
-        document.getElementById('ai-chat-toggle').addEventListener('click', function() {
-            document.getElementById('ai-chat-window').classList.toggle('show');
+        <!-- 右侧内容区域（每个税种一个pane） -->
+        <div class="tax-content-panel">
+
+            <!-- ========== 销售使用税 SUT 窗格 ========== -->
+            <div id="sut-pane" class="tax-content-pane active-pane">
+                <div class="pane-card">
+                    <h5>🛒 销售税 / 使用税 (SUT)</h5>
+                    <div class="rate-badge">7.25% + 地方税</div>
+                    <div class="rate-desc">州基准7.25% + 地方附加税 (0-3.5%)，综合最高10.75% · 收货地址原则</div>
+
+                    <!-- 内部数据下载 -->
+                    <div class="data-block">
+                        <h6>📥 公司内部原始数据</h6>
+                        <div class="data-links">
+                            <div class="data-link-item">
+                                <h6>数据源 A</h6>
+                                <div class="data-link-desc">商品订单、课程订单 (Resale Certificate)</div>
+                                <a href="https://sso.100tal.com/portal/login/489804597" target="_blank" class="btn btn-primary">登录下载</a>
+                            </div>
+                            <div class="data-link-item">
+                                <h6>数据源 B</h6>
+                                <div class="data-link-desc">预收明细、商品订单收入报表</div>
+                                <a href="https://sso.100tal.com/portal/login/388143234" target="_blank" class="btn btn-primary">登录下载</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 算税模板 -->
+                    <div class="data-block">
+                        <h6>📊 CA州SUT算税模板 (PQ一键刷新)</h6>
+                        <div style="display: flex; gap:12px; flex-wrap:wrap; margin:16px 0;">
+                            <a href="assets/templates/ca-tax-calculator.xlsx" class="btn btn-primary" download>⬇ 下载Excel模板</a>
+                            <a href="#" class="btn btn-secondary" onclick="alert('使用指引正在准备')">📄 模板使用指引</a>
+                        </div>
+                        <div class="template-guide">
+                            <strong>📌 模板使用步骤：</strong>
+                            <ol>
+                                <li>从上方「数据源A/B」下载当月原始CSV</li>
+                                <li>打开模板，点击「数据」→「全部刷新」，Power Query自动匹配地方税率并计算</li>
+                                <li>核对结果，保存为当月底稿</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- SOP折叠块 -->
+                    <button class="collapsible" data-target="sut-sop">📂 报税SOP (点击展开)</button>
+                    <div id="sut-sop" class="sop-content">
+                        <div class="sop-content-inner">
+                            <p><strong>第1步：下载原始数据</strong><br>从上方「公司内部原始数据」下载文件</p>
+                            <p><strong>第2步：打开算税模板并刷新</strong><br>模板自动计算销售税/使用税</p>
+                            <p><strong>第3步：核对税额</strong><br>检查是否与上月波动较大</p>
+                            <p><strong>第4步：登录CDTFA申报</strong><br>填写CDTFA-401表格</p>
+                            <p><strong>第5步：保存回执</strong><br>下载凭证归档</p>
+                            <a href="#" class="btn btn-secondary" onclick="alert('PDF版SOP下载')">📥 下载PDF版SOP</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== 企业所得税窗格 ========== -->
+            <div id="income-pane" class="tax-content-pane">
+                <div class="pane-card">
+                    <h5>🏢 企业所得税</h5>
+                    <div class="rate-badge">8.84%</div>
+                    <div class="rate-desc">固定税率，基于加州净收入；S型公司税率为1.5%</div>
+                    <div class="data-block">
+                        <h6>📁 相关指引</h6>
+                        <p>申报截止日：每年4月15日（公司）<br>扩展截止日：10月15日（需申请）</p>
+                        <p>主要表格：FTB 100 (公司) / FTB 100S (S型)</p>
+                        <a href="https://www.ftb.ca.gov/forms/" target="_blank" class="btn btn-primary">FTB 表格下载</a>
+                    </div>
+                    <!-- 可以添加内部数据链接（示例） -->
+                    <div class="data-block">
+                        <h6>📊 内部损益数据</h6>
+                        <div class="data-link-item" style="margin-top:10px;">
+                            <h6>财务系统导出</h6>
+                            <div class="data-link-desc">P&L by state (California)</div>
+                            <a href="#" class="btn btn-secondary" onclick="alert('请联系财务组获取权限')">申请访问</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== 工资税窗格 ========== -->
+            <div id="payroll-pane" class="tax-content-pane">
+                <div class="pane-card">
+                    <h5>👔 工资税 (Payroll)</h5>
+                    <div class="rate-badge">3.5% - 6.2%</div>
+                    <div class="rate-desc">包含UI、SDI、ETT等，雇主雇员共同承担</div>
+                    <div class="data-block">
+                        <h6>🔍 EDD 相关</h6>
+                        <p>失业保险 (UI): 新雇主3.4% , 成熟雇主浮动<br>伤残保险 (SDI): 雇员部分1.2% (2026)<br>就业培训税 (ETT): 0.1% (仅限特定行业)</p>
+                        <a href="https://www.edd.ca.gov/payroll_taxes/" target="_blank" class="btn btn-primary">查看EDD税率表</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== 财产税窗格 ========== -->
+            <div id="property-pane" class="tax-content-pane">
+                <div class="pane-card">
+                    <h5>🏠 财产税</h5>
+                    <div class="rate-badge">约1% + 附加税</div>
+                    <div class="rate-desc">按房产评估价值1% + 地方债券附加税</div>
+                    <div class="data-block">
+                        <p>每年由县评估官评定价值，通常在11月1日和2月1日分两期缴纳。</p>
+                        <a href="https://www.cdtfa.ca.gov/taxes-and-fees/property-taxes.htm" target="_blank" class="btn btn-primary">了解更多</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== 综合SOP / 模板窗格 ========== -->
+            <div id="sop-pane" class="tax-content-pane">
+                <div class="pane-card">
+                    <h5>📂 加州税务综合SOP & 模板</h5>
+                    <p style="margin-bottom:20px;">包含销售税、工资税、所得税常用流程与计算模板</p>
+                    <div class="data-links" style="flex-direction: column; gap:16px;">
+                        <div class="data-link-item">
+                            <h6>SUT 月度申报 SOP+模板</h6>
+                            <div class="data-link-desc">含Power Query自动计税文件</div>
+                            <a href="assets/templates/ca-tax-calculator.xlsx" class="btn btn-primary" download>下载 Excel</a>
+                        </div>
+                        <div class="data-link-item">
+                            <h6>工资税对账模板</h6>
+                            <div class="data-link-desc">核对季度工资单与EDD申报表</div>
+                            <a href="#" class="btn btn-secondary" onclick="alert('准备中')">预览</a>
+                        </div>
+                        <div class="data-link-item">
+                            <h6>企业所得税预估计算器</h6>
+                            <div class="data-link-desc">基于净收入的快速估算</div>
+                            <a href="#" class="btn btn-secondary" onclick="alert('开发中')">查看</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- AI 悬浮窗 -->
+<div class="ai-chat-container">
+    <button class="ai-chat-toggle" id="ai-chat-toggle">🤖</button>
+    <div class="ai-chat-window" id="ai-chat-window">
+        <div class="ai-chat-header">
+            <span>CA 税务助手</span>
+            <span class="ai-chat-close" id="ai-chat-close">×</span>
+        </div>
+        <div class="ai-chat-messages" id="ai-chat-messages">
+            <div class="message ai-message">点击左侧税种查看详细内容。我可以回答税率、截止日等问题。</div>
+        </div>
+        <div class="ai-chat-input">
+            <input id="ai-chat-input" placeholder="例如：销售税地方税率">
+            <button id="ai-chat-send">发送</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>© 2026 海外税务信息平台 · 数据仅供参考，以加州官方机构 (FTB/CDTFA/EDD) 公布为准</p>
+    </div>
+</footer>
+
+<script>
+    // 左侧导航切换 + 右侧窗格切换
+    const navItems = document.querySelectorAll('.tax-nav-item');
+    const panes = document.querySelectorAll('.tax-content-pane');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            // 移除所有active
+            navItems.forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+
+            // 隐藏所有pane
+            const targetId = this.getAttribute('data-pane'); // 例如 sut-pane
+            panes.forEach(pane => pane.classList.remove('active-pane'));
+
+            // 显示对应的pane
+            const activePane = document.getElementById(targetId);
+            if (activePane) activePane.classList.add('active-pane');
         });
-        
-        document.getElementById('ai-chat-close').addEventListener('click', function() {
-            document.getElementById('ai-chat-window').classList.remove('show');
+    });
+
+    // 折叠SOP（仅针对SUT窗格的折叠按钮）
+    document.querySelectorAll('.collapsible').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const targetId = this.getAttribute('data-target'); // sut-sop
+            const content = document.getElementById(targetId);
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
         });
-        
-        // 简单的AI回复（演示用）
-        function sendAIMessage() {
-            var input = document.getElementById('ai-chat-input');
-            var message = input.value.trim();
-            if (!message) return;
-            
-            var messagesDiv = document.getElementById('ai-chat-messages');
-            
-            // 添加用户消息
-            var userMsg = document.createElement('div');
-            userMsg.className = 'message user-message';
-            userMsg.textContent = message;
-            messagesDiv.appendChild(userMsg);
-            
-            // 模拟AI回复
-            setTimeout(function() {
-                var aiMsg = document.createElement('div');
-                aiMsg.className = 'message ai-message';
-                
-                if (message.includes('企业所得') || message.includes('公司税')) {
-                    aiMsg.textContent = '加州企业所得税率为8.84%（固定税率），S型公司为1.5%。申报截止日为每年4月15日。';
-                } else if (message.includes('销售税') || message.includes('SUT')) {
-                    aiMsg.textContent = '加州销售税基准税率7.25%，加上地方附加税后综合税率7.25%-10.75%。需按收货地址计税。';
-                } else if (message.includes('截止') || message.includes('deadline')) {
-                    aiMsg.textContent = '公司税：4月15日；个人税：4月18日（2026年）；销售税：月度申报次月20日。';
-                } else {
-                    aiMsg.textContent = '这个问题我需要查一下，你可以参考官网链接。';
-                }
-                
-                messagesDiv.appendChild(aiMsg);
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }, 500);
-            
-            input.value = '';
+    });
+
+    // AI聊天悬浮窗
+    const toggle = document.getElementById('ai-chat-toggle');
+    const closeBtn = document.getElementById('ai-chat-close');
+    const windowChat = document.getElementById('ai-chat-window');
+    toggle.addEventListener('click', () => windowChat.classList.toggle('show'));
+    closeBtn.addEventListener('click', () => windowChat.classList.remove('show'));
+
+    // 简单的AI回复
+    document.getElementById('ai-chat-send').addEventListener('click', sendAIMessage);
+    document.getElementById('ai-chat-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendAIMessage();
+    });
+
+    function sendAIMessage() {
+        const input = document.getElementById('ai-chat-input');
+        const msg = input.value.trim();
+        if (!msg) return;
+
+        const messagesDiv = document.getElementById('ai-chat-messages');
+        // 用户消息
+        const userDiv = document.createElement('div');
+        userDiv.className = 'message user-message';
+        userDiv.textContent = msg;
+        messagesDiv.appendChild(userDiv);
+
+        input.value = '';
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        // 模拟AI回复
+        setTimeout(() => {
+            const aiDiv = document.createElement('div');
+            aiDiv.className = 'message ai-message';
+            if (msg.includes('销售税') || msg.includes('SUT')) {
+                aiDiv.textContent = '加州销售税 = 7.25%州税 + 地方税 (0-3.5%)。最高10.75%。';
+            } else if (msg.includes('企业所得税')) {
+                aiDiv.textContent = '企业所得税税率 8.84%，S型公司 1.5%。截止日4月15日。';
+            } else if (msg.includes('截止')) {
+                aiDiv.textContent = '销售税：月度申报次月20日；企业所得税：4月15日。';
+            } else {
+                aiDiv.textContent = '请参考左侧税种导航或官网链接。';
+            }
+            messagesDiv.appendChild(aiDiv);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-    </script>
+        }, 400);
+    }
+</script>
+
 </body>
 </html>
