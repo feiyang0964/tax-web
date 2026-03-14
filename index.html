@@ -156,10 +156,11 @@
             opacity: 0.7;
         }
 
+        /* 统一内容宽度1200px */
         .main-content {
-            max-width: 1440px;
+            max-width: 1200px;
             margin: 100px auto 40px;
-            padding: 0 48px;
+            padding: 0 24px;
         }
 
         h1 { font-size: 36px; font-weight: 500; color: #0f172a; margin-bottom: 8px; letter-spacing: -0.01em; }
@@ -262,6 +263,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
+        /* 全球卡片网格保持原样（自动填充） */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -305,9 +307,10 @@
             color: #64748b;
         }
 
+        /* 美国网格: 每行5个卡片，固定宽度 */
         .usa-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-template-columns: repeat(5, 1fr);
             gap: 16px;
         }
         
@@ -572,7 +575,10 @@
             tooltip: { 
                 trigger: 'focus',
                 isHtml: true,
-                formatter: row => data.getValue(row, 1)
+                // 修改：只显示国家名称，不显示颜色数值
+                formatter: (row, column) => {
+                    return data.getValue(row, 1); // 只返回名称
+                }
             }
         };
 
@@ -632,7 +638,10 @@
             tooltip: { 
                 trigger: 'focus',
                 isHtml: true,
-                formatter: row => data.getValue(row, 1)
+                // 修改：只显示州名，不显示颜色值
+                formatter: (row, column) => {
+                    return data.getValue(row, 1); // 只返回名称
+                }
             }
         };
 
