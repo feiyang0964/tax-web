@@ -191,7 +191,7 @@
         /* 右侧内容面板 */
         .tax-content-panel {
             flex: 1;
-            min-width: 0;  /* 防止flex溢出 */
+            min-width: 0;
             background: #ffffff;
             border-radius: 16px;
             padding: 10px 5px 10px 20px;
@@ -208,7 +208,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 右侧内容卡片样式（统一） */
+        /* 右侧内容卡片样式 */
         .pane-card {
             background: #f8fafc;
             border-radius: 20px;
@@ -444,7 +444,6 @@
             margin-top: 40px;
         }
 
-        /* 响应式简单处理 */
         @media (max-width: 1200px) {
             .container { width: 100%; }
         }
@@ -460,13 +459,11 @@
 </header>
 
 <main class="container">
-    <!-- 头部概览 -->
     <div class="tax-detail-header">
         <h2>🇺🇸 加利福尼亚州 (CA) 税务指南</h2>
         <span class="update-tag">税率更新：2026-03-14</span>
     </div>
 
-    <!-- 核心官网链接（始终显示） -->
     <div class="core-links-section">
         <h3>🔗 加州核心税务机构官网</h3>
         <div class="links-grid">
@@ -476,7 +473,6 @@
         </div>
     </div>
 
-    <!-- 左右分栏：左侧导航，右侧动态内容 -->
     <div class="tax-detail-grid">
         <!-- 左侧税种导航 -->
         <div class="tax-nav">
@@ -486,7 +482,7 @@
                     <span class="emoji-bg">🛒</span> 销售使用税 SUT
                 </div>
                 <div class="tax-nav-item" data-pane="income-pane">
-                    <span class="emoji-bg">🏢</span> 企业所得税
+                    <span class="emoji-bg">🏢</span> 企业所得税 CIT
                 </div>
                 <div class="tax-nav-item" data-pane="payroll-pane">
                     <span class="emoji-bg">👔</span> 工资税
@@ -503,17 +499,16 @@
             </div>
         </div>
 
-        <!-- 右侧内容区域（每个税种一个pane） -->
+        <!-- 右侧内容区域 -->
         <div class="tax-content-panel">
 
-            <!-- ========== 销售使用税 SUT 窗格 ========== -->
+            <!-- SUT 窗格 -->
             <div id="sut-pane" class="tax-content-pane active-pane">
                 <div class="pane-card">
                     <h5>🛒 销售税 / 使用税 (SUT)</h5>
                     <div class="rate-badge">7.25% + 地方税</div>
                     <div class="rate-desc">州基准7.25% + 地方附加税 (0-3.5%)，综合最高10.75% · 收货地址原则</div>
 
-                    <!-- 内部数据下载 -->
                     <div class="data-block">
                         <h6>📥 公司内部原始数据</h6>
                         <div class="data-links">
@@ -530,19 +525,26 @@
                         </div>
                     </div>
 
-                    <!-- 算税模板 -->
+                    <!-- 算税模板（无文档链接，直接展示步骤文字） -->
                     <div class="data-block">
                         <h6>📊 CA州SUT算税模板 (PQ一键刷新)</h6>
                         <div style="display: flex; gap:12px; flex-wrap:wrap; margin:16px 0;">
                             <a href="assets/templates/ca-tax-calculator.xlsx" class="btn btn-primary" download>⬇ 下载Excel模板</a>
-                            <a href="#" class="btn btn-secondary" onclick="alert('使用指引正在准备')">📄 模板使用指引</a>
                         </div>
                         <div class="template-guide">
                             <strong>📌 模板使用步骤：</strong>
                             <ol>
-                                <li>从上方「数据源A/B」下载当月原始CSV</li>
-                                <li>打开模板，点击「数据」→「全部刷新」，Power Query自动匹配地方税率并计算</li>
-                                <li>核对结果，保存为当月底稿</li>
+                                <li>从上方「数据源A/B」下载当月原始CSV数据文件</li>
+                                <li>打开 <code>ca-tax-calculator.xlsx</code>，点击「数据」→「全部刷新」，Power Query将自动：
+                                    <ul style="margin-left: 20px; margin-top: 8px;">
+                                        <li>读取原始数据</li>
+                                        <li>按收货地址邮编匹配对应地方税率</li>
+                                        <li>区分应税/免税交易（如Resale免税项）</li>
+                                        <li>自动计算Sales Tax与Use Tax金额</li>
+                                    </ul>
+                                </li>
+                                <li>核对计算结果，重点检查税率准确性与Use Tax漏报风险</li>
+                                <li>保存模板副本，作为当月税务底稿归档</li>
                             </ol>
                         </div>
                     </div>
@@ -551,21 +553,35 @@
                     <button class="collapsible" data-target="sut-sop">📂 报税SOP (点击展开)</button>
                     <div id="sut-sop" class="sop-content">
                         <div class="sop-content-inner">
-                            <p><strong>第1步：下载原始数据</strong><br>从上方「公司内部原始数据」下载文件</p>
-                            <p><strong>第2步：打开算税模板并刷新</strong><br>模板自动计算销售税/使用税</p>
-                            <p><strong>第3步：核对税额</strong><br>检查是否与上月波动较大</p>
-                            <p><strong>第4步：登录CDTFA申报</strong><br>填写CDTFA-401表格</p>
-                            <p><strong>第5步：保存回执</strong><br>下载凭证归档</p>
-                            <a href="#" class="btn btn-secondary" onclick="alert('PDF版SOP下载')">📥 下载PDF版SOP</a>
+                            <p><strong>一、核心原则与定义</strong><br>
+                            CA SUT = 7.25% 基准 + 地方附加税，按收货地计税；卖方收 Sales Tax，买方补 Use Tax，核心是“有形动产 + 零售/使用”，合规关键在税率准确、Use Tax不漏报。<br>
+                            - <strong>Sales Tax</strong>：对有形动产零售销售征收，由卖方代收代缴给CDTFA。<br>
+                            - <strong>Use Tax</strong>：对在加州使用但未缴销售税的应税商品征收，由买方自行申报。<br>
+                            - 征管主体：CDTFA，遵循目的地原则（按收货地计税）。</p>
+
+                            <p><strong>二、税率结构（2026年）</strong><br>
+                            - 州基准税率：7.25%（含6.00%州税 + 1.25%强制地方税）<br>
+                            - 地方附加税：0%–3.5%，综合税率最高可达10.75%（如旧金山、洛杉矶部分区域）<br>
+                            - 税率查询：使用CDTFA官方工具，按收货邮编查询精确税率。</p>
+
+                            <p><strong>三、征税范围</strong><br>
+                            ✅ 应税项目：有形动产零售、跨境/跨州采购自用、赠予/内部领用应税商品<br>
+                            ❌ 免税项目：未加工食品杂货、处方药/医疗设备、制造业/研发设备、转售商品（凭Resale Certificate）、州际/国际贸易商品</p>
+
+                            <p><strong>四、Sales Tax vs. Use Tax 区分</strong><br>
+                            1. <strong>Sales Tax（卖方税）</strong>：在加州从事零售业务的卖方需办理Seller‘s Permit，向买方收税并按期申报给CDTFA；触发条件为加州实体存在或远程销售超过阈值（2026年：年销售额≥$500,000 或交易笔数≥200笔）。<br>
+                            2. <strong>Use Tax（买方税）</strong>：在加州使用应税商品但未缴Sales Tax的买方需申报；常见场景为外州/跨境无税采购自用、内部领用免税商品；企业并入CDTFA-401申报，个人可在Form 540申报。</p>
+
+                            <a href="assets/sop/CA-SUT-SOP.pdf" class="btn btn-secondary" style="margin-top:16px;" download>📥 下载PDF版SOP</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ========== 企业所得税窗格 ========== -->
+            <!-- 企业所得税窗格 -->
             <div id="income-pane" class="tax-content-pane">
                 <div class="pane-card">
-                    <h5>🏢 企业所得税</h5>
+                    <h5>🏢 企业所得税 CIT</h5>
                     <div class="rate-badge">8.84%</div>
                     <div class="rate-desc">固定税率，基于加州净收入；S型公司税率为1.5%</div>
                     <div class="data-block">
@@ -574,7 +590,6 @@
                         <p>主要表格：FTB 100 (公司) / FTB 100S (S型)</p>
                         <a href="https://www.ftb.ca.gov/forms/" target="_blank" class="btn btn-primary">FTB 表格下载</a>
                     </div>
-                    <!-- 可以添加内部数据链接（示例） -->
                     <div class="data-block">
                         <h6>📊 内部损益数据</h6>
                         <div class="data-link-item" style="margin-top:10px;">
@@ -586,7 +601,7 @@
                 </div>
             </div>
 
-            <!-- ========== 工资税窗格 ========== -->
+            <!-- 工资税窗格 -->
             <div id="payroll-pane" class="tax-content-pane">
                 <div class="pane-card">
                     <h5>👔 工资税 (Payroll)</h5>
@@ -600,7 +615,7 @@
                 </div>
             </div>
 
-            <!-- ========== 财产税窗格 ========== -->
+            <!-- 财产税窗格 -->
             <div id="property-pane" class="tax-content-pane">
                 <div class="pane-card">
                     <h5>🏠 财产税</h5>
@@ -613,7 +628,7 @@
                 </div>
             </div>
 
-            <!-- ========== 综合SOP / 模板窗格 ========== -->
+            <!-- 综合SOP/模板窗格 -->
             <div id="sop-pane" class="tax-content-pane">
                 <div class="pane-card">
                     <h5>📂 加州税务综合SOP & 模板</h5>
@@ -641,7 +656,6 @@
     </div>
 </main>
 
-<!-- AI 悬浮窗 -->
 <div class="ai-chat-container">
     <button class="ai-chat-toggle" id="ai-chat-toggle">🤖</button>
     <div class="ai-chat-window" id="ai-chat-window">
@@ -666,31 +680,24 @@
 </footer>
 
 <script>
-    // 左侧导航切换 + 右侧窗格切换
     const navItems = document.querySelectorAll('.tax-nav-item');
     const panes = document.querySelectorAll('.tax-content-pane');
 
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
-            // 移除所有active
             navItems.forEach(nav => nav.classList.remove('active'));
             this.classList.add('active');
-
-            // 隐藏所有pane
-            const targetId = this.getAttribute('data-pane'); // 例如 sut-pane
+            const targetId = this.getAttribute('data-pane');
             panes.forEach(pane => pane.classList.remove('active-pane'));
-
-            // 显示对应的pane
             const activePane = document.getElementById(targetId);
             if (activePane) activePane.classList.add('active-pane');
         });
     });
 
-    // 折叠SOP（仅针对SUT窗格的折叠按钮）
     document.querySelectorAll('.collapsible').forEach(btn => {
         btn.addEventListener('click', function() {
             this.classList.toggle('active');
-            const targetId = this.getAttribute('data-target'); // sut-sop
+            const targetId = this.getAttribute('data-target');
             const content = document.getElementById(targetId);
             if (content.style.maxHeight) {
                 content.style.maxHeight = null;
@@ -700,14 +707,12 @@
         });
     });
 
-    // AI聊天悬浮窗
     const toggle = document.getElementById('ai-chat-toggle');
     const closeBtn = document.getElementById('ai-chat-close');
     const windowChat = document.getElementById('ai-chat-window');
     toggle.addEventListener('click', () => windowChat.classList.toggle('show'));
     closeBtn.addEventListener('click', () => windowChat.classList.remove('show'));
 
-    // 简单的AI回复
     document.getElementById('ai-chat-send').addEventListener('click', sendAIMessage);
     document.getElementById('ai-chat-input').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendAIMessage();
@@ -719,7 +724,6 @@
         if (!msg) return;
 
         const messagesDiv = document.getElementById('ai-chat-messages');
-        // 用户消息
         const userDiv = document.createElement('div');
         userDiv.className = 'message user-message';
         userDiv.textContent = msg;
@@ -728,7 +732,6 @@
         input.value = '';
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
-        // 模拟AI回复
         setTimeout(() => {
             const aiDiv = document.createElement('div');
             aiDiv.className = 'message ai-message';
