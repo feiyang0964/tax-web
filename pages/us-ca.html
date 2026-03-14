@@ -79,7 +79,7 @@
             border: 1px solid #eef2f6;
         }
         .tax-detail-header h2 {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: #0f172a;
         }
@@ -299,7 +299,7 @@
             background: #f1f5f9;
         }
 
-        /* 模板使用步骤 - 小号文字美化 */
+        /* 模板使用步骤 -  */
         .template-guide {
             background: #f8fafc;
             border-radius: 12px;
@@ -381,31 +381,59 @@
             margin-top: -1px;
         }
         .sop-content-inner {
-            padding: 20px;
-            font-size: 0.85rem;
+            padding: 24px;
+            font-size: 0.9rem;
             line-height: 1.6;
             color: #334155;
         }
+        .sop-step {
+            margin-bottom: 28px;
+        }
+        .sop-step:last-child {
+            margin-bottom: 0;
+        }
+        .sop-step-title {
+            font-weight: 600;
+            color: #0f3b73;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sop-step-title .step-number {
+            background: #0f3b73;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
         .sop-content-inner p {
-            margin-bottom: 16px;
-            font-size: 0.85rem;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
         }
         .sop-content-inner strong {
             color: #0f3b73;
             font-weight: 600;
-            font-size: 0.85rem;
         }
         .sop-content-inner ul, .sop-content-inner ol {
-            margin-left: 20px;
+            margin-left: 24px;
             margin-bottom: 16px;
         }
         .sop-content-inner li {
             margin: 6px 0;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
         .sop-download {
-            margin-top: 20px;
-            padding-top: 16px;
+            margin-top: 24px;
+            padding-top: 20px;
             border-top: 1px dashed #cbd5e1;
             display: flex;
             gap: 12px;
@@ -414,6 +442,20 @@
         .sop-download .btn {
             font-size: 0.8rem;
             padding: 6px 14px;
+        }
+        .sop-note {
+            background: #fef9e7;
+            border-left: 4px solid #f1c40f;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.85rem;
+        }
+        .sop-note p {
+            margin-bottom: 8px;
+        }
+        .sop-note ul {
+            margin-left: 20px;
         }
 
         /* AI 悬浮窗 */
@@ -566,7 +608,7 @@
         <!-- 右侧内容区域 -->
         <div class="tax-content-panel">
 
-            <!-- SUT 窗格 -->
+            <!-- SUT 窗格 - 更新SOP内容 -->
             <div id="sut-pane" class="tax-content-pane active-pane">
                 <div class="pane-card">
                     <h5>🛒 销售税 / 使用税 (SUT)</h5>
@@ -613,33 +655,59 @@
                         </div>
                     </div>
 
-                    <!-- SOP折叠块 - 美化版 -->
+                    <!-- SOP折叠块 - 按照最新要求更新 -->
                     <div class="sop-section">
                         <button class="collapsible" data-target="sut-sop">📂 报税SOP (标准操作流程)</button>
                         <div id="sut-sop" class="sop-content">
                             <div class="sop-content-inner">
-                                <p><strong>一、核心原则与定义</strong><br>
-                                CA SUT = 7.25% 基准 + 地方附加税，按收货地计税；卖方收 Sales Tax，买方补 Use Tax，核心是“有形动产 + 零售/使用”，合规关键在税率准确、Use Tax不漏报。</p>
-                                <ul>
-                                    <li><strong>Sales Tax</strong>：对有形动产零售销售征收，由卖方代收代缴给CDTFA。</li>
-                                    <li><strong>Use Tax</strong>：对在加州使用但未缴销售税的应税商品征收，由买方自行申报。</li>
-                                    <li>征管主体：CDTFA，遵循目的地原则（按收货地计税）。</li>
-                                </ul>
+                                <!-- 步骤1：数据下载 -->
+                                <div class="sop-step">
+                                    <div class="sop-step-title">
+                                        <span class="step-number">1</span> 数据下载
+                                    </div>
+                                    <p>登录上方「数据源A/B」下载当月 4 类核心报表：</p>
+                                    <ul>
+                                        <li><strong>商品订单收入报表</strong></li>
+                                        <li><strong>预收明细报表</strong></li>
+                                        <li><strong>商品订单表</strong></li>
+                                        <li><strong>课程订单表</strong></li>
+                                    </ul>
+                                    <p>下载链接：</p>
+                                    <ul>
+                                        <li><a href="https://sso.100tal.com/portal/login/489804597" target="_blank">https://sso.100tal.com/portal/login/489804597</a></li>
+                                        <li><a href="https://sso.100tal.com/portal/login/388143234" target="_blank">https://sso.100tal.com/portal/login/388143234</a></li>
+                                    </ul>
+                                </div>
 
-                                <p><strong>二、税率结构（2026年）</strong><br>
-                                州基准税率：7.25%（含6.00%州税 + 1.25%强制地方税）<br>
-                                地方附加税：0%–3.5%，综合税率最高可达10.75%（如旧金山、洛杉矶部分区域）<br>
-                                税率查询：使用CDTFA官方工具，按收货邮编查询精确税率。</p>
+                                <!-- 步骤2：数据清洗 -->
+                                <div class="sop-step">
+                                    <div class="sop-step-title">
+                                        <span class="step-number">2</span> 数据清洗
+                                    </div>
+                                    <p>筛选商品订单收入报表，删除「交易类型名称」列为「退款」的对应订单 ID 及相关数据。</p>
+                                </div>
 
-                                <p><strong>三、征税范围</strong></p>
-                                <ul>
-                                    <li>✅ 应税项目：有形动产零售、跨境/跨州采购自用、赠予/内部领用应税商品</li>
-                                    <li>❌ 免税项目：未加工食品杂货、处方药/医疗设备、制造业/研发设备、转售商品（凭Resale Certificate）、州际/国际贸易商品</li>
-                                </ul>
+                                <!-- 步骤3：数据合并 -->
+                                <div class="sop-step">
+                                    <div class="sop-step-title">
+                                        <span class="step-number">3</span> 数据合并
+                                    </div>
+                                    <p>以订单编号为关联键，将清洗后的商品订单表与课程订单表合并，整合关联数据。</p>
+                                </div>
+
+                                <!-- 关键注意点 -->
+                                <div class="sop-note">
+                                    <p><strong>🔑 关键注意点</strong></p>
+                                    <ul>
+                                        <li><strong>数据筛选核心规则：</strong>仅剔除「退款」类订单 ID，保留其他交易类型数据；</li>
+                                        <li><strong>合并核心依据：</strong>严格以「订单编号」为唯一匹配维度，确保两表数据关联准确；</li>
+                                        <li><strong>数据源范围：</strong>覆盖加州的 4 类官方报表，需区分州级数据维度。</li>
+                                    </ul>
+                                </div>
 
                                 <div class="sop-download">
                                     <a href="assets/sop/CA-SUT-SOP.pdf" class="btn btn-secondary" download>📥 下载PDF版SOP</a>
-                                    <span style="color:#94a3b8; font-size:0.8rem;">PDF版本包含完整流程图</span>
+                                    <span style="color:#94a3b8; font-size:0.8rem;">PDF版本包含完整内容</span>
                                 </div>
                             </div>
                         </div>
