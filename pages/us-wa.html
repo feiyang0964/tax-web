@@ -584,7 +584,7 @@
             <h4>📋 税种导航</h4>
             <div class="tax-nav-list">
                 <div class="tax-nav-item active" data-pane="bo-sales-pane">
-                    <span class="emoji-bg">🏭🛒</span> B&O + SUT (合并模板)
+                    <span class="emoji-bg">🏭🛒</span> B&O + SUT 
                 </div>
                 <div class="tax-nav-item" data-pane="payroll-pane">
                     <span class="emoji-bg">👔</span> 工资税
@@ -614,10 +614,10 @@
                     <div class="rate-desc">B&O：按行业征收，无企业所得税，按总收入计算，无抵扣项</div>
                     
                     <div class="rate-badge" style="font-size:1.6rem; margin-top:16px;">销售税: 6.5% + 地方税</div>
-                    <div class="rate-desc">销售税：州基准6.5% + 地方附加税 (0-4.0%)，综合最高10.5%。按交易发生地计税</div>
+                    <div class="rate-desc">SUT：州基准6.5% + 地方附加税 (0-4.0%)，综合最高10.5%。按交易发生地计税</div>
 
                     <div class="data-block">
-                        <h6>📥 公司内部原始数据 (B&O + 销售税共用数据源)</h6>
+                        <h6>📥 公司内部原始数据 (B&O + SUT共用数据源)</h6>
                         <div class="data-links">
                             <div class="data-link-item">
                                 <h6>数据源 A</h6>
@@ -648,7 +648,7 @@
                                         <li><strong>B&O部分：</strong>按行业分类匹配B&O税率，计算B&O税额</li>
                                         <li><strong>SUT部分：</strong>按交易地点匹配地方税率，计算SUT</li>
                                         <li>区分不同收入类型和交易类型</li>
-                                        <li>自动生成两张计算结果表：B&O汇总表、销售税汇总表</li>
+                                        <li>自动生成计算结果表</li>
                                     </ul>
                                 </li>
                                 <li>核对计算结果，重点检查行业分类准确性、地方税率匹配正确性</li>
@@ -659,13 +659,13 @@
 
                     <!-- SOP折叠块 - B&O+SUT合并SOP -->
                     <div class="sop-section">
-                        <button class="collapsible" data-target="bo-sales-sop">📂 B&O + 销售税 合并SOP (标准操作流程)</button>
+                        <button class="collapsible" data-target="bo-sales-sop">📂 B&O + SUT 合并SOP (标准操作流程)</button>
                         <div id="bo-sales-sop" class="sop-content">
                             <div class="sop-content-inner">
                                 <!-- 步骤1：数据下载 -->
                                 <div class="sop-step">
                                     <div class="sop-step-title">
-                                        <span class="step-number">1</span> 数据下载 (B&O + 销售税)
+                                        <span class="step-number">1</span> 数据下载 (B&O + SUT)
                                     </div>
                                     <p>登录 Think Engine 下载核心报表：</p>
                                     <ul>
@@ -693,13 +693,13 @@
                                         <span class="step-number">3</span> 数据合并
                                     </div>
                                     <p>以订单编号为关联键，将清洗后的商品订单表与服务收入表合并，整合关联数据。</p>
-                                    <p>按行业分类汇总总收入（B&O计税基础），按交易地点汇总销售额（销售税计税基础）。</p>
+                                    <p>按行业分类汇总总收入（B&O计税基础），按交易地点汇总销售额（SUT计税基础）。</p>
                                 </div>
 
                                 <!-- 步骤4：税率匹配（分两部分） -->
                                 <div class="sop-step">
                                     <div class="sop-step-title">
-                                        <span class="step-number">4</span> 税率匹配（B&O + 销售税）
+                                        <span class="step-number">4</span> 税率匹配（B&O + SUT）
                                     </div>
                                     <p><strong>B&O税率匹配：</strong></p>
                                     <ul>
@@ -709,7 +709,7 @@
                                         <li>批发业：0.484%</li>
                                         <li>其他：0.138% - 1.5%</li>
                                     </ul>
-                                    <p><strong>销售税地方税率匹配：</strong></p>
+                                    <p><strong>SUT地方税率匹配：</strong></p>
                                     <ul>
                                         <li>州基准税率：6.5%</li>
                                         <li>地方附加税：0% - 4.0% (按交易地点匹配)</li>
@@ -884,7 +884,7 @@
             } else if (msg.includes('销售税') || msg.includes('SUT')) {
                 aiDiv.textContent = 'WA销售使用税 = 6.5%州税 + 地方税 (0-4.0%)，最高10.5%。按交易发生地计税。';
             } else if (msg.includes('合并') || msg.includes('模板')) {
-                aiDiv.textContent = 'B&O和销售税使用同一合并模板，下载后一键刷新即可同时计算两种税。';
+                aiDiv.textContent = 'B&O和SUT使用同一合并模板，下载后一键刷新即可同时计算两种税。';
             } else if (msg.includes('截止')) {
                 aiDiv.textContent = 'B&O税：月度申报次月25日；销售税：月度申报次月20日。';
             } else {
