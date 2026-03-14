@@ -18,14 +18,16 @@
             background-color: #f5f7fa;
         }
         
+        /* 核心容器固定1200px宽度 */
         .container {
-            max-width: 1200px;
+            width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
+        /* 深蓝色导航栏 */
         header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #0f4c81 0%, #1a5f99 100%);
             color: white;
             padding: 30px 0;
             position: relative;
@@ -75,11 +77,29 @@
         
         .update-tag {
             background: #e8f4fd;
-            color: #3498db;
+            color: #1a5f99;
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.9em;
             font-weight: 500;
+        }
+        
+        /* 核心官网链接区域样式强化 */
+        .core-links-section {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-top: 5px solid #1a5f99;
+        }
+        
+        .core-links-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e1e8ed;
+            font-size: 1.5em;
         }
         
         .tax-section {
@@ -106,7 +126,7 @@
         .template-button {
             display: inline-block;
             padding: 10px 20px;
-            background: #3498db;
+            background: #1a5f99;
             color: white;
             text-decoration: none;
             border-radius: 6px;
@@ -117,7 +137,7 @@
         }
         
         .template-button:hover {
-            background: #2980b9;
+            background: #0f4c81;
         }
         
         .template-button.secondary {
@@ -130,34 +150,69 @@
         
         .tax-info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
             margin-top: 15px;
         }
         
+        /* 税种卡片样式优化 */
         .tax-card {
             background: #f8f9fa;
-            padding: 20px;
-            border-radius: 6px;
-            border-left: 4px solid #3498db;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #1a5f99;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        
+        .tax-card:hover {
+            transform: translateY(-5px);
         }
         
         .tax-card h4 {
             color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tax-card h4::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: #1a5f99;
+            border-radius: 2px;
         }
         
         .tax-rate {
-            font-size: 1.5em;
+            font-size: 1.8em;
             font-weight: 600;
             color: #e74c3c;
-            margin: 10px 0;
+            margin: 15px 0;
         }
         
         .tax-desc {
             color: #7f8c8d;
             font-size: 0.95em;
+            margin-bottom: 20px;
+        }
+        
+        /* SUT税专属模块样式 */
+        .sut-tax-content {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border: 1px solid #d4e6f1;
+        }
+        
+        .sut-tax-content h5 {
+            color: #1a5f99;
+            font-size: 1.1em;
+            margin-bottom: 15px;
         }
         
         .collapsible {
@@ -180,9 +235,9 @@
         }
         
         .collapsible.active {
-            background: #3498db;
+            background: #1a5f99;
             color: white;
-            border-color: #2980b9;
+            border-color: #0f4c81;
         }
         
         .content {
@@ -196,14 +251,6 @@
         
         .content p {
             margin: 15px 0;
-        }
-        
-        .template-section {
-            background: #f0f7ff;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 1px solid #d4e6f1;
         }
         
         .template-guide {
@@ -260,7 +307,7 @@
         .ai-chat-toggle {
             width: 60px;
             height: 60px;
-            background: #3498db;
+            background: #1a5f99;
             color: white;
             border: none;
             border-radius: 50%;
@@ -290,7 +337,7 @@
         }
         
         .ai-chat-header {
-            background: #3498db;
+            background: #1a5f99;
             color: white;
             padding: 15px;
             border-radius: 12px 12px 0 0;
@@ -325,7 +372,7 @@
         }
         
         .user-message {
-            background: #3498db;
+            background: #1a5f99;
             color: white;
             margin-left: auto;
         }
@@ -346,7 +393,7 @@
         
         .ai-chat-input button {
             padding: 10px 15px;
-            background: #3498db;
+            background: #1a5f99;
             color: white;
             border: none;
             border-radius: 0 4px 4px 0;
@@ -358,6 +405,14 @@
             color: white;
             padding: 20px 0;
             text-align: center;
+        }
+        
+        /* 响应式适配 */
+        @media (max-width: 1200px) {
+            .container {
+                width: 100%;
+                max-width: 1200px;
+            }
         }
         
         @media (max-width: 768px) {
@@ -379,6 +434,10 @@
             .ai-chat-window {
                 width: 300px;
             }
+            
+            .tax-info-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -397,41 +456,17 @@
             <span class="update-tag">税率最后更新：2026-03-12</span>
         </div>
 
-            
-<section class="tax-section">
-    <h3>🔗 核心链接</h3>
-    <div class="links-grid">
-        <a href="https://www.ftb.ca.gov/" target="_blank" class="template-button">加州税费管理局 (FTB) 官网</a>
-        <a href="https://www.cdtfa.ca.gov/" target="_blank" class="template-button">加州税务与收费管理局 (CDTFA) 官网</a>
-        <a href="https://www.edd.ca.gov/" target="_blank" class="template-button">加州就业发展局 (EDD) 官网</a>
-    </div>
-    
-    <!-- 原始数据下载链接（两个SUT数据源） -->
-    <h4 style="margin: 25px 0 15px;">📥 公司内部原始数据下载</h4>
-    <div class="data-links">
-        <div class="data-link-item">
-            <h5>销售税/使用税 (SUT) 原始数据 - 数据源A</h5>
-            <div class="data-link-desc">包含：商品订单、课程订单（Resale Certificate）</div>
-            <a href="https://sso.100tal.com/portal/login/489804597" target="_blank" class="template-button secondary">🔐 登录下载 SUT 数据 A</a>
-        </div>
-        <div class="data-link-item">
-            <h5>销售税/使用税 (SUT) 原始数据 - 数据源B</h5>
-            <div class="data-link-desc">包含：预收明细报表、商品订单收入报表（Resale Certificate）</div>
-            <a href="https://sso.100tal.com/portal/login/388143234" target="_blank" class="template-button secondary">🔐 登录下载 SUT 数据 B</a>
-        </div>
-    </div>
+        <!-- 核心官网链接（置顶展示） -->
+        <section class="core-links-section">
+            <h3>🔗 加州核心税务官网</h3>
+            <div class="links-grid">
+                <a href="https://www.ftb.ca.gov/" target="_blank" class="template-button">加州税费管理局 (FTB) 官网</a>
+                <a href="https://www.cdtfa.ca.gov/" target="_blank" class="template-button">加州税务与收费管理局 (CDTFA) 官网</a>
+                <a href="https://www.edd.ca.gov/" target="_blank" class="template-button">加州就业发展局 (EDD) 官网</a>
+            </div>
+        </section>
 
-    <!-- 其他税种数据说明 -->
-    <div style="background: #f8f9fa; border-left: 4px solid #95a5a6; padding: 15px; margin: 20px 0 0 0; border-radius: 4px;">
-        <strong>📌 其他税种数据说明：</strong>
-        <ul style="margin: 10px 0 0 20px; color: #7f8c8d;">
-            <li>企业所得税、工资税、财产税等数据暂不提供在线下载，请通过线下渠道获取</li>
-            <li>如需协助，请联系税务组</li>
-        </ul>
-    </div>
-</section>
-
-        <!-- 主要税种 -->
+        <!-- 主要税种（卡片式展示） -->
         <section class="tax-section">
             <h3>💰 加州主要税种</h3>
             <div class="tax-info-grid">
@@ -442,11 +477,85 @@
                     <div class="tax-desc">固定税率，基于在加州产生的净收入计算。S型公司税率1.5%</div>
                 </div>
                 
-                <!-- 销售税/使用税 -->
+                <!-- 销售税/使用税（包含SOP、模板、数据下载） -->
                 <div class="tax-card">
-                    <h4>销售税 / 使用税</h4>
+                    <h4>销售税 / 使用税 (SUT)</h4>
                     <div class="tax-rate">7.25% + 地方税</div>
                     <div class="tax-desc">州基准7.25% + 地方附加税(0-3.5%)，综合最高10.75%。按收货地址计税</div>
+                    
+                    <!-- SUT税专属内容模块 -->
+                    <div class="sut-tax-content">
+                        <h5>📥 公司内部原始数据下载</h5>
+                        <div class="data-links">
+                            <div class="data-link-item">
+                                <h5>数据源A</h5>
+                                <div class="data-link-desc">包含：商品订单、课程订单（Resale Certificate）</div>
+                                <a href="https://sso.100tal.com/portal/login/489804597" target="_blank" class="template-button secondary">🔐 登录下载</a>
+                            </div>
+                            <div class="data-link-item">
+                                <h5>数据源B</h5>
+                                <div class="data-link-desc">包含：预收明细报表、商品订单收入报表</div>
+                                <a href="https://sso.100tal.com/portal/login/388143234" target="_blank" class="template-button secondary">🔐 登录下载</a>
+                            </div>
+                        </div>
+
+                        <!-- 报税SOP -->
+                        <div style="margin-top: 20px;">
+                            <button class="collapsible">📂 报税SOP文档（点击展开）</button>
+                            <div class="content">
+                                <p><strong>第1步：下载原始数据</strong><br>
+                                从上方「公司内部原始数据下载」区域，下载当月税务原始数据</p>
+                                
+                                <p><strong>第2步：打开算税模板</strong><br>
+                                打开CA州算税模板Excel文件</p>
+                                
+                                <p><strong>第3步：PQ一键刷新</strong><br>
+                                在Excel中替换原始数据，然后点击「数据」选项卡 → 「全部刷新」，Power Query自动读取最新数据并计算</p>
+                                
+                                <p><strong>第4步：核对税额</strong><br>
+                                检查模板生成的应缴税额是否合理，与上月数据对比是否有异常波动</p>
+                                
+                                <p><strong>第5步：登录官网申报</strong><br>
+                                - 销售税：登录 <a href="https://www.cdtfa.ca.gov/" target="_blank">CDTFA官网</a> 填写申报表 CDTFA-401</p>
+                                
+                                <p><strong>第6步：保存回执</strong><br>
+                                下载申报回执/缴款凭证，保存至公司税务档案备查</p>
+                                
+                                <a href="#" class="template-button" style="margin-top:15px;" onclick="alert('PDF版SOP正在生成中，敬请期待')">📥 下载PDF版SOP</a>
+                            </div>
+                        </div>
+
+                        <!-- 算税模板 -->
+                        <div style="margin-top: 20px;">
+                            <h5>📊 CA州SUT算税模板（PQ一键更新版）</h5>
+                            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
+                                <a href="assets/templates/ca-tax-calculator.xlsx" class="template-button" download>下载算税模板 (Excel)</a>
+                                <a href="#" class="template-button secondary" onclick="alert('使用指引正在准备中')">📄 模板使用指引 (PDF)</a>
+                            </div>
+                            
+                            <div class="template-guide">
+                                <strong>📌 模板使用步骤：</strong>
+                                <ol>
+                                    <li><strong>下载原始数据：</strong>点击上方「销售税/使用税原始数据」链接，登录SSO下载当月CSV文件</li>
+                                    <li><strong>打开模板：</strong>下载并打开「CA算税模板.xlsx」</li>
+                                    <li><strong>复制并刷新数据：</strong>在Excel中点击 <code>数据 → 全部刷新</code>，Power Query会自动：
+                                        <ul style="margin-left: 20px; margin-top: 5px;">
+                                            <li>读取原始文件</li>
+                                            <li>按收货邮编匹配地方税率</li>
+                                            <li>区分应税/免税交易</li>
+                                            <li>计算销售税、使用税</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>核对结果：</strong>检查生成，确认无误后即可用于申报</li>
+                                    <li><strong>归档：</strong>保存模板副本，作为当月税务底稿</li>
+                                </ol>
+                            </div>
+                            
+                            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-top: 15px; border-radius: 4px;">
+                                <strong>⚠️ 注意：</strong> 模板中的税率数据每月自动从CDTFA官网同步，但建议在申报前手动核对 <a href="https://www.cdtfa.ca.gov/taxes-and-fees/sales-use-tax-rates.htm" target="_blank">官方最新税率表</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- 工资税 -->
@@ -462,71 +571,6 @@
                     <div class="tax-rate">约1% + 地方附加</div>
                     <div class="tax-desc">按房产评估价值的1%征收，外加选民批准的地方附加税</div>
                 </div>
-            </div>
-        </section>
-
-        <!-- 报税SOP（可自行修改文字） -->
-        <section class="tax-section">
-            <h3>📋 报税SOP</h3>
-            <div class="tax-info-item">
-                <strong>快捷提示：</strong>
-                下载原始数据 → 导入算税模板 → PQ一键更新 → 确认后申报
-            </div>
-            
-            <button class="collapsible">📂 查看完整SOP文档（点击展开）</button>
-            <div class="content">
-                <p><strong>第1步：下载原始数据</strong><br>
-                从上方「公司内部原始数据下载」区域，下载当月税务原始数据</p>
-                
-                <p><strong>第2步：打开算税模板</strong><br>
-                打开CA州算税模板Excel文件（下方可下载）</p>
-                
-                <p><strong>第3步：PQ一键刷新</strong><br>
-                在Excel中替换原始数据，然后点击「数据」选项卡 → 「全部刷新」，Power Query自动读取最新数据并计算</p>
-                
-                <p><strong>第4步：核对税额</strong><br>
-                检查模板生成的应缴税额是否合理，与上月数据对比是否有异常波动</p>
-                
-                <p><strong>第5步：登录官网申报</strong><br>
-                - 销售税：登录 <a href="https://www.cdtfa.ca.gov/" target="_blank">CDTFA官网</a> 填写申报表 CDTFA-401<br>
-                - 公司税：登录 <a href="https://www.ftb.ca.gov/" target="_blank">FTB官网</a> 申报<br>
-                - 工资税：登录 <a href="https://www.edd.ca.gov/" target="_blank">EDD官网</a> 申报</p>
-                
-                <p><strong>第6步：保存回执</strong><br>
-                下载申报回执/缴款凭证，保存至公司税务档案备查</p>
-                
-                <a href="#" class="template-button" style="margin-top:15px;" onclick="alert('PDF版SOP正在生成中，敬请期待')">📥 下载PDF版SOP</a>
-            </div>
-        </section>
-
-        <!-- 算税模板（核心） -->
-        <section class="template-section">
-            <h3>📊 CA州算税模板（PQ一键更新版）</h3>
-            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
-                <a href="assets/templates/ca-tax-calculator.xlsx" class="download-btn" download>下载算税模板 (Excel)</a>
-                <a href="#" class="template-button secondary" onclick="alert('使用指引正在准备中')">📄 模板使用指引 (PDF)</a>
-            </div>
-            
-            <div class="template-guide">
-                <strong>📌 模板使用步骤：</strong>
-                <ol>
-                    <li><strong>下载原始数据：</strong>点击上方「销售税/使用税原始数据」链接，登录SSO下载当月CSV文件</li>
-                    <li><strong>打开模板：</strong>下载并打开「CA算税模板.xlsx」</li>
-                    <li><strong>复制并刷新数据：</strong>在Excel中点击 <code>数据 → 全部刷新</code>，Power Query会自动：
-                        <ul style="margin-left: 20px; margin-top: 5px;">
-                            <li>读取原始文件</li>
-                            <li>按收货邮编匹配地方税率</li>
-                            <li>区分应税/免税交易</li>
-                            <li>计算销售税、使用税</li>
-                        </ul>
-                    </li>
-                    <li><strong>核对结果：</strong>检查生成，确认无误后即可用于申报</li>
-                    <li><strong>归档：</strong>保存模板副本，作为当月税务底稿</li>
-                </ol>
-            </div>
-            
-            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-top: 20px; border-radius: 4px;">
-                <strong>⚠️ 注意：</strong> 模板中的税率数据每月自动从CDTFA官网同步，但建议在申报前手动核对 <a href="https://www.cdtfa.ca.gov/taxes-and-fees/sales-use-tax-rates.htm" target="_blank">官方最新税率表</a>
             </div>
         </section>
     </main>
@@ -617,5 +661,4 @@
         }
     </script>
 </body>
-
 </html>
