@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>海外税务信息平台 · 全球税务地图</title>
+    <title>海外税务 · 全球视图</title>
     
     <!-- 加载 Google Charts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -15,751 +15,673 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f7fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #f2f4f8;
+            color: #1e293b;
+            font-size: 14px;
+            line-height: 1.5;
         }
-        
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px 24px;
         }
-        
-        header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 40px 0;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        
-        header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-        
-        .map-section {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            margin-bottom: 40px;
-        }
-        
-        .map-section h2 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        
-        .map-section .subtitle {
-            color: #7f8c8d;
-            margin-bottom: 20px;
-        }
-        
-        #geochart-colors {
-            width: 100%;
-            height: 600px;
-            margin: 20px 0;
-            border: 1px solid #e1e8ed;
-            border-radius: 8px;
-        }
-        
-        .legend {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            margin: 20px 0 10px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .legend-item {
+
+        /* 极简头部 */
+        .top-bar {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.95em;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
         }
-        
-        .legend-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
+
+        .logo-area h1 {
+            font-size: 1.6rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: #0f172a;
         }
-        
-        .legend-dot.red { background: #e74c3c; }
-        .legend-dot.blue { background: #3498db; }
-        .legend-dot.gray { background: #95a5a6; }
-        .legend-dot.white { background: #ecf0f1; border: 1px solid #bdc3c7; }
-        
+
+        .logo-area p {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 2px;
+        }
+
+        .legend-mini {
+            display: flex;
+            gap: 24px;
+            background: #ffffffd9;
+            padding: 6px 20px;
+            border-radius: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            font-size: 0.8rem;
+        }
+
+        .legend-mini span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+        }
+        .dot.red { background: #e74c3c; }
+        .dot.blue { background: #3498db; }
+        .dot.gray { background: #94a3b8; }
+        .dot.white { background: #ffffff; border: 1px solid #cbd5e1; }
+
+        /* 地图双栏布局 */
+        .map-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .map-card {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 16px 16px 12px 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            border: 1px solid #edf2f7;
+        }
+
+        .map-card h3 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: #64748b;
+            margin-bottom: 8px;
+            padding-left: 4px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* 快速入口 —— 纯卡片导航 */
         .quick-section {
             background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-radius: 24px;
+            padding: 20px 24px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+            border: 1px solid #edf2f7;
         }
-        
-        .quick-section h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
+
+        .tab-nav {
+            display: flex;
+            gap: 2px;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 40px;
+            width: fit-content;
+            margin-bottom: 24px;
         }
-        
-        .country-group {
-            margin-bottom: 30px;
+
+        .tab-btn {
+            border: none;
+            background: transparent;
+            padding: 6px 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 30px;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.15s;
         }
-        
-        .country-group h3 {
-            color: #2c3e50;
-            font-size: 1.3em;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #e1e8ed;
+
+        .tab-btn.active {
+            background: white;
+            color: #0f172a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
-        
-        .country-group h3 .flag {
-            margin-right: 8px;
-        }
-        
+
         .state-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;
         }
-        
-        .card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 18px;
-            transition: all 0.2s ease;
+
+        .card-item {
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 14px 16px;
             cursor: pointer;
-            border-left: 4px solid transparent;
+            border-left: 3px solid transparent;
+            transition: background 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
-        
-        .card:hover {
-            background: #e8f4fd;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+
+        .card-item:hover {
+            background: #f1f5f9;
         }
-        
-        .card.active {
+
+        .card-item.active {
             border-left-color: #e74c3c;
         }
-        
-        .card.future {
+        .card-item.future {
             border-left-color: #3498db;
-            opacity: 0.8;
         }
-        
-        .card.other {
-            border-left-color: #95a5a6;
-            opacity: 0.7;
+        .card-item.other {
+            border-left-color: #94a3b8;
         }
-        
+
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
         }
-        
+
         .card-title {
             font-weight: 600;
-            font-size: 1.1em;
-            color: #2c3e50;
+            font-size: 0.9rem;
+            color: #0f172a;
         }
-        
+
         .badge {
-            font-size: 0.7em;
-            padding: 3px 8px;
+            font-size: 0.65rem;
+            padding: 2px 8px;
             border-radius: 20px;
             font-weight: 500;
+            background: white;
+            color: #334155;
+            border: 1px solid #e2e8f0;
         }
-        
-        .badge.active {
-            background: #e74c3c;
-            color: white;
-        }
-        
-        .badge.future {
-            background: #3498db;
-            color: white;
-        }
-        
-        .badge.other {
-            background: #95a5a6;
-            color: white;
-        }
-        
+        .badge.active { background: #e74c3c; color: white; border: none; }
+        .badge.future { background: #3498db; color: white; border: none; }
+        .badge.other { background: #94a3b8; color: white; border: none; }
+
         .card-desc {
-            font-size: 0.9em;
-            color: #7f8c8d;
+            font-size: 0.75rem;
+            color: #64748b;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
         }
-        
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 25px 0;
-            text-align: center;
-            margin-top: 40px;
-        }
-        
-        footer p {
-            margin: 5px 0;
-            opacity: 0.8;
-            font-size: 0.95em;
-        }
-        
-        #update-time {
-            font-weight: 600;
-            color: #3498db;
-        }
-        
+
+        /* AI助手极简 */
         .ai-chat-container {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
+            bottom: 20px;
+            right: 20px;
             z-index: 1000;
         }
-        
+
         .ai-chat-toggle {
-            width: 56px;
-            height: 56px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 24px;
+            width: 44px;
+            height: 44px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 44px;
+            font-size: 1.4rem;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(52,152,219,0.4);
-            transition: transform 0.2s;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.04);
+            color: #1e293b;
+            transition: all 0.2s;
         }
-        
+
         .ai-chat-toggle:hover {
-            transform: scale(1.1);
+            background: #f8fafc;
+            transform: scale(1.02);
         }
-        
+
         .ai-chat-window {
             position: absolute;
-            bottom: 70px;
+            bottom: 56px;
             right: 0;
-            width: 340px;
+            width: 300px;
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            border: 1px solid #edf2f7;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
             display: none;
             overflow: hidden;
         }
-        
-        .ai-chat-window.show {
-            display: block;
-        }
-        
+
+        .ai-chat-window.show { display: block; }
+
         .ai-chat-header {
-            background: #3498db;
-            color: white;
-            padding: 15px;
+            padding: 14px 16px;
+            font-weight: 500;
+            background: #f8fafc;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
+            border-bottom: 1px solid #edf2f7;
         }
-        
-        .ai-chat-close {
-            cursor: pointer;
-            font-size: 22px;
-            opacity: 0.8;
-        }
-        
-        .ai-chat-close:hover {
-            opacity: 1;
-        }
-        
+
         .ai-chat-messages {
-            height: 280px;
-            padding: 15px;
+            height: 240px;
+            padding: 12px;
             overflow-y: auto;
-            background: #f5f7fa;
+            background: #ffffff;
+            font-size: 0.8rem;
         }
-        
+
         .message {
-            margin-bottom: 12px;
-            padding: 10px 14px;
-            border-radius: 18px;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 16px;
             max-width: 85%;
             word-break: break-word;
-            line-height: 1.4;
         }
-        
         .user-message {
-            background: #3498db;
-            color: white;
+            background: #eef2ff;
+            color: #1e293b;
             margin-left: auto;
             border-bottom-right-radius: 4px;
         }
-        
         .ai-message {
-            background: white;
-            color: #2c3e50;
+            background: #f1f5f9;
+            color: #1e293b;
             margin-right: auto;
             border-bottom-left-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        
+
         .ai-chat-input {
             display: flex;
-            padding: 12px;
-            border-top: 1px solid #e1e8ed;
-            background: white;
+            padding: 10px;
+            border-top: 1px solid #edf2f7;
         }
-        
         .ai-chat-input input {
             flex: 1;
-            padding: 10px 14px;
-            border: 1px solid #e1e8ed;
-            border-radius: 24px;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
             outline: none;
-            font-size: 0.95em;
+            font-size: 0.8rem;
         }
-        
-        .ai-chat-input input:focus {
-            border-color: #3498db;
-        }
-        
         .ai-chat-input button {
             margin-left: 8px;
-            padding: 0 18px;
-            background: #3498db;
+            padding: 0 14px;
+            background: #1e293b;
             color: white;
             border: none;
-            border-radius: 24px;
+            border-radius: 30px;
+            font-size: 0.75rem;
             cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
         }
-        
-        .ai-chat-input button:hover {
-            background: #2980b9;
+
+        footer {
+            margin-top: 32px;
+            padding: 16px 0;
+            font-size: 0.7rem;
+            color: #64748b;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
         }
-        
-        @media (max-width: 768px) {
-            header h1 { font-size: 2em; }
-            #geochart-colors { height: 400px; }
-            .legend { flex-direction: column; align-items: center; gap: 10px; }
-            .state-grid { grid-template-columns: 1fr; }
-            .ai-chat-window { width: 300px; right: 0; }
+
+        #update-time { color: #334155; font-weight: 500; }
+
+        @media (max-width: 800px) {
+            .map-row { flex-direction: column; }
+            .map-container { height: 220px; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>🌍 海外税务信息平台</h1>
-            <p>全球税务地图 · 点击查看详情</p>
+<div class="container">
+
+    <!-- 极简顶部 -->
+    <div class="top-bar">
+        <div class="logo-area">
+            <h1>🌐 海外税务</h1>
+            <p>全球视图 · 州级细览</p>
         </div>
-    </header>
-
-    <main class="container">
-        <section class="map-section">
-            <h2>📍 全球税务地图</h2>
-            <div class="subtitle">红色：已上线州 | 蓝色：美国其他州 | 灰色：待开发国家 | 白色：其他国家</div>
-            
-            <div id="geochart-colors"></div>
-            
-            <div class="legend">
-                <div class="legend-item">
-                    <span class="legend-dot red"></span>
-                    <span>已上线州 (CA/WA) - 点击跳转</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-dot blue"></span>
-                    <span>美国其他州 - 即将上线</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-dot gray"></span>
-                    <span>待开发国家 - 点击可查看</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-dot white"></span>
-                    <span>其他国家 - 暂未规划</span>
-                </div>
-            </div>
-        </section>
-        
-        <section class="quick-section">
-            <h2>📌 快速入口</h2>
-            
-            <div class="country-group">
-                <h3><span class="flag">🇺🇸</span> 美国</h3>
-                <div class="state-grid">
-                    <div class="card active" onclick="window.location.href='pages/us-ca.html'">
-                        <div class="card-header">
-                            <span class="card-title">加利福尼亚州 (CA)</span>
-                            <span class="badge active">已上线</span>
-                        </div>
-                        <div class="card-desc">
-                            销售税 7.25% + 地方税 · 企业所得税 8.84%
-                        </div>
-                    </div>
-                    
-                    <div class="card active" onclick="window.location.href='pages/us-wa.html'">
-                        <div class="card-header">
-                            <span class="card-title">华盛顿州 (WA)</span>
-                            <span class="badge active">已上线</span>
-                        </div>
-                        <div class="card-desc">
-                            销售税 6.5% + 地方税 · B&O税 0.471%
-                        </div>
-                    </div>
-                    
-                    <div class="card future" onclick="alert('德克萨斯州(TX)税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">德克萨斯州 (TX)</span>
-                            <span class="badge future">开发中</span>
-                        </div>
-                        <div class="card-desc">
-                            州销售税 6.25% · 地方税最高2%
-                        </div>
-                    </div>
-                    
-                    <div class="card future" onclick="alert('纽约州(NY)税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">纽约州 (NY)</span>
-                            <span class="badge future">开发中</span>
-                        </div>
-                        <div class="card-desc">
-                            州销售税 4% · 地方税最高4.875%
-                        </div>
-                    </div>
-                    
-                    <div class="card future" onclick="alert('佛罗里达州(FL)税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">佛罗里达州 (FL)</span>
-                            <span class="badge future">开发中</span>
-                        </div>
-                        <div class="card-desc">
-                            州销售税 6% · 地方税最高1.5%
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="country-group">
-                <h3><span class="flag">🌍</span> 欧洲</h3>
-                <div class="state-grid">
-                    <div class="card other" onclick="alert('🇬🇧 英国税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">英国</span>
-                            <span class="badge other">开发中</span>
-                        </div>
-                        <div class="card-desc">VAT 20% · 季度申报</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="country-group">
-                <h3><span class="flag">🌎</span> 美洲</h3>
-                <div class="state-grid">
-                    <div class="card other" onclick="alert('🇨🇦 加拿大税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">加拿大</span>
-                            <span class="badge other">开发中</span>
-                        </div>
-                        <div class="card-desc">GST 5% · 各省PST</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="country-group">
-                <h3><span class="flag">🌏</span> 亚洲</h3>
-                <div class="state-grid">
-                    <div class="card other" onclick="alert('🇸🇬 新加坡税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">新加坡</span>
-                            <span class="badge other">开发中</span>
-                        </div>
-                        <div class="card-desc">GST 9% · 季度申报</div>
-                    </div>
-                    <div class="card other" onclick="alert('🇲🇾 马来西亚税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">马来西亚</span>
-                            <span class="badge other">开发中</span>
-                        </div>
-                        <div class="card-desc">SST · 企业所得税</div>
-                    </div>
-                    <div class="card other" onclick="alert('🇭🇰 香港税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">香港</span>
-                            <span class="badge other">开发中</span>
-                        </div>
-                        <div class="card-desc">利得税 16.5% · 无销售税</div>
-                    </div>
-                    <div class="card other" onclick="alert('🇯🇵 日本税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">日本</span>
-                            <span class="badge other">开发中</span>
-                        </div>
-                        <div class="card-desc">消费税 10% · 法人税</div>
-                    </div>
-                    <div class="card other" onclick="alert('🇰🇷 韩国税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">韩国</span>
-                            <span class="badge other">开发中</span>
-                        </div>
-                        <div class="card-desc">增值税 10% · 法人税</div>
-                    </div>
-                    <div class="card other" onclick="alert('🇨🇳 中国税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">中国</span>
-                            <span class="badge other">开发中</span>
-                        </div>
-                        <div class="card-desc">增值税 · 企业所得税 25%</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="country-group">
-                <h3><span class="flag">🌏</span> 大洋洲</h3>
-                <div class="state-grid">
-                    <div class="card other" onclick="alert('🇦🇺 澳大利亚税务信息即将上线，敬请期待！')">
-                        <div class="card-header">
-                            <span class="card-title">澳大利亚</span>
-                            <span class="badge other">开发中</span>
-                        </div>
-                        <div class="card-desc">GST 10% · 季度申报</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div class="ai-chat-container">
-        <button class="ai-chat-toggle" id="ai-chat-toggle">💬</button>
-        <div class="ai-chat-window" id="ai-chat-window">
-            <div class="ai-chat-header">
-                <span>🤖 税务AI助手</span>
-                <span class="ai-chat-close" id="ai-chat-close">×</span>
-            </div>
-            <div class="ai-chat-messages" id="ai-chat-messages">
-                <div class="message ai-message">
-                    你好！我是税务助手，可以帮你查询：<br>
-                    • CA/WA税率、截止日<br>
-                    • 报税SOP步骤<br>
-                    • 税率变化提醒
-                </div>
-            </div>
-            <div class="ai-chat-input">
-                <input type="text" id="ai-chat-input" placeholder="输入问题...">
-                <button id="ai-chat-send">发送</button>
-            </div>
+        <div class="legend-mini">
+            <span><span class="dot red"></span> 已上线(点击跳转)</span>
+            <span><span class="dot blue"></span> 美国其他州(开发)</span>
+            <span><span class="dot gray"></span> 待开发国家</span>
+            <span><span class="dot white"></span> 其他国家</span>
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>税率数据最后更新时间：<span id="update-time"></span></p>
-            <p>© 2026 海外税务信息平台 · 数据仅供参考，请以官方机构为准</p>
+    <!-- 双地图：世界 + 美国细分 -->
+    <div class="map-row">
+        <!-- 世界地图 -->
+        <div class="map-card">
+            <h3>🌍 世界 · 税务状态</h3>
+            <div id="world-map" class="map-container"></div>
         </div>
-    </footer>
+        <!-- 美国细分地图 -->
+        <div class="map-card">
+            <h3>🇺🇸 美国 · 州级细览</h3>
+            <div id="usa-map" class="map-container"></div>
+        </div>
+    </div>
 
-    <script>
-        google.charts.load('current', {
-            'packages': ['geochart']
+    <!-- 快速入口 · 卡片导航 (按州切换) -->
+    <div class="quick-section">
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="us">🇺🇸 美国</button>
+            <button class="tab-btn" data-tab="asia">🌏 亚洲</button>
+            <button class="tab-btn" data-tab="eu">🌍 欧洲</button>
+            <button class="tab-btn" data-tab="americas">🌎 美洲</button>
+            <button class="tab-btn" data-tab="oceania">🌏 大洋洲</button>
+        </div>
+
+        <!-- 美国各州卡片 (默认显示) -->
+        <div id="tab-us" class="state-grid" style="display: grid;">
+            <!-- 动态用JS生成, 但为了结构完整性先放静态占位, 随后会被js替换 -->
+        </div>
+
+        <!-- 其余tab占位, 由js填充 -->
+        <div id="tab-asia" class="state-grid" style="display: none;"></div>
+        <div id="tab-eu" class="state-grid" style="display: none;"></div>
+        <div id="tab-americas" class="state-grid" style="display: none;"></div>
+        <div id="tab-oceania" class="state-grid" style="display: none;"></div>
+    </div>
+
+    <footer>
+        <p>税率更新 · <span id="update-time"></span>  |  数据仅供参考，以官方为准</p>
+    </footer>
+</div>
+
+<!-- AI助手浮窗 -->
+<div class="ai-chat-container">
+    <button class="ai-chat-toggle" id="ai-chat-toggle">💬</button>
+    <div class="ai-chat-window" id="ai-chat-window">
+        <div class="ai-chat-header">
+            <span>🤖 税务助手</span>
+            <span style="cursor:pointer" id="ai-chat-close">✕</span>
+        </div>
+        <div class="ai-chat-messages" id="ai-chat-messages">
+            <div class="message ai-message">问税率 / 截止日 / SOP</div>
+        </div>
+        <div class="ai-chat-input">
+            <input type="text" id="ai-chat-input" placeholder="例如 CA 税率">
+            <button id="ai-chat-send">发送</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    google.charts.load('current', { packages: ['geochart'] });
+    google.charts.setOnLoadCallback(initMaps);
+
+    function initMaps() {
+        drawWorldMap();
+        drawUsaMap();
+        initCards();          // 填充卡片 + 选项卡
+    }
+
+    // ---------- 世界地图 (国家层级) ----------
+    function drawWorldMap() {
+        var worldData = google.visualization.arrayToDataTable([
+            ['Country', 'Status', 'Color'],
+            ['US', '开发中', 2],
+            ['CA', '待开发', 3],
+            ['GB', '待开发', 3],
+            ['SG', '待开发', 3],
+            ['MY', '待开发', 3],
+            ['HK', '待开发', 3],
+            ['JP', '待开发', 3],
+            ['KR', '待开发', 3],
+            ['CN', '待开发', 3],
+            ['AU', '待开发', 3],
+            ['DE', '其他国家', 4],  // 白色用4(未映射) 但我们可以控制颜色轴只到3, 其余自动白色
+            ['FR', '其他国家', 4],
+        ]);
+
+        var worldOptions = {
+            region: 'world',
+            displayMode: 'regions',
+            resolution: 'countries',
+            colorAxis: { colors: ['#e74c3c', '#3498db', '#94a3b8'], values: [1,2,3] },
+            backgroundColor: '#ffffff',
+            datalessRegionColor: '#f1f5f9',
+            defaultColor: '#f1f5f9',
+            keepAspectRatio: false,
+            width: '100%',
+            height: '100%',
+            tooltip: { trigger: 'focus' }
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('world-map'));
+        google.visualization.events.addListener(chart, 'select', function() {
+            var sel = chart.getSelection();
+            if (sel.length) {
+                var row = sel[0].row;
+                var code = worldData.getValue(row, 0);
+                alert('🌍 ' + code + ' 税务开发中，敬请期待');
+            }
         });
-        
-        google.charts.setOnLoadCallback(drawRegionsMap);
-        
-        function drawRegionsMap() {
-            var data = google.visualization.arrayToDataTable([
-                ['Country', 'Status', 'Color'],
-                ['US-CA', '已上线', 1],
-                ['US-WA', '已上线', 1],
-                ['US-TX', '开发中', 2],
-                ['US-NY', '开发中', 2],
-                ['US-FL', '开发中', 2],
-                ['US-IL', '开发中', 2],
-                ['US-PA', '开发中', 2],
-                ['US-OH', '开发中', 2],
-                ['US-GA', '开发中', 2],
-                ['US-NC', '开发中', 2],
-                ['US-MI', '开发中', 2],
-                ['US-NJ', '开发中', 2],
-                ['US-VA', '开发中', 2],
-                ['US-MA', '开发中', 2],
-                ['US-AZ', '开发中', 2],
-                ['US-CO', '开发中', 2],
-                ['US-UT', '开发中', 2],
-                ['US-NV', '开发中', 2],
-                ['US-OR', '开发中', 2],
-                ['US-ID', '开发中', 2],
-                ['US-MT', '开发中', 2],
-                ['US-WY', '开发中', 2],
-                ['US-ND', '开发中', 2],
-                ['US-SD', '开发中', 2],
-                ['US-NE', '开发中', 2],
-                ['US-KS', '开发中', 2],
-                ['US-OK', '开发中', 2],
-                ['US-AR', '开发中', 2],
-                ['US-LA', '开发中', 2],
-                ['US-MS', '开发中', 2],
-                ['US-AL', '开发中', 2],
-                ['US-TN', '开发中', 2],
-                ['US-KY', '开发中', 2],
-                ['US-IN', '开发中', 2],
-                ['US-WV', '开发中', 2],
-                ['US-SC', '开发中', 2],
-                ['US-MD', '开发中', 2],
-                ['US-DE', '开发中', 2],
-                ['US-CT', '开发中', 2],
-                ['US-RI', '开发中', 2],
-                ['US-NH', '开发中', 2],
-                ['US-VT', '开发中', 2],
-                ['US-ME', '开发中', 2],
-                ['US-HI', '开发中', 2],
-                ['US-AK', '开发中', 2],
-                ['SG', '待开发', 3],
-                ['MY', '待开发', 3],
-                ['HK', '待开发', 3],
-                ['JP', '待开发', 3],
-                ['KR', '待开发', 3],
-                ['CN', '待开发', 3],
-                ['AU', '待开发', 3],
-                ['GB', '待开发', 3],
-                ['CA', '待开发', 3]
-            ]);
-            
-            var options = {
-                region: 'world',
-                displayMode: 'regions',
-                resolution: 'provinces',
-                colorAxis: {
-                    colors: ['#e74c3c', '#3498db', '#95a5a6'],
-                    values: [1, 2, 3]
-                },
-                backgroundColor: '#f8fafc',
-                datalessRegionColor: '#ecf0f1',
-                defaultColor: '#ecf0f1',
-                sizeAxis: { minSize: 0.5, maxSize: 1 },
-                keepAspectRatio: false,
-                width: '100%',
-                height: '100%',
-                tooltip: {
-                    textStyle: { color: '#333' },
-                    trigger: 'focus'
+        chart.draw(worldData, worldOptions);
+    }
+
+    // ---------- 美国细分地图 (所有州) ----------
+    function drawUsaMap() {
+        // 构造美国所有州，颜色1/2
+        var rows = [
+            ['US-CA', '已上线', 1],
+            ['US-WA', '已上线', 1],
+            ['US-TX', '开发中', 2],
+            ['US-NY', '开发中', 2],
+            ['US-FL', '开发中', 2],
+            ['US-IL', '开发中', 2],
+            ['US-PA', '开发中', 2],
+            ['US-OH', '开发中', 2],
+            ['US-GA', '开发中', 2],
+            ['US-NC', '开发中', 2],
+            ['US-MI', '开发中', 2],
+            ['US-NJ', '开发中', 2],
+            ['US-VA', '开发中', 2],
+            ['US-MA', '开发中', 2],
+            ['US-AZ', '开发中', 2],
+            ['US-CO', '开发中', 2],
+            ['US-UT', '开发中', 2],
+            ['US-NV', '开发中', 2],
+            ['US-OR', '开发中', 2],
+            ['US-ID', '开发中', 2],
+            ['US-MT', '开发中', 2],
+            ['US-WY', '开发中', 2],
+            ['US-ND', '开发中', 2],
+            ['US-SD', '开发中', 2],
+            ['US-NE', '开发中', 2],
+            ['US-KS', '开发中', 2],
+            ['US-OK', '开发中', 2],
+            ['US-AR', '开发中', 2],
+            ['US-LA', '开发中', 2],
+            ['US-MS', '开发中', 2],
+            ['US-AL', '开发中', 2],
+            ['US-TN', '开发中', 2],
+            ['US-KY', '开发中', 2],
+            ['US-IN', '开发中', 2],
+            ['US-WV', '开发中', 2],
+            ['US-SC', '开发中', 2],
+            ['US-MD', '开发中', 2],
+            ['US-DE', '开发中', 2],
+            ['US-CT', '开发中', 2],
+            ['US-RI', '开发中', 2],
+            ['US-NH', '开发中', 2],
+            ['US-VT', '开发中', 2],
+            ['US-ME', '开发中', 2],
+            ['US-HI', '开发中', 2],
+            ['US-AK', '开发中', 2],
+        ];
+        var usaData = google.visualization.arrayToDataTable([
+            ['State', 'Status', 'Color'], ...rows
+        ]);
+
+        var usaOptions = {
+            region: 'US',
+            displayMode: 'regions',
+            resolution: 'provinces',
+            colorAxis: { colors: ['#e74c3c', '#3498db'], values: [1,2] },
+            backgroundColor: '#ffffff',
+            datalessRegionColor: '#f1f5f9',
+            keepAspectRatio: false,
+            width: '100%',
+            height: '100%',
+            tooltip: { trigger: 'focus' }
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('usa-map'));
+        google.visualization.events.addListener(chart, 'select', function() {
+            var sel = chart.getSelection();
+            if (sel.length) {
+                var row = sel[0].row;
+                var code = usaData.getValue(row, 0);
+                if (code === 'US-CA') window.location.href = 'pages/us-ca.html';
+                else if (code === 'US-WA') window.location.href = 'pages/us-wa.html';
+                else alert(`${code} 税务信息开发中，敬请期待。`);
+            }
+        });
+        chart.draw(usaData, usaOptions);
+    }
+
+    // ---------- 填充卡片 (按州) ----------
+    function initCards() {
+        // 美国各州卡片 (与地图呼应)
+        const usCards = [
+            { code:'CA', name:'加利福尼亚州', badge:'active', desc:'销售税 7.25%+地方 · 企税 8.84%', url:'pages/us-ca.html' },
+            { code:'WA', name:'华盛顿州', badge:'active', desc:'销售税 6.5%+地方 · B&O 0.471%', url:'pages/us-wa.html' },
+            { code:'TX', name:'德克萨斯州', badge:'future', desc:'州销售税 6.25% · 地方最高2%' },
+            { code:'NY', name:'纽约州', badge:'future', desc:'州销售税 4% · 地方最高4.875%' },
+            { code:'FL', name:'佛罗里达州', badge:'future', desc:'州销售税 6% · 地方最高1.5%' },
+            { code:'IL', name:'伊利诺伊州', badge:'future', desc:'销售税 6.25%+地方' },
+            { code:'PA', name:'宾夕法尼亚州', badge:'future', desc:'销售税 6%' },
+            { code:'OH', name:'俄亥俄州', badge:'future', desc:'销售税 5.75%' },
+            { code:'GA', name:'佐治亚州', badge:'future', desc:'销售税 4%+地方' },
+            { code:'NC', name:'北卡罗来纳州', badge:'future', desc:'销售税 4.75%+地方' },
+            { code:'MI', name:'密歇根州', badge:'future', desc:'销售税 6%' },
+            { code:'NJ', name:'新泽西州', badge:'future', desc:'销售税 6.625%' },
+            { code:'VA', name:'弗吉尼亚州', badge:'future', desc:'销售税 5.3%+地方' },
+            { code:'MA', name:'马萨诸塞州', badge:'future', desc:'销售税 6.25%' },
+            { code:'AZ', name:'亚利桑那州', badge:'future', desc:'销售税 5.6%+地方' },
+            { code:'CO', name:'科罗拉多州', badge:'future', desc:'销售税 2.9%+地方' },
+            { code:'UT', name:'犹他州', badge:'future', desc:'销售税 6.1%' },
+            { code:'NV', name:'内华达州', badge:'future', desc:'销售税 6.85%' },
+            { code:'OR', name:'俄勒冈州', badge:'future', desc:'无销售税' },
+            { code:'ID', name:'爱达荷州', badge:'future', desc:'销售税 6%' },
+            { code:'MT', name:'蒙大拿州', badge:'future', desc:'无销售税' },
+            { code:'WY', name:'怀俄明州', badge:'future', desc:'无销售税' },
+            { code:'ND', name:'北达科他州', badge:'future', desc:'销售税 5%+地方' },
+            { code:'SD', name:'南达科他州', badge:'future', desc:'销售税 4.5%' },
+            { code:'NE', name:'内布拉斯加州', badge:'future', desc:'销售税 5.5%+地方' },
+            { code:'KS', name:'堪萨斯州', badge:'future', desc:'销售税 6.5%' },
+            { code:'OK', name:'俄克拉荷马州', badge:'future', desc:'销售税 4.5%+地方' },
+            { code:'AR', name:'阿肯色州', badge:'future', desc:'销售税 6.5%' },
+            { code:'LA', name:'路易斯安那州', badge:'future', desc:'销售税 4.45%+地方' },
+            { code:'MS', name:'密西西比州', badge:'future', desc:'销售税 7%' },
+            { code:'AL', name:'阿拉巴马州', badge:'future', desc:'销售税 4%+地方' },
+            { code:'TN', name:'田纳西州', badge:'future', desc:'销售税 7%' },
+            { code:'KY', name:'肯塔基州', badge:'future', desc:'销售税 6%' },
+            { code:'IN', name:'印第安纳州', badge:'future', desc:'销售税 7%' },
+            { code:'WV', name:'西弗吉尼亚州', badge:'future', desc:'销售税 6%' },
+            { code:'SC', name:'南卡罗来纳州', badge:'future', desc:'销售税 6%' },
+            { code:'MD', name:'马里兰州', badge:'future', desc:'销售税 6%' },
+            { code:'DE', name:'特拉华州', badge:'future', desc:'无销售税' },
+            { code:'CT', name:'康涅狄格州', badge:'future', desc:'销售税 6.35%' },
+            { code:'RI', name:'罗得岛州', badge:'future', desc:'销售税 7%' },
+            { code:'NH', name:'新罕布什尔州', badge:'future', desc:'无销售税' },
+            { code:'VT', name:'佛蒙特州', badge:'future', desc:'销售税 6%' },
+            { code:'ME', name:'缅因州', badge:'future', desc:'销售税 5.5%' },
+            { code:'HI', name:'夏威夷州', badge:'future', desc:'销售税 4%' },
+            { code:'AK', name:'阿拉斯加州', badge:'future', desc:'无州销售税' },
+        ];
+
+        // 其他地区卡片 (简略)
+        const asiaCards = [
+            { name:'新加坡', badge:'other', desc:'GST 9% · 季度申报' },
+            { name:'马来西亚', badge:'other', desc:'SST · 企业所得税' },
+            { name:'香港', badge:'other', desc:'利得税 16.5%' },
+            { name:'日本', badge:'other', desc:'消费税 10% · 法人税' },
+            { name:'韩国', badge:'other', desc:'增值税 10%' },
+            { name:'中国', badge:'other', desc:'增值税 · 企税 25%' },
+        ];
+        const euCards = [ { name:'英国', badge:'other', desc:'VAT 20% · 季度申报' } ];
+        const americasCards = [ { name:'加拿大', badge:'other', desc:'GST 5% · 各省PST' } ];
+        const oceaniaCards = [ { name:'澳大利亚', badge:'other', desc:'GST 10% · 季度申报' } ];
+
+        function renderCards(containerId, cards, type='us') {
+            let html = '';
+            cards.forEach(c => {
+                let badgeClass = c.badge || 'other';
+                let extraAttr = '';
+                let onClick = '';
+                if (c.url) {
+                    onClick = `onclick="window.location.href='${c.url}'"`;
+                } else {
+                    onClick = `onclick="alert('${c.name} 税务开发中，敬请期待')"`;
                 }
-            };
-            
-            var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
-            
-            google.visualization.events.addListener(chart, 'select', function() {
-                var selection = chart.getSelection();
-                if (selection.length > 0) {
-                    var selectedRow = selection[0].row;
-                    var selectedCountry = data.getValue(selectedRow, 0);
-                    
-                    if (selectedCountry === 'US-CA') {
-                        window.location.href = 'pages/us-ca.html';
-                    } else if (selectedCountry === 'US-WA') {
-                        window.location.href = 'pages/us-wa.html';
-                    } else {
-                        var countryName = getCountryName(selectedCountry);
-                        alert(`${countryName}税务信息即将上线，敬请期待！`);
-                    }
-                }
+                html += `<div class="card-item ${badgeClass}" ${onClick}>
+                    <div class="card-header">
+                        <span class="card-title">${c.code ? c.code+' · ' : ''}${c.name}</span>
+                        <span class="badge ${badgeClass}">${badgeClass==='active'?'已上线':(badgeClass==='future'?'开发中':'待上线')}</span>
+                    </div>
+                    <div class="card-desc">${c.desc}</div>
+                </div>`;
             });
-            
-            chart.draw(data, options);
+            document.getElementById(containerId).innerHTML = html;
         }
-        
-        function getCountryName(code) {
-            const names = {
-                'US-TX': '德克萨斯州 (TX)',
-                'US-NY': '纽约州 (NY)',
-                'US-FL': '佛罗里达州 (FL)',
-                'US-IL': '伊利诺伊州 (IL)',
-                'US-PA': '宾夕法尼亚州 (PA)',
-                'US-OH': '俄亥俄州 (OH)',
-                'US-GA': '佐治亚州 (GA)',
-                'US-NC': '北卡罗来纳州 (NC)',
-                'US-MI': '密歇根州 (MI)',
-                'US-NJ': '新泽西州 (NJ)',
-                'US-VA': '弗吉尼亚州 (VA)',
-                'US-MA': '马萨诸塞州 (MA)',
-                'SG': '🇸🇬 新加坡',
-                'MY': '🇲🇾 马来西亚',
-                'HK': '🇭🇰 香港',
-                'JP': '🇯🇵 日本',
-                'KR': '🇰🇷 韩国',
-                'CN': '🇨🇳 中国',
-                'AU': '🇦🇺 澳大利亚',
-                'GB': '🇬🇧 英国',
-                'CA': '🇨🇦 加拿大'
-            };
-            return names[code] || '该地区';
-        }
-        
-        $(document).ready(function() {
-            $('#ai-chat-toggle').click(function() {
-                $('#ai-chat-window').toggleClass('show');
-            });
-            
-            $('#ai-chat-close').click(function() {
-                $('#ai-chat-window').removeClass('show');
-            });
-            
-            $('#ai-chat-send').click(sendMessage);
-            
-            $('#ai-chat-input').keypress(function(e) {
-                if (e.which === 13) sendMessage();
-            });
-            
-            function sendMessage() {
-                const msg = $('#ai-chat-input').val().trim();
-                if (!msg) return;
-                
-                $('#ai-chat-messages').append(`<div class="message user-message">${escapeHtml(msg)}</div>`);
-                $('#ai-chat-input').val('');
+
+        renderCards('tab-us', usCards);
+        renderCards('tab-asia', asiaCards, 'asia');
+        renderCards('tab-eu', euCards, 'eu');
+        renderCards('tab-americas', americasCards, 'americas');
+        renderCards('tab-oceania', oceaniaCards, 'oceania');
+
+        // 选项卡切换
+        $('.tab-btn').click(function() {
+            $('.tab-btn').removeClass('active');
+            $(this).addClass('active');
+            $('.state-grid').hide();
+            $('#tab-'+$(this).data('tab')).show();
+        });
+    }
+
+    // ---------- AI助手、时间等 ----------
+    $(document).ready(function() {
+        $('#ai-chat-toggle').click(function() { $('#ai-chat-window').toggleClass('show'); });
+        $('#ai-chat-close').click(function() { $('#ai-chat-window').removeClass('show'); });
+        $('#ai-chat-send').click(sendMsg);
+        $('#ai-chat-input').keypress(function(e) { if(e.which === 13) sendMsg(); });
+
+        function sendMsg() {
+            let msg = $('#ai-chat-input').val().trim();
+            if (!msg) return;
+            $('#ai-chat-messages').append(`<div class="message user-message">${escapeHtml(msg)}</div>`);
+            $('#ai-chat-input').val('');
+            setTimeout(() => {
+                let reply = getReply(msg);
+                $('#ai-chat-messages').append(`<div class="message ai-message">${reply}</div>`);
                 $('#ai-chat-messages').scrollTop($('#ai-chat-messages')[0].scrollHeight);
-                
-                setTimeout(() => {
-                    const reply = getAIReply(msg);
-                    $('#ai-chat-messages').append(`<div class="message ai-message">${reply}</div>`);
-                    $('#ai-chat-messages').scrollTop($('#ai-chat-messages')[0].scrollHeight);
-                }, 500);
-            }
-            
-            function getAIReply(msg) {
-                const lower = msg.toLowerCase();
-                if (lower.includes('ca') || lower.includes('加州')) {
-                    return '🇺🇸 加州(CA)：销售税基准7.25%+地方税(0-3.5%)，企业所得税8.84%，销售税申报截止日次月20日。';
-                } else if (lower.includes('wa') || lower.includes('华州') || lower.includes('华盛顿州')) {
-                    return '🇺🇸 华州(WA)：销售税基准6.5%+地方税(0-3.9%)，B&O税零售业0.471%，申报截止日次月25日。';
-                } else if (lower.includes('截止') || lower.includes('deadline')) {
-                    return '📅 截止日：CA销售税次月20日，WA销售税次月25日，公司税统一4月15日。';
-                } else if (lower.includes('sop') || lower.includes('步骤')) {
-                    return '📋 报税SOP：1.下载数据 → 2.导入模板 → 3.PQ刷新 → 4.核对 → 5.官网申报 → 6.保存回执';
-                }
-                return '💡 你可以问我：CA/WA税率、截止日、SOP步骤等。';
-            }
-            
-            function escapeHtml(unsafe) {
-                return unsafe.replace(/[&<>"]/g, function(m) {
-                    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m];
-                });
-            }
-            
-            const now = new Date();
-            $('#update-time').text(`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`);
-        });
-    </script>
+            }, 300);
+        }
+
+        function getReply(m) {
+            let low = m.toLowerCase();
+            if (low.includes('ca') || low.includes('加州')) return '🇺🇸 加州: 销售税7.25%+地方 · 企税8.84% · 截止日次月20日';
+            if (low.includes('wa') || low.includes('华州')) return '🇺🇸 华州: 销售税6.5%+地方 · B&O 0.471% · 截止日次月25日';
+            if (low.includes('截止')) return '📅 CA:次月20日, WA:次月25日, 公司税4/15';
+            if (low.includes('sop')) return '📋 1.下载数据 2.导入模板 3.刷新核对 4.官网申报';
+            return '💡 输入 CA税率 / WA截止日 / SOP';
+        }
+
+        function escapeHtml(unsafe) {
+            return unsafe.replace(/[&<>"]/g, function(m) {
+                return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m];
+            });
+        }
+
+        let d = new Date();
+        $('#update-time').text(`${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`);
+    });
+</script>
 </body>
 </html>
