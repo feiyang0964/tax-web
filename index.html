@@ -1,16 +1,16 @@
+```html
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>海外税务 · 全球视野</title>
+    <title>海外税务信息平台 · 全球视图</title>
     
     <!-- 加载 Google Charts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     
     <style>
-        /* 基础重置与字体 */
         * {
             margin: 0;
             padding: 0;
@@ -19,8 +19,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: #f5f7fb;
-            color: #1e293b;
+            background: #f8fafc;
+            color: #0f172a;
             line-height: 1.5;
             font-weight: 400;
         }
@@ -33,20 +33,27 @@
             right: 0;
             height: 72px;
             background: white;
-            border-bottom: 1px solid #e9edf4;
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             align-items: center;
-            padding: 0 40px;
+            padding: 0 48px;
             z-index: 1000;
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
 
         .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 36px;
             font-weight: 500;
             color: #0a2540;
             letter-spacing: -0.02em;
             margin-right: 48px;
+        }
+        
+        .nav-brand span {
+            font-size: 32px;
         }
 
         .nav-links {
@@ -56,81 +63,57 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #425466;
-            font-size: 16px;
+            color: #475569;
+            font-size: 18px;
             font-weight: 500;
             padding: 8px 0;
             border-bottom: 2px solid transparent;
+            cursor: pointer;
         }
 
         .nav-links a.active {
-            color: #1e3a8a;
-            border-bottom-color: #1e3a8a;
+            color: #2563eb;
+            border-bottom-color: #2563eb;
         }
 
-        .nav-right {
-            margin-left: auto;
-            display: flex;
-            gap: 16px;
-        }
-
-        /* 按钮系统 */
-        .btn {
-            border: none;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 16px;
-        }
-        .btn-large { height: 45px; padding: 0 24px; }
-        .btn-medium { height: 34px; padding: 0 20px; font-size: 15px; }
-        .btn-small { height: 26px; padding: 0 16px; font-size: 14px; }
-
-        .btn-primary { background: #1e3a8a; color: white; }
-        .btn-primary:hover { background: #2563eb; }
-        .btn-outline { background: transparent; border: 1px solid #cbd5e1; color: #1e293b; }
-        .btn-outline:hover { background: #f1f5f9; }
-
-        /* 主内容区：固定宽度 1200px (小于1440首屏) */
+        /* 主内容区 */
         .main-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 92px auto 40px;
-            padding: 0 20px;
+            padding: 0 32px;
         }
 
         /* 标题系统 */
-        h1 { font-size: 36px; font-weight: 500; color: #0a2540; margin-bottom: 8px; }
-        h2 { font-size: 28px; font-weight: 500; margin-bottom: 16px; color: #1e293b; }
-        h3 { font-size: 20px; font-weight: 500; margin-bottom: 12px; color: #334155; }
-        .body-text { font-size: 16px; color: #425466; }
-        .helper-text { font-size: 14px; color: #64748b; }
+        h1 { font-size: 36px; font-weight: 500; color: #0f172a; margin-bottom: 8px; }
+        h2 { font-size: 28px; font-weight: 500; margin-bottom: 20px; color: #1e293b; }
+        h3 { font-size: 20px; font-weight: 500; margin-bottom: 16px; color: #334155; }
 
         /* 地图卡片 */
-        .map-section {
+        .map-card {
             background: white;
             border-radius: 24px;
-            padding: 32px;
+            padding: 28px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.04);
             margin-bottom: 32px;
+            border: 1px solid #eef2f6;
         }
 
         .map-container {
             width: 100%;
-            height: 400px;
+            height: 500px;
             border-radius: 16px;
             overflow: hidden;
-            background: #fafcff;
-            margin-bottom: 20px;
+            background: #ffffff;
         }
 
-        /* 图例微调 */
-        .legend-row {
+        /* 图例 */
+        .legend-bar {
             display: flex;
-            gap: 40px;
+            gap: 32px;
             flex-wrap: wrap;
-            padding: 12px 16px;
-            background: #f8fafc;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #f1f5f9;
             border-radius: 40px;
             width: fit-content;
         }
@@ -138,72 +121,39 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
+            font-size: 15px;
         }
         .dot {
             width: 14px;
             height: 14px;
             border-radius: 14px;
         }
-        .dot.blue-deep { background: #1e3a8a; }      /* 中国特殊色 */
-        .dot.blue-main { background: #3b82f6; }      /* 美国主体 */
-        .dot.blue-light { background: #93c5fd; }     /* 已上线州 (浅蓝) */
-        .dot.blue-gray { background: #94a3b8; }      /* 待开发 */
-        .dot.gray-light { background: #e2e8f0; border: 1px solid #cbd5e1; } /* 其他国家 */
+        .dot.blue { background: #2563eb; }
+        .dot.light-blue { background: #93c5fd; }
+        .dot.gray { background: #94a3b8; }
+        .dot.white { background: #ffffff; border: 1px solid #cbd5e1; }
+        .dot.special { background: #dc2626; }  /* 中国标记红色 */
 
-        /* 快速入口区域 */
-        .quick-section {
-            background: white;
-            border-radius: 24px;
-            padding: 32px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
-        }
-
-        .tab-bar {
-            display: flex;
-            gap: 4px;
-            background: #f1f5f9;
-            padding: 4px;
-            border-radius: 40px;
-            width: fit-content;
-            margin-bottom: 28px;
-        }
-
-        .tab {
-            border: none;
-            background: transparent;
-            padding: 8px 28px;
-            font-size: 16px;
-            font-weight: 500;
-            border-radius: 32px;
-            color: #475569;
-            cursor: pointer;
-        }
-        .tab.active {
-            background: white;
-            color: #1e3a8a;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-
+        /* 快速入口卡片网格 */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 16px;
+            margin-top: 20px;
         }
 
         .card {
             background: #f8fafc;
-            border-radius: 18px;
-            padding: 20px 18px;
+            border-radius: 16px;
+            padding: 20px;
             cursor: pointer;
             transition: all 0.2s;
             border-left: 4px solid transparent;
         }
         .card:hover { background: #f1f5f9; transform: translateY(-2px); }
-        .card.us-online { border-left-color: #93c5fd; }
-        .card.us-other { border-left-color: #3b82f6; }
-        .card.special { border-left-color: #1e3a8a; }  /* 中国卡片 */
-        .card.other { border-left-color: #94a3b8; }
+        .card.online { border-left-color: #93c5fd; }
+        .card.develop { border-left-color: #94a3b8; }
+        .card.special { border-left-color: #dc2626; }
 
         .card-header {
             display: flex;
@@ -213,7 +163,7 @@
         }
         .card-title {
             font-weight: 600;
-            font-size: 16px;
+            font-size: 17px;
             color: #0f172a;
         }
         .badge {
@@ -221,21 +171,42 @@
             padding: 4px 10px;
             border-radius: 30px;
             font-weight: 500;
-            background: white;
-            color: #334155;
-            border: 1px solid #e2e8f0;
         }
-        .badge.us-online { background: #93c5fd; color: #1e3a8a; border: none; }
-        .badge.us-other { background: #dbeafe; color: #1e40af; border: none; }
-        .badge.special-badge { background: #1e3a8a; color: white; border: none; }
-        .badge.other-badge { background: #e2e8f0; color: #334155; border: none; }
+        .badge.online { background: #93c5fd; color: #1e3a8a; }
+        .badge.develop { background: #e2e8f0; color: #475569; }
+        .badge.special { background: #dc2626; color: white; }
 
         .card-desc {
             font-size: 14px;
             color: #64748b;
-            display: flex;
-            flex-wrap: wrap;
+        }
+
+        /* 美国专版专用样式 */
+        .state-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
             gap: 8px;
+            margin-top: 24px;
+        }
+        .state-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 8px 6px;
+            text-align: center;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+        }
+        .state-item:hover {
+            background: #e2e8f0;
+        }
+        .state-item.online {
+            background: #dbeafe;
+            border-color: #2563eb;
+        }
+        .state-code {
+            font-weight: 600;
+            color: #1e293b;
         }
 
         footer {
@@ -247,7 +218,7 @@
             color: #64748b;
         }
 
-        /* AI助手悬浮 */
+        /* AI助手 */
         .ai-chat-container {
             position: fixed;
             bottom: 24px;
@@ -257,13 +228,13 @@
         .ai-chat-toggle {
             width: 48px;
             height: 48px;
-            background: white;
-            border: 1px solid #e2e8f0;
+            background: #2563eb;
+            border: none;
             border-radius: 48px;
             font-size: 24px;
             cursor: pointer;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-            color: #1e3a8a;
+            box-shadow: 0 6px 16px rgba(37,99,235,0.2);
+            color: white;
         }
         .ai-chat-window {
             position: absolute;
@@ -272,89 +243,80 @@
             width: 320px;
             background: white;
             border-radius: 20px;
-            border: 1px solid #edf2f7;
+            border: 1px solid #e2e8f0;
             box-shadow: 0 12px 30px rgba(0,0,0,0.08);
             display: none;
-            overflow: hidden;
         }
         .ai-chat-window.show { display: block; }
-        .ai-chat-header { padding: 16px; font-weight: 500; background: #f8fafc; border-bottom: 1px solid #edf2f7; }
-        .ai-chat-messages { height: 240px; padding: 12px; overflow-y: auto; background: white; font-size: 14px; }
+        .ai-chat-header { padding: 16px; font-weight: 500; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+        .ai-chat-messages { height: 240px; padding: 12px; overflow-y: auto; font-size: 14px; }
         .message { margin-bottom: 10px; padding: 8px 14px; border-radius: 18px; max-width: 85%; }
-        .user-message { background: #dbeafe; color: #1e293b; margin-left: auto; border-bottom-right-radius: 4px; }
-        .ai-message { background: #f1f5f9; color: #1e293b; margin-right: auto; border-bottom-left-radius: 4px; }
-        .ai-chat-input { display: flex; padding: 12px; border-top: 1px solid #edf2f7; }
+        .user-message { background: #dbeafe; color: #1e293b; margin-left: auto; }
+        .ai-message { background: #f1f5f9; color: #1e293b; margin-right: auto; }
+        .ai-chat-input { display: flex; padding: 12px; border-top: 1px solid #e2e8f0; }
         .ai-chat-input input { flex:1; padding: 8px 14px; border:1px solid #e2e8f0; border-radius: 30px; outline:none; font-size:14px; }
-        .ai-chat-input button { margin-left:8px; padding:0 18px; background:#1e3a8a; color:white; border:none; border-radius:30px; font-size:14px; cursor:pointer; }
+        .ai-chat-input button { margin-left:8px; padding:0 18px; background:#2563eb; color:white; border:none; border-radius:30px; cursor:pointer; }
+
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <!-- 固定导航栏 1440px范围内居中 -->
+    <!-- 固定导航栏 -->
     <div class="navbar">
-        <div class="nav-brand">🌐 海外税务</div>
-        <div class="nav-links">
-            <a href="#" class="active">全球视图</a>
-            <a href="#">美国专版</a>
-            <a href="#">亚洲</a>
-            <a href="#">欧洲</a>
+        <div class="nav-brand">
+            <span>🌐</span> 海外税务
         </div>
-        <div class="nav-right">
-            <button class="btn btn-medium btn-outline">登录</button>
-            <button class="btn btn-medium btn-primary">注册</button>
+        <div class="nav-links">
+            <a class="active" onclick="switchView('global')">全球视图</a>
+            <a onclick="switchView('usa')">美国专版</a>
         </div>
     </div>
 
-    <!-- 主内容区域 宽度1200px -->
+    <!-- 主内容区域 -->
     <div class="main-content">
-        <h1>全球税务地图</h1>
-        <div class="helper-text" style="margin-bottom: 24px;">点击地图区域查看详情 · 中国🇨🇳深蓝标记</div>
-
-        <!-- 统一地图卡片：包含世界+美国州级细节，整合在同一张图 (通过叠加两图层不可能，但我们可以用世界地图但将美国各州数据精细化，并命名显示) 
-             但geochart无法同时显示国家和美国州细分，因此此处采用世界地图但强化美国州显示，但美国会显示为整体。 为了满足“同一个图片”，我们在下方再展示一张美国放大图。
-             但用户要求“两个地图在同一个图片上”技术上不可行，我们保持两张地图卡片左右排列，但在视觉上同一区块，用双卡紧凑设计 -->
-        <div class="map-section">
-            <div style="display: flex; gap: 24px; margin-bottom: 20px;">
-                <!-- 世界地图卡片（包含主要国家名称显示） -->
-                <div style="flex: 1.2;">
-                    <h3>🌍 世界主要国家</h3>
-                    <div id="world-map" class="map-container" style="height: 340px;"></div>
-                </div>
-                <!-- 美国细分地图（显示所有州名） -->
-                <div style="flex: 0.8;">
-                    <h3>🇺🇸 美国 · 州级细览</h3>
-                    <div id="usa-map" class="map-container" style="height: 340px;"></div>
+        <!-- 全球视图 -->
+        <div id="global-view">
+            <h1>全球税务地图</h1>
+            <div style="margin-bottom: 20px; font-size: 16px; color: #475569;">点击地图区域查看详情 · 中国🇨🇳红色标记</div>
+            
+            <div class="map-card">
+                <div id="world-map" class="map-container"></div>
+                
+                <div class="legend-bar">
+                    <div class="legend-item"><span class="dot blue"></span> 美国 (已上线CA/WA)</div>
+                    <div class="legend-item"><span class="dot light-blue"></span> 已上线州 (可点击跳转)</div>
+                    <div class="legend-item"><span class="dot gray"></span> 待开发国家</div>
+                    <div class="legend-item"><span class="dot white"></span> 其他国家</div>
+                    <div class="legend-item"><span class="dot special"></span> 中国</div>
                 </div>
             </div>
 
-            <!-- 图例 (蓝色基调) -->
-            <div class="legend-row">
-                <div class="legend-item"><span class="dot blue-deep"></span> 中国 (特别色)</div>
-                <div class="legend-item"><span class="dot blue-main"></span> 美国本土</div>
-                <div class="legend-item"><span class="dot blue-light"></span> 已上线州 (CA/WA)</div>
-                <div class="legend-item"><span class="dot blue-gray"></span> 待开发国家</div>
-                <div class="legend-item"><span class="dot gray-light"></span> 其他国家</div>
+            <!-- 全球快速入口 -->
+            <div class="map-card">
+                <h2>📌 快速入口 · 全球</h2>
+                <div id="global-cards" class="card-grid"></div>
             </div>
         </div>
 
-        <!-- 快速入口卡片区域 -->
-        <div class="quick-section">
-            <h2 style="margin-bottom: 8px;">📌 快速入口</h2>
-            <div class="helper-text" style="margin-bottom: 20px;">展示已上线及主要国家/地区</div>
-
-            <div class="tab-bar">
-                <button class="tab active" data-tab="us-tab">🇺🇸 美国 (重点州)</button>
-                <button class="tab" data-tab="asia-tab">🌏 亚洲</button>
-                <button class="tab" data-tab="eu-tab">🌍 欧洲</button>
-                <button class="tab" data-tab="other-tab">🌎 其他</button>
+        <!-- 美国专版 (初始隐藏) -->
+        <div id="usa-view" class="hidden">
+            <h1>🇺🇸 美国税务专版</h1>
+            <div style="margin-bottom: 20px; font-size: 16px; color: #475569;">点击州可查看详情 · 已上线州为浅蓝色</div>
+            
+            <div class="map-card">
+                <div id="usa-map" class="map-container"></div>
+                
+                <div class="legend-bar">
+                    <div class="legend-item"><span class="dot light-blue"></span> 已上线州 (CA/WA) 可点击跳转</div>
+                    <div class="legend-item"><span class="dot blue"></span> 其他州 (开发中)</div>
+                </div>
             </div>
 
-            <!-- 美国重点州卡片 (已上线CA/WA + 主要大州) -->
-            <div id="us-tab" class="card-grid">
-                <!-- 动态生成js填充 -->
+            <!-- 美国所有州快速入口 (网格) -->
+            <div class="map-card">
+                <h2>📌 美国各州快速入口</h2>
+                <div id="usa-states-grid" class="state-grid"></div>
             </div>
-            <div id="asia-tab" class="card-grid" style="display: none;"></div>
-            <div id="eu-tab" class="card-grid" style="display: none;"></div>
-            <div id="other-tab" class="card-grid" style="display: none;"></div>
         </div>
 
         <footer>
@@ -362,13 +324,13 @@
         </footer>
     </div>
 
-    <!-- AI悬浮窗 -->
+    <!-- AI助手 -->
     <div class="ai-chat-container">
         <button class="ai-chat-toggle" id="ai-chat-toggle">💬</button>
         <div class="ai-chat-window" id="ai-chat-window">
             <div class="ai-chat-header">🤖 税务助手</div>
             <div class="ai-chat-messages" id="ai-chat-messages">
-                <div class="message ai-message">问税率 / 截止日</div>
+                <div class="message ai-message">输入 CA/WA 税率或截止日</div>
             </div>
             <div class="ai-chat-input">
                 <input id="ai-chat-input" placeholder="例如 CA 税率">
@@ -378,70 +340,122 @@
     </div>
 
     <script>
+        // 视图切换
+        window.switchView = function(view) {
+            if (view === 'global') {
+                $('#global-view').removeClass('hidden');
+                $('#usa-view').addClass('hidden');
+                $('.nav-links a').removeClass('active');
+                $('.nav-links a:first-child').addClass('active');
+            } else {
+                $('#global-view').addClass('hidden');
+                $('#usa-view').removeClass('hidden');
+                $('.nav-links a').removeClass('active');
+                $('.nav-links a:last-child').addClass('active');
+                // 确保美国地图重绘 (如果已加载)
+                if (typeof drawUsaMap === 'function') setTimeout(drawUsaMap, 100);
+            }
+        };
+
         google.charts.load('current', { packages: ['geochart'] });
         google.charts.setOnLoadCallback(initMaps);
 
         function initMaps() {
-            drawWorldMapWithNames();
-            drawUsaDetailMap();
+            drawWorldMap();
+            drawUsaMap();
             initCards();
+            initUsaStatesGrid();
         }
 
-        // 世界地图（主要国家显示名称，中国特别颜色）
-        function drawWorldMapWithNames() {
+        // 世界地图：美国各州细分，其他国家显示国家名
+        function drawWorldMap() {
+            // 构建数据：美国每个州 + 主要国家
+            var rows = [
+                // 美国所有州 (蓝色基调)
+                ['US-CA', 'CA', 2], ['US-WA', 'WA', 2], ['US-TX', 'TX', 3], ['US-NY', 'NY', 3],
+                ['US-FL', 'FL', 3], ['US-IL', 'IL', 3], ['US-PA', 'PA', 3], ['US-OH', 'OH', 3],
+                ['US-GA', 'GA', 3], ['US-NC', 'NC', 3], ['US-MI', 'MI', 3], ['US-NJ', 'NJ', 3],
+                ['US-VA', 'VA', 3], ['US-MA', 'MA', 3], ['US-AZ', 'AZ', 3], ['US-CO', 'CO', 3],
+                ['US-UT', 'UT', 3], ['US-NV', 'NV', 3], ['US-OR', 'OR', 3], ['US-ID', 'ID', 3],
+                ['US-MT', 'MT', 3], ['US-WY', 'WY', 3], ['US-ND', 'ND', 3], ['US-SD', 'SD', 3],
+                ['US-NE', 'NE', 3], ['US-KS', 'KS', 3], ['US-OK', 'OK', 3], ['US-AR', 'AR', 3],
+                ['US-LA', 'LA', 3], ['US-MS', 'MS', 3], ['US-AL', 'AL', 3], ['US-TN', 'TN', 3],
+                ['US-KY', 'KY', 3], ['US-IN', 'IN', 3], ['US-WV', 'WV', 3], ['US-SC', 'SC', 3],
+                ['US-MD', 'MD', 3], ['US-DE', 'DE', 3], ['US-CT', 'CT', 3], ['US-RI', 'RI', 3],
+                ['US-NH', 'NH', 3], ['US-VT', 'VT', 3], ['US-ME', 'ME', 3], ['US-HI', 'HI', 3],
+                ['US-AK', 'AK', 3],
+                
+                // 主要国家 (灰色待开发)
+                ['CN', '中国', 4],  // 中国用红色 (4)
+                ['SG', '新加坡', 5], ['MY', '马来西亚', 5], ['HK', '香港', 5],
+                ['JP', '日本', 5], ['KR', '韩国', 5], ['GB', '英国', 5],
+                ['AU', '澳大利亚', 5], ['CA', '加拿大', 5],
+                // 其他国家默认白色
+            ];
+
             var data = google.visualization.arrayToDataTable([
-                ['Country', 'Status', 'Color'],
-                ['CN', '中国', 1],           // 深蓝
-                ['US', '美国', 2],
-                ['CA', '待开发', 3],
-                ['GB', '待开发', 3],
-                ['SG', '待开发', 3],
-                ['MY', '待开发', 3],
-                ['HK', '待开发', 3],
-                ['JP', '待开发', 3],
-                ['KR', '待开发', 3],
-                ['AU', '待开发', 3],
-                ['DE', '其他', 4],
-                ['FR', '其他', 4],
-                ['IN', '其他', 4],
-                ['BR', '其他', 4],
+                ['Country', 'Name', 'Color'], ...rows
             ]);
 
             var options = {
                 region: 'world',
                 displayMode: 'regions',
-                resolution: 'countries',
-                colorAxis: { colors: ['#1e3a8a', '#3b82f6', '#94a3b8', '#e2e8f0'], values: [1,2,3,4] },
+                resolution: 'provinces',  // 使美国显示州级
+                colorAxis: {
+                    colors: ['#2563eb', '#93c5fd', '#3b82f6', '#dc2626', '#94a3b8', '#ffffff'],
+                    values: [2, 3, 4, 5]  // 2=已上线浅蓝, 3=其他州深蓝, 4=中国红, 5=灰色
+                },
                 backgroundColor: '#ffffff',
-                datalessRegionColor: '#f1f5f9',
+                datalessRegionColor: '#ffffff',  // 其他国家白色
                 keepAspectRatio: false,
                 width: '100%',
                 height: '100%',
-                tooltip: { trigger: 'focus' },
-                // 显示国家名称 (仅对主要国家)
-                displayMode: 'text', // 但会导致没有颜色, 所以不能用。只能靠tooltip
+                tooltip: { trigger: 'focus' }
             };
-            // 实际上geochart无法直接显示名称，我们靠tooltip。也可以用region+style, 但妥协, 用户可hover看名称。
+
             var chart = new google.visualization.GeoChart(document.getElementById('world-map'));
+            
             google.visualization.events.addListener(chart, 'select', function() {
                 var sel = chart.getSelection();
                 if (sel.length) {
                     var row = sel[0].row;
                     var code = data.getValue(row, 0);
-                    alert('🌍 ' + code + ' 税务信息开发中，敬请期待');
+                    
+                    // 美国已上线州跳转
+                    if (code === 'US-CA') window.location.href = 'pages/us-ca.html';
+                    else if (code === 'US-WA') window.location.href = 'pages/us-wa.html';
+                    // 其他国家提示
+                    else if (code === 'CN') alert('🇨🇳 中国税务信息开发中');
+                    else if (['SG','MY','HK','JP','KR','GB','AU','CA'].includes(code)) {
+                        alert('该地区税务信息待开发');
+                    } else if (code.startsWith('US-')) {
+                        alert('美国' + code.split('-')[1] + '州税务开发中');
+                    }
                 }
             });
+            
             chart.draw(data, options);
         }
 
-        // 美国详细地图（所有州，浅蓝已上线，深蓝其他州）
-        function drawUsaDetailMap() {
+        // 美国专版地图 (所有州显示)
+        function drawUsaMap() {
             var rows = [];
-            for (let i = 0; i < usStatesFull.length; i++) {
-                let state = usStatesFull[i];
-                let colorVal = (state.code === 'CA' || state.code === 'WA') ? 2 : 3;  // 2=浅蓝(已上线), 3=深蓝(其他)
-                rows.push([state.id, state.name, colorVal]);
-            }
+            var states = [
+                ['CA','加利福尼亚',2], ['WA','华盛顿',2], ['TX','德克萨斯',3], ['NY','纽约',3],
+                ['FL','佛罗里达',3], ['IL','伊利诺伊',3], ['PA','宾夕法尼亚',3], ['OH','俄亥俄',3],
+                ['GA','佐治亚',3], ['NC','北卡罗来纳',3], ['MI','密歇根',3], ['NJ','新泽西',3],
+                ['VA','弗吉尼亚',3], ['MA','马萨诸塞',3], ['AZ','亚利桑那',3], ['CO','科罗拉多',3],
+                ['UT','犹他',3], ['NV','内华达',3], ['OR','俄勒冈',3], ['ID','爱达荷',3],
+                ['MT','蒙大拿',3], ['WY','怀俄明',3], ['ND','北达科他',3], ['SD','南达科他',3],
+                ['NE','内布拉斯加',3], ['KS','堪萨斯',3], ['OK','俄克拉荷马',3], ['AR','阿肯色',3],
+                ['LA','路易斯安那',3], ['MS','密西西比',3], ['AL','阿拉巴马',3], ['TN','田纳西',3],
+                ['KY','肯塔基',3], ['IN','印第安纳',3], ['WV','西弗吉尼亚',3], ['SC','南卡罗来纳',3],
+                ['MD','马里兰',3], ['DE','特拉华',3], ['CT','康涅狄格',3], ['RI','罗德岛',3],
+                ['NH','新罕布什尔',3], ['VT','佛蒙特',3], ['ME','缅因',3], ['HI','夏威夷',3],
+                ['AK','阿拉斯加',3]
+            ];
+            states.forEach(s => rows.push(['US-'+s[0], s[1], s[2]]));
+
             var data = google.visualization.arrayToDataTable([
                 ['State', 'Name', 'Color'], ...rows
             ]);
@@ -450,7 +464,7 @@
                 region: 'US',
                 displayMode: 'regions',
                 resolution: 'provinces',
-                colorAxis: { colors: ['#1e3a8a', '#93c5fd', '#3b82f6'], values: [1,2,3] }, // 但已上线2对应浅蓝
+                colorAxis: { colors: ['#93c5fd', '#3b82f6'], values: [2,3] },
                 backgroundColor: '#ffffff',
                 datalessRegionColor: '#f1f5f9',
                 keepAspectRatio: false,
@@ -460,6 +474,7 @@
             };
 
             var chart = new google.visualization.GeoChart(document.getElementById('usa-map'));
+            
             google.visualization.events.addListener(chart, 'select', function() {
                 var sel = chart.getSelection();
                 if (sel.length) {
@@ -470,109 +485,97 @@
                     else alert(code + ' 税务开发中');
                 }
             });
+            
             chart.draw(data, options);
         }
 
-        // 美国所有州列表 (用于地图)
-        const usStatesFull = [
-            { code:'CA', name:'California', id:'US-CA' }, { code:'WA', name:'Washington', id:'US-WA' },
-            { code:'TX', name:'Texas', id:'US-TX' }, { code:'NY', name:'New York', id:'US-NY' },
-            { code:'FL', name:'Florida', id:'US-FL' }, { code:'IL', name:'Illinois', id:'US-IL' },
-            { code:'PA', name:'Pennsylvania', id:'US-PA' }, { code:'OH', name:'Ohio', id:'US-OH' },
-            { code:'GA', name:'Georgia', id:'US-GA' }, { code:'NC', name:'N. Carolina', id:'US-NC' },
-            { code:'MI', name:'Michigan', id:'US-MI' }, { code:'NJ', name:'New Jersey', id:'US-NJ' },
-            { code:'VA', name:'Virginia', id:'US-VA' }, { code:'MA', name:'Massachusetts', id:'US-MA' },
-            { code:'AZ', name:'Arizona', id:'US-AZ' }, { code:'CO', name:'Colorado', id:'US-CO' },
-            { code:'UT', name:'Utah', id:'US-UT' }, { code:'NV', name:'Nevada', id:'US-NV' },
-            { code:'OR', name:'Oregon', id:'US-OR' }, { code:'ID', name:'Idaho', id:'US-ID' },
-            { code:'MT', name:'Montana', id:'US-MT' }, { code:'WY', name:'Wyoming', id:'US-WY' },
-            { code:'ND', name:'N. Dakota', id:'US-ND' }, { code:'SD', name:'S. Dakota', id:'US-SD' },
-            { code:'NE', name:'Nebraska', id:'US-NE' }, { code:'KS', name:'Kansas', id:'US-KS' },
-            { code:'OK', name:'Oklahoma', id:'US-OK' }, { code:'AR', name:'Arkansas', id:'US-AR' },
-            { code:'LA', name:'Louisiana', id:'US-LA' }, { code:'MS', name:'Mississippi', id:'US-MS' },
-            { code:'AL', name:'Alabama', id:'US-AL' }, { code:'TN', name:'Tennessee', id:'US-TN' },
-            { code:'KY', name:'Kentucky', id:'US-KY' }, { code:'IN', name:'Indiana', id:'US-IN' },
-            { code:'WV', name:'W. Virginia', id:'US-WV' }, { code:'SC', name:'S. Carolina', id:'US-SC' },
-            { code:'MD', name:'Maryland', id:'US-MD' }, { code:'DE', name:'Delaware', id:'US-DE' },
-            { code:'CT', name:'Connecticut', id:'US-CT' }, { code:'RI', name:'Rhode Island', id:'US-RI' },
-            { code:'NH', name:'N. Hampshire', id:'US-NH' }, { code:'VT', name:'Vermont', id:'US-VT' },
-            { code:'ME', name:'Maine', id:'US-ME' }, { code:'HI', name:'Hawaii', id:'US-HI' },
-            { code:'AK', name:'Alaska', id:'US-AK' }
-        ];
-
-        // 卡片数据（美国仅重点州）
+        // 全球快速入口卡片
         function initCards() {
-            const usCards = [
-                { code:'CA', name:'加利福尼亚州', badge:'us-online', desc:'销售税7.25%+地方 · 企税8.84%', url:'pages/us-ca.html' },
-                { code:'WA', name:'华盛顿州', badge:'us-online', desc:'销售税6.5%+地方 · B&O 0.471%', url:'pages/us-wa.html' },
-                { code:'TX', name:'德克萨斯州', badge:'us-other', desc:'州销售税6.25%' },
-                { code:'NY', name:'纽约州', badge:'us-other', desc:'州销售税4%+地方' },
-                { code:'FL', name:'佛罗里达州', badge:'us-other', desc:'州销售税6%' },
-                { code:'IL', name:'伊利诺伊州', badge:'us-other', desc:'销售税6.25%' },
-                { code:'PA', name:'宾夕法尼亚州', badge:'us-other', desc:'销售税6%' },
-                { code:'OH', name:'俄亥俄州', badge:'us-other', desc:'销售税5.75%' },
-                { code:'MA', name:'马萨诸塞州', badge:'us-other', desc:'销售税6.25%' },
-                { code:'NV', name:'内华达州', badge:'us-other', desc:'销售税6.85%' },
+            const globalCards = [
+                { name:'美国 (CA)', desc:'已上线' , type:'online', code:'CA' },
+                { name:'美国 (WA)', desc:'已上线 ', type:'online', code:'WA' },
+                { name:'中国', desc:'增值税 · 企税25%', type:'special' },
+                { name:'新加坡', desc:'GST 9% · 待开发', type:'develop' },
+                { name:'日本', desc:'消费税10% · 待开发', type:'develop' },
+                { name:'韩国', desc:'增值税10% · 待开发', type:'develop' },
+                { name:'英国', desc:'VAT 20% · 待开发', type:'develop' },
+                { name:'澳大利亚', desc:'GST 10% · 待开发', type:'develop' },
+                { name:'加拿大', desc:'GST 5% · 待开发', type:'develop' },
+                { name:'马来西亚', desc:'SST · 待开发', type:'develop' },
+                { name:'香港', desc:'利得税16.5% · 待开发', type:'develop' }
             ];
-            const asiaCards = [
-                { name:'中国', badge:'special', desc:'增值税 · 企税25%', special: true },
-                { name:'日本', badge:'other', desc:'消费税10% · 法人税' },
-                { name:'韩国', badge:'other', desc:'增值税10%' },
-                { name:'新加坡', badge:'other', desc:'GST 9%' },
-                { name:'马来西亚', badge:'other', desc:'SST' },
-                { name:'香港', badge:'other', desc:'利得税16.5%' },
-            ];
-            const euCards = [ { name:'英国', badge:'other', desc:'VAT 20%' } ];
-            const otherCards = [ { name:'加拿大', badge:'other', desc:'GST 5%' }, { name:'澳大利亚', badge:'other', desc:'GST 10%' } ];
 
-            function render(container, cards) {
-                let html = '';
-                cards.forEach(c => {
-                    let badgeClass = c.badge || 'other';
-                    let badgeText = { 'us-online':'已上线', 'us-other':'开发中', 'special':'特别', 'other':'待上线' }[badgeClass] || '待上线';
-                    let onClick = c.url ? `window.location.href='${c.url}'` : `alert('${c.name} 税务开发中')`;
-                    html += `<div class="card ${badgeClass}" onclick="${onClick}">
-                        <div class="card-header">
-                            <span class="card-title">${c.code ? c.code+' · ' : ''}${c.name}</span>
-                            <span class="badge ${badgeClass === 'special' ? 'special-badge' : (badgeClass+'')}">${badgeText}</span>
-                        </div>
-                        <div class="card-desc">${c.desc}</div>
-                    </div>`;
-                });
-                document.getElementById(container).innerHTML = html;
-            }
-            render('us-tab', usCards);
-            render('asia-tab', asiaCards);
-            render('eu-tab', euCards);
-            render('other-tab', otherCards);
-
-            // tab切换
-            $('.tab').click(function() {
-                $('.tab').removeClass('active');
-                $(this).addClass('active');
-                $('.card-grid').hide();
-                $('#'+$(this).data('tab')).show();
+            let html = '';
+            globalCards.forEach(c => {
+                let typeClass = c.type;
+                let badgeText = { online:'已上线', special:'特别', develop:'待开发' }[c.type];
+                let clickAction = c.code ? `window.location.href='pages/us-${c.code.toLowerCase()}.html'` : `alert('${c.name} 税务信息开发中')`;
+                html += `<div class="card ${typeClass}" onclick="${clickAction}">
+                    <div class="card-header">
+                        <span class="card-title">${c.name}</span>
+                        <span class="badge ${typeClass}">${badgeText}</span>
+                    </div>
+                    <div class="card-desc">${c.desc}</div>
+                </div>`;
             });
+            document.getElementById('global-cards').innerHTML = html;
         }
 
-        // AI助手与时间
+        // 美国各州网格 (所有州)
+        function initUsaStatesGrid() {
+            const states = [
+                ['CA', '加利福尼亚', true], ['WA', '华盛顿', true], ['TX', '德克萨斯'], ['NY', '纽约'],
+                ['FL', '佛罗里达'], ['IL', '伊利诺伊'], ['PA', '宾夕法尼亚'], ['OH', '俄亥俄'],
+                ['GA', '佐治亚'], ['NC', '北卡罗来纳'], ['MI', '密歇根'], ['NJ', '新泽西'],
+                ['VA', '弗吉尼亚'], ['MA', '马萨诸塞'], ['AZ', '亚利桑那'], ['CO', '科罗拉多'],
+                ['UT', '犹他'], ['NV', '内华达'], ['OR', '俄勒冈'], ['ID', '爱达荷'],
+                ['MT', '蒙大拿'], ['WY', '怀俄明'], ['ND', '北达科他'], ['SD', '南达科他'],
+                ['NE', '内布拉斯加'], ['KS', '堪萨斯'], ['OK', '俄克拉荷马'], ['AR', '阿肯色'],
+                ['LA', '路易斯安那'], ['MS', '密西西比'], ['AL', '阿拉巴马'], ['TN', '田纳西'],
+                ['KY', '肯塔基'], ['IN', '印第安纳'], ['WV', '西弗吉尼亚'], ['SC', '南卡罗来纳'],
+                ['MD', '马里兰'], ['DE', '特拉华'], ['CT', '康涅狄格'], ['RI', '罗德岛'],
+                ['NH', '新罕布什尔'], ['VT', '佛蒙特'], ['ME', '缅因'], ['HI', '夏威夷'],
+                ['AK', '阿拉斯加']
+            ];
+
+            let html = '';
+            states.forEach(s => {
+                let online = s[2] || false;
+                let clickAction = online ? `window.location.href='pages/us-${s[0].toLowerCase()}.html'` : `alert('${s[1]}州税务开发中')`;
+                html += `<div class="state-item ${online ? 'online' : ''}" onclick="${clickAction}">
+                    <div class="state-code">${s[0]}</div>
+                    <div style="font-size:12px;">${s[1]}</div>
+                </div>`;
+            });
+            document.getElementById('usa-states-grid').innerHTML = html;
+        }
+
+        // AI助手功能
         $(document).ready(function() {
             $('#ai-chat-toggle').click(function() { $('#ai-chat-window').toggleClass('show'); });
             $('#ai-chat-send').click(sendMsg);
             $('#ai-chat-input').keypress(function(e) { if(e.which === 13) sendMsg(); });
+            
             function sendMsg() {
                 let msg = $('#ai-chat-input').val().trim();
                 if (!msg) return;
                 $('#ai-chat-messages').append(`<div class="message user-message">${escapeHtml(msg)}</div>`);
                 $('#ai-chat-input').val('');
                 setTimeout(() => {
-                    let reply = '🇺🇸 CA税率7.25% / WA 6.5%+地方';
+                    let reply = 'CA税率7.25% / WA税率6.5%+地方 · 截止日:次月20日(CA)/25日(WA)';
                     $('#ai-chat-messages').append(`<div class="message ai-message">${reply}</div>`);
+                    $('#ai-chat-messages').scrollTop($('#ai-chat-messages')[0].scrollHeight);
                 }, 300);
             }
-            function escapeHtml(unsafe) { return unsafe.replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m])); }
-            let d = new Date(); $('#update-time').text(`© 2026 · 更新于 ${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`);
+            
+            function escapeHtml(unsafe) {
+                return unsafe.replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m]));
+            }
+            
+            let d = new Date();
+            $('#update-time').text(`© 2026 · 更新于 ${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`);
         });
     </script>
 </body>
 </html>
+```
